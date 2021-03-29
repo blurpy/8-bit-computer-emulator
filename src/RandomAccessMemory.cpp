@@ -29,7 +29,12 @@ void RandomAccessMemory::writeToBus() {
 }
 
 void RandomAccessMemory::print() {
-    printf("RandomAccessMemory: %d / 0x%02X / " BINARY_PATTERN " \n", memory[address], memory[address], BYTE_TO_BINARY(memory[address]));
+    printf("RandomAccessMemory: current address - %d / 0x%02X / " BINARY_PATTERN " \n", address, address, BYTE_TO_BINARY(address));
+    printf("RandomAccessMemory: current value - %d / 0x%02X / " BINARY_PATTERN " \n", memory[address], memory[address], BYTE_TO_BINARY(memory[address]));
+
+    for (int i = 0; i < sizeof(memory); i++) {
+        printf("RandomAccessMemory: value at %d - %d / 0x%02X / " BINARY_PATTERN " \n", i, memory[i], memory[i], BYTE_TO_BINARY(memory[i]));
+    }
 }
 
 void RandomAccessMemory::reset() {
@@ -44,4 +49,15 @@ void RandomAccessMemory::setAddress(uint8_t newAddress) {
 void RandomAccessMemory::program(uint8_t newValue) {
     std::cout << "RandomAccessMemory: programming at address " << (int) address << " with value " << (int) newValue << std::endl;
     memory[address] = newValue;
+}
+
+void RandomAccessMemory::program(std::bitset<4> opcode, std::bitset<4> operand) {
+    std::cout << "RandomAccessMemory: programming at address " << (int) address << " with opcode " << opcode << " and operand " << operand << std::endl;
+    std::bitset<8> newValue(opcode.to_string() + operand.to_string());
+        memory[address] = newValue.to_ulong();
+}
+
+void RandomAccessMemory::program(std::bitset<8> newValue) {
+    std::cout << "RandomAccessMemory: programming at address " << (int) address << " with value " << newValue << std::endl;
+    memory[address] = newValue.to_ulong();
 }

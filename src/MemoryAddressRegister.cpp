@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <utility>
 
@@ -19,6 +20,7 @@ MemoryAddressRegister::~MemoryAddressRegister() {
 void MemoryAddressRegister::readFromBus() {
     uint8_t busValue = bus->read();
     std::cout << "MemoryAddressRegister: read from bus. Changing value from " << (int) value << " to " << (int) busValue << std::endl;
+    assert(busValue <= 15); // 4 bits only
     value = busValue;
     ram->setAddress(value);
 }
@@ -34,5 +36,11 @@ void MemoryAddressRegister::reset() {
 void MemoryAddressRegister::program(uint8_t newValue) {
     std::cout << "MemoryAddressRegister: programming at address " << (int) newValue << std::endl;
     value = newValue;
+    ram->setAddress(value);
+}
+
+void MemoryAddressRegister::program(std::bitset<4> address) {
+    std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
+    value = address.to_ulong();
     ram->setAddress(value);
 }

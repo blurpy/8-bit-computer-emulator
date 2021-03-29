@@ -16,6 +16,7 @@ public:
     void print();
     void reset();
     void program(uint8_t newValue);
+    void program(std::bitset<4> address);
 
 private:
     std::shared_ptr<RandomAccessMemory> ram;

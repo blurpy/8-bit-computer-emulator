@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 
 #include "Utils.h"
@@ -22,6 +23,7 @@ void ProgramCounter::increment() {
 void ProgramCounter::readFromBus() {
     uint8_t busValue = bus->read();
     std::cout << "ProgramCounter: changing value from " << (int) value << " to " << (int) busValue << std::endl;
+    assert(busValue <= 15); // 4 bits only
     value = busValue;
 }
 

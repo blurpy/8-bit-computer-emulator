@@ -21,7 +21,8 @@ void InstructionRegister::readFromBus() {
 }
 
 void InstructionRegister::writeToBus() {
-    bus->write(value);
+    uint8_t operand = value & 0x0F; // Extract the last 4 bits
+    bus->write(operand);
 }
 
 void InstructionRegister::print() {

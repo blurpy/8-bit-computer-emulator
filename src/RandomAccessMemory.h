@@ -1,6 +1,7 @@
 #ifndef INC_8_BIT_COMPUTER_EMULATOR_RANDOMACCESSMEMORY_H
 #define INC_8_BIT_COMPUTER_EMULATOR_RANDOMACCESSMEMORY_H
 
+#include <bitset>
 #include <memory>
 
 #include "Bus.h"
@@ -17,6 +18,8 @@ public:
     void reset();
     void setAddress(uint8_t newAddress);
     void program(uint8_t newValue);
+    void program(std::bitset<4> opcode, std::bitset<4> operand);
+    void program(std::bitset<8> newValue);
 
 private:
     std::shared_ptr<Bus> bus;

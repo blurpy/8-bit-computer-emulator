@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <thread>
 
@@ -32,21 +33,75 @@ void Emulator::run() {
     printValues();
 
     std::cout << "Emulator: program memory" << std::endl;
-    mar->program(0);
-    ram->program(10);
-    mar->program(1);
-    ram->program(11);
+    // LDA 14
+    mar->program(std::bitset<4>("0000"));
+    ram->program(std::bitset<4>("0001"), std::bitset<4>("1110"));
+    // ADD 15
+    mar->program(std::bitset<4>("0001"));
+    ram->program(std::bitset<4>("0010"), std::bitset<4>("1111"));
+    // OUT
+    mar->program(std::bitset<4>("0010"));
+    ram->program(std::bitset<4>("1110"), std::bitset<4>("0000"));
+    // HLT
+    mar->program(std::bitset<4>("0011"));
+    ram->program(std::bitset<4>("1111"), std::bitset<4>("0000"));
+    // X = 28
+    mar->program(std::bitset<4>("1110"));
+    ram->program(std::bitset<8>("00011100"));
+    // Y = 14
+    mar->program(std::bitset<4>("1111"));
+    ram->program(std::bitset<8>("00001110"));
 
-    reset();
+    printValues();
 
-    std::cout << "Emulator: step 1 - fetch" << std::endl;
+    // LDA 14 - Put value at memory address 14 (=28) in A register
+
+    std::cout << "Emulator: LDA step 1 - fetch" << std::endl;
     pc->writeToBus(); // CO
     mar->readFromBus(); // MI
 
-    std::cout << "Emulator: step 2 - fetch" << std::endl;
+    std::cout << "Emulator: LDA step 2 - fetch" << std::endl;
     ram->writeToBus(); // RO
     instructionRegister->readFromBus(); // II
     pc->increment(); // CE
+
+    std::cout << "Emulator: LDA step 3 - lda" << std::endl;
+    instructionRegister->writeToBus(); // IO
+    mar->readFromBus(); // MI
+
+    std::cout << "Emulator: LDA step 4 - lda" << std::endl;
+    ram->writeToBus(); // RO
+    aRegister->readFromBus(); // AI
+
+    printValues();
+    assert(aRegister->readValue() == 28);
+
+    // ADD 15 - Put value at memory address 15 (=14) in B register and add A+B into A
+
+    std::cout << "Emulator: ADD step 1 - fetch" << std::endl;
+    pc->writeToBus(); // CO
+    mar->readFromBus(); // MI
+
+    std::cout << "Emulator: ADD step 2 - fetch" << std::endl;
+    ram->writeToBus(); // RO
+    instructionRegister->readFromBus(); // II
+    pc->increment(); // CE
+
+    std::cout << "Emulator: ADD step 3 - add" << std::endl;
+    instructionRegister->writeToBus(); // IO
+    mar->readFromBus(); // MI
+
+    std::cout << "Emulator: ADD step 4 - add" << std::endl;
+    ram->writeToBus(); // RO
+    bRegister->readFromBus(); // BI
+
+    std::cout << "Emulator: ADD step 5 - add" << std::endl;
+    alu->writeToBus(); // SO
+    aRegister->readFromBus(); // AI
+
+    printValues();
+    assert(bRegister->readValue() == 14);
+    assert(aRegister->readValue() == 42);
 
 //    this->bus->write(28);
 //    this->aRegister->readFromBus();
@@ -54,8 +109,6 @@ void Emulator::run() {
 //    this->bRegister->readFromBus();
 //    this->alu->writeToBus();
 //    this->aRegister->readFromBus();
-
-    printValues();
 
 //    std::this_thread::sleep_for(std::chrono::milliseconds(3100));
 //    clock->stop();
