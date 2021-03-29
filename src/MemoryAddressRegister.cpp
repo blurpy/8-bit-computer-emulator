@@ -11,6 +11,7 @@ MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RandomAccessMemory>
     this->ram = std::move(ram);
     this->bus = std::move(bus);
     this->value = 0;
+    this->readOnClock = false;
 }
 
 MemoryAddressRegister::~MemoryAddressRegister() {
@@ -25,7 +26,7 @@ void MemoryAddressRegister::readFromBus() {
     ram->setAddress(value);
 }
 
-void MemoryAddressRegister::print() {
+void MemoryAddressRegister::print() const {
     printf("MemoryAddressRegister: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
@@ -43,4 +44,18 @@ void MemoryAddressRegister::program(std::bitset<4> address) {
     std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
     value = address.to_ulong();
     ram->setAddress(value);
+}
+
+void MemoryAddressRegister::in() {
+    std::cout << "MemoryAddressRegister: in - will read from bus on clock tick" << std::endl;
+    readOnClock = true;
+}
+
+void MemoryAddressRegister::clockTicked() {
+    std::cout << "MemoryAddressRegister: clock ticked" << std::endl;
+
+    if (readOnClock) {
+        readFromBus();
+        readOnClock = false;
+    }
 }

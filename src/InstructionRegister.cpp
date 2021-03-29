@@ -8,6 +8,7 @@ InstructionRegister::InstructionRegister(std::shared_ptr<Bus> bus) {
     std::cout << "InstructionRegister in" << std::endl;
     this->bus = std::move(bus);
     this->value = 0;
+    this->readOnClock = false;
 }
 
 InstructionRegister::~InstructionRegister() {
@@ -25,10 +26,33 @@ void InstructionRegister::writeToBus() {
     bus->write(operand);
 }
 
-void InstructionRegister::print() {
+void InstructionRegister::print() const {
     printf("InstructionRegister: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
 void InstructionRegister::reset() {
     value = 0;
+}
+
+void InstructionRegister::in() {
+    std::cout << "InstructionRegister: in - will read from bus on clock tick" << std::endl;
+    readOnClock = true;
+}
+
+void InstructionRegister::out() {
+    std::cout << "InstructionRegister: out" << std::endl;
+    writeToBus();
+}
+
+void InstructionRegister::clockTicked() {
+    std::cout << "InstructionRegister: clock ticked" << std::endl;
+
+    if (readOnClock) {
+        readFromBus();
+        readOnClock = false;
+    }
+}
+
+uint8_t InstructionRegister::getOpcode() const {
+    return value >> 4; // Extract the first 4 bits;
 }

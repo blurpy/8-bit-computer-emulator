@@ -61,3 +61,8 @@ void RandomAccessMemory::program(std::bitset<8> newValue) {
     std::cout << "RandomAccessMemory: programming at address " << (int) address << " with value " << newValue << std::endl;
     memory[address] = newValue.to_ulong();
 }
+
+void RandomAccessMemory::out() {
+    std::cout << "RandomAccessMemory: out" << std::endl;
+    writeToBus();
+}

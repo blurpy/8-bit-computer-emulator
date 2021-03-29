@@ -9,6 +9,7 @@ OutputRegister::OutputRegister(std::shared_ptr<Bus> bus) {
     std::cout << "OutputRegister in" << std::endl;
     this->bus = std::move(bus);
     this->value = 0;
+    this->readOnClock = false;
 }
 
 OutputRegister::~OutputRegister() {
@@ -25,10 +26,24 @@ uint8_t OutputRegister::readValue() const {
     return this->value;
 }
 
-void OutputRegister::print() {
+void OutputRegister::print() const {
     printf("OutputRegister: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
 void OutputRegister::reset() {
     value = 0;
+}
+
+void OutputRegister::in() {
+    std::cout << "OutputRegister: in - will read from bus on clock tick" << std::endl;
+    readOnClock = true;
+}
+
+void OutputRegister::clockTicked() {
+    std::cout << "OutputRegister: clock ticked" << std::endl;
+
+    if (readOnClock) {
+        readFromBus();
+        readOnClock = false;
+    }
 }

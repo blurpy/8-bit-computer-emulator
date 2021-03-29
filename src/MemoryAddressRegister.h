@@ -4,24 +4,30 @@
 #include <memory>
 
 #include "Bus.h"
+#include "ClockListener.h"
 #include "RandomAccessMemory.h"
 
-class MemoryAddressRegister {
+class MemoryAddressRegister: public ClockListener {
 
 public:
     MemoryAddressRegister(std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<Bus> bus);
     ~MemoryAddressRegister();
 
-    void readFromBus();
-    void print();
+    void print() const;
     void reset();
     void program(uint8_t newValue);
     void program(std::bitset<4> address);
+    void in();
 
 private:
     std::shared_ptr<RandomAccessMemory> ram;
     std::shared_ptr<Bus> bus;
     uint8_t value;
+    bool readOnClock;
+
+    void readFromBus();
+
+    void clockTicked() override;
 };
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_MEMORYADDRESSREGISTER_H

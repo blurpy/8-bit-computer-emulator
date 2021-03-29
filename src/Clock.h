@@ -15,6 +15,7 @@ public:
 
     void start();
     void stop();
+    void join();
     void singleStep();
     void setFrequency(double hz);
     void addListener(ClockListener* listener);

@@ -34,8 +34,11 @@ void Clock::start() {
 
 void Clock::stop() {
     running = false;
-    clockThread.join();
     std::cout << "Clock: stopped" << std::endl;
+}
+
+void Clock::join() {
+    clockThread.join();
 }
 
 void Clock::singleStep() {

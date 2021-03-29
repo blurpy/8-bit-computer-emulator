@@ -1,4 +1,3 @@
-#include <cassert>
 #include <iostream>
 #include <thread>
 
@@ -11,12 +10,24 @@ Emulator::Emulator() {
     bus = std::make_shared<Bus>();
     aRegister = std::make_shared<Register>("A", bus);
     bRegister = std::make_shared<Register>("B", bus);
-    alu = std::make_unique<ArithmeticLogicUnit>(aRegister, bRegister, bus);
+    alu = std::make_shared<ArithmeticLogicUnit>(aRegister, bRegister, bus);
     ram = std::make_shared<RandomAccessMemory>(bus);
-    mar = std::make_unique<MemoryAddressRegister>(ram, bus);
-    pc = std::make_unique<ProgramCounter>(bus);
-    instructionRegister = std::make_unique<InstructionRegister>(bus);
-    out = std::make_unique<OutputRegister>(bus);
+    mar = std::make_shared<MemoryAddressRegister>(ram, bus);
+    pc = std::make_shared<ProgramCounter>(bus);
+    instructionRegister = std::make_shared<InstructionRegister>(bus);
+    out = std::make_shared<OutputRegister>(bus);
+    stepCounter = std::make_unique<StepCounter>();
+    microcode = std::make_shared<Microcode>(mar, pc, ram, instructionRegister, aRegister, bRegister, alu, out, clock);
+
+    stepCounter->setStepListener(microcode);
+
+    clock->addListener(mar.get());
+    clock->addListener(stepCounter.get());
+    clock->addListener(instructionRegister.get());
+    clock->addListener(pc.get());
+    clock->addListener(aRegister.get());
+    clock->addListener(bRegister.get());
+    clock->addListener(out.get());
 }
 
 Emulator::~Emulator() {
@@ -25,10 +36,6 @@ Emulator::~Emulator() {
 
 void Emulator::run() {
     std::cout << "Emulator: run start" << std::endl;
-
-    clock->setFrequency(1);
-    clock->addListener(this);
-    clock->start();
 
     reset();
     printValues();
@@ -55,100 +62,13 @@ void Emulator::run() {
 
     printValues();
 
-    // LDA 14 - Put value at memory address 14 (=28) in A register
+    std::cout << "Emulator: run clock" << std::endl;
 
-    std::cout << "Emulator: LDA step 1 - fetch" << std::endl;
-    pc->writeToBus(); // CO
-    mar->readFromBus(); // MI
-
-    std::cout << "Emulator: LDA step 2 - fetch" << std::endl;
-    ram->writeToBus(); // RO
-    instructionRegister->readFromBus(); // II
-    pc->increment(); // CE
-
-    std::cout << "Emulator: LDA step 3 - lda" << std::endl;
-    instructionRegister->writeToBus(); // IO
-    mar->readFromBus(); // MI
-
-    std::cout << "Emulator: LDA step 4 - lda" << std::endl;
-    ram->writeToBus(); // RO
-    aRegister->readFromBus(); // AI
+    clock->setFrequency(20);
+    clock->start();
+    clock->join();
 
     printValues();
-    assert(aRegister->readValue() == 28);
-
-    // ADD 15 - Put value at memory address 15 (=14) in B register and add A+B into A
-
-    std::cout << "Emulator: ADD step 1 - fetch" << std::endl;
-    pc->writeToBus(); // CO
-    mar->readFromBus(); // MI
-
-    std::cout << "Emulator: ADD step 2 - fetch" << std::endl;
-    ram->writeToBus(); // RO
-    instructionRegister->readFromBus(); // II
-    pc->increment(); // CE
-
-    std::cout << "Emulator: ADD step 3 - add" << std::endl;
-    instructionRegister->writeToBus(); // IO
-    mar->readFromBus(); // MI
-
-    std::cout << "Emulator: ADD step 4 - add" << std::endl;
-    ram->writeToBus(); // RO
-    bRegister->readFromBus(); // BI
-
-    std::cout << "Emulator: ADD step 5 - add" << std::endl;
-    alu->writeToBus(); // SO
-    aRegister->readFromBus(); // AI
-
-    printValues();
-    assert(bRegister->readValue() == 14);
-    assert(aRegister->readValue() == 42);
-
-    // OUT - Print result on output display
-
-    std::cout << "Emulator: OUT step 1 - fetch" << std::endl;
-    pc->writeToBus(); // CO
-    mar->readFromBus(); // MI
-
-    std::cout << "Emulator: OUT step 2 - fetch" << std::endl;
-    ram->writeToBus(); // RO
-    instructionRegister->readFromBus(); // II
-    pc->increment(); // CE
-
-    std::cout << "Emulator: OUT step 3 - out" << std::endl;
-    aRegister->writeToBus(); // AO
-    out->readFromBus(); // OI
-
-    printValues();
-    assert(out->readValue() == 42);
-
-    // HLT - Halt the clock
-
-    std::cout << "Emulator: HLT step 1 - fetch" << std::endl;
-    pc->writeToBus(); // CO
-    mar->readFromBus(); // MI
-
-    std::cout << "Emulator: HLT step 2 - fetch" << std::endl;
-    ram->writeToBus(); // RO
-    instructionRegister->readFromBus(); // II
-    pc->increment(); // CE
-
-    std::cout << "Emulator: HLT step 3 - hlt" << std::endl;
-    clock->stop(); // HLT
-
-    printValues();
-
-
-//    this->bus->write(28);
-//    this->aRegister->readFromBus();
-//    this->bus->write(14);
-//    this->bRegister->readFromBus();
-//    this->alu->writeToBus();
-//    this->aRegister->readFromBus();
-
-//    std::this_thread::sleep_for(std::chrono::milliseconds(3100));
-//    clock->stop();
-//    clock->singleStep();
 
     std::cout << "Emulator: run stop" << std::endl;
 }
@@ -165,6 +85,7 @@ void Emulator::printValues() {
     pc->print();
     instructionRegister->print();
     out->print();
+    stepCounter->print();
 }
 
 void Emulator::reset() {
@@ -179,12 +100,5 @@ void Emulator::reset() {
     pc->reset();
     instructionRegister->reset();
     out->reset();
-}
-
-void ClockListener::clockTicked() {
-    std::cout << "Emulator: clock ticked" << std::endl;
-}
-
-void ClockListener::invertedClockTicked() {
-    std::cout << "Emulator: inverted clock ticked" << std::endl;
+    stepCounter->reset();
 }

@@ -9,6 +9,8 @@ Register::Register(const std::string& name, std::shared_ptr<Bus> bus) {
     this->name = name;
     this->bus = std::move(bus);
     this->value = 0;
+    this->readOnClock = false;
+
     std::cout << this->name << " register in" << std::endl;
 }
 
@@ -36,4 +38,23 @@ void Register::print() {
 
 void Register::reset() {
     value = 0;
+}
+
+void Register::in() {
+    std::cout << this->name << " register: in - will read from bus on clock tick" << std::endl;
+    readOnClock = true;
+}
+
+void Register::out() {
+    std::cout << this->name << " register: out" << std::endl;
+    writeToBus();
+}
+
+void Register::clockTicked() {
+    std::cout << this->name << " register: clock ticked" << std::endl;
+
+    if (readOnClock) {
+        readFromBus();
+        readOnClock = false;
+    }
 }

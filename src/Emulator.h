@@ -8,12 +8,14 @@
 #include "Clock.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
+#include "Microcode.h"
 #include "OutputRegister.h"
 #include "ProgramCounter.h"
 #include "RandomAccessMemory.h"
 #include "Register.h"
+#include "StepCounter.h"
 
-class Emulator: public ClockListener {
+class Emulator {
 
 public:
     Emulator();
@@ -26,12 +28,14 @@ private:
     std::shared_ptr<Bus> bus;
     std::shared_ptr<Register> aRegister;
     std::shared_ptr<Register> bRegister;
-    std::unique_ptr<ArithmeticLogicUnit> alu;
-    std::unique_ptr<MemoryAddressRegister> mar;
-    std::unique_ptr<ProgramCounter> pc;
+    std::shared_ptr<ArithmeticLogicUnit> alu;
+    std::shared_ptr<MemoryAddressRegister> mar;
+    std::shared_ptr<ProgramCounter> pc;
     std::shared_ptr<RandomAccessMemory> ram;
-    std::unique_ptr<InstructionRegister> instructionRegister;
-    std::unique_ptr<OutputRegister> out;
+    std::shared_ptr<InstructionRegister> instructionRegister;
+    std::shared_ptr<OutputRegister> out;
+    std::unique_ptr<StepCounter> stepCounter;
+    std::shared_ptr<Microcode> microcode;
 
     void printValues();
     void reset();

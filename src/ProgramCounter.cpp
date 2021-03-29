@@ -9,6 +9,7 @@ ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
     std::cout << "ProgramCounter in" << std::endl;
     this->bus = std::move(bus);
     this->value = 0;
+    this->incrementOnClock = false;
 }
 
 ProgramCounter::~ProgramCounter() {
@@ -32,10 +33,29 @@ void ProgramCounter::writeToBus() {
     bus->write(value);
 }
 
-void ProgramCounter::print() {
+void ProgramCounter::print() const {
     printf("ProgramCounter: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
 void ProgramCounter::reset() {
     value = 0;
+}
+
+void ProgramCounter::out() {
+    std::cout << "ProgramCounter: out" << std::endl;
+    writeToBus();
+}
+
+void ProgramCounter::enable() {
+    std::cout << "ProgramCounter: enable - will increment on clock tick" << std::endl;
+    incrementOnClock = true;
+}
+
+void ProgramCounter::clockTicked() {
+    std::cout << "ProgramCounter: clock ticked" << std::endl;
+
+    if (incrementOnClock) {
+        increment();
+        incrementOnClock = false;
+    }
 }

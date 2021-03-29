@@ -35,3 +35,8 @@ void ArithmeticLogicUnit::print() const {
 void ArithmeticLogicUnit::reset() {
     value = 0;
 }
+
+void ArithmeticLogicUnit::out() {
+    std::cout << "ArithmeticLogicUnit: out" << std::endl;
+    writeToBus();
+}
