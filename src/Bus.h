@@ -10,6 +10,7 @@ public:
     uint8_t read() const;
     void write(uint8_t newValue);
     void print() const;
+    void reset();
 
 private:
     uint8_t value;

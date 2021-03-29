@@ -31,3 +31,7 @@ void ArithmeticLogicUnit::writeToBus() {
 void ArithmeticLogicUnit::print() const {
     printf("ArithmeticLogicUnit: %d / 0x%02X / " BINARY_PATTERN " \n", this->value, this->value, BYTE_TO_BINARY(this->value));
 }
+
+void ArithmeticLogicUnit::reset() {
+    value = 0;
+}

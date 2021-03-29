@@ -13,6 +13,7 @@ public:
 
     void writeToBus();
     void print() const;
+    void reset();
 
 private:
     std::shared_ptr<Register> aRegister;

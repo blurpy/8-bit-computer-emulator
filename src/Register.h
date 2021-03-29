@@ -15,8 +15,8 @@ public:
     void readFromBus();
     void writeToBus();
     uint8_t readValue() const;
-
     void print();
+    void reset();
 
 private:
     std::string name;
