@@ -26,9 +26,9 @@ Emulator::~Emulator() {
 void Emulator::run() {
     std::cout << "Emulator: run start" << std::endl;
 
-//    clock->setFrequency(1);
-//    clock->addListener(this);
-//    clock->start();
+    clock->setFrequency(1);
+    clock->addListener(this);
+    clock->start();
 
     reset();
     printValues();
@@ -121,6 +121,23 @@ void Emulator::run() {
 
     printValues();
     assert(out->readValue() == 42);
+
+    // HLT - Halt the clock
+
+    std::cout << "Emulator: HLT step 1 - fetch" << std::endl;
+    pc->writeToBus(); // CO
+    mar->readFromBus(); // MI
+
+    std::cout << "Emulator: HLT step 2 - fetch" << std::endl;
+    ram->writeToBus(); // RO
+    instructionRegister->readFromBus(); // II
+    pc->increment(); // CE
+
+    std::cout << "Emulator: HLT step 3 - hlt" << std::endl;
+    clock->stop(); // HLT
+
+    printValues();
+
 
 //    this->bus->write(28);
 //    this->aRegister->readFromBus();
