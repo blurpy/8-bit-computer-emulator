@@ -61,14 +61,18 @@ void Clock::mainLoop() {
 
     while (running) {
         if (tick()) {
-            for (auto & listener : listeners) {
-                if (rising) {
+            if (rising) {
+                for (auto & listener : listeners) {
                     listener->clockTicked();
-                    rising = false;
-                } else {
-                    listener->invertedClockTicked();
-                    rising = true;
                 }
+                rising = false;
+            }
+
+            else {
+                for (auto & listener : listeners) {
+                    listener->invertedClockTicked();
+                }
+                rising = true;
             }
 
             if (singleStepping && --remainingTicks <= 0) {
