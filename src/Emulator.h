@@ -6,6 +6,10 @@
 #include "ArithmeticLogicUnit.h"
 #include "Bus.h"
 #include "Clock.h"
+#include "InstructionRegister.h"
+#include "MemoryAddressRegister.h"
+#include "ProgramCounter.h"
+#include "RandomAccessMemory.h"
 #include "Register.h"
 
 class Emulator: public ClockListener {
@@ -22,8 +26,13 @@ private:
     std::shared_ptr<Register> aRegister;
     std::shared_ptr<Register> bRegister;
     std::unique_ptr<ArithmeticLogicUnit> alu;
+    std::unique_ptr<MemoryAddressRegister> mar;
+    std::unique_ptr<ProgramCounter> pc;
+    std::shared_ptr<RandomAccessMemory> ram;
+    std::unique_ptr<InstructionRegister> instructionRegister;
 
     void printValues();
+    void reset();
 };
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_H
