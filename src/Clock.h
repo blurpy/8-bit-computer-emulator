@@ -24,6 +24,8 @@ private:
     double counter;
     bool running;
     bool rising;
+    bool singleStepping;
+    int remainingTicks;
     std::chrono::steady_clock::time_point lastTick;
     std::thread clockThread;
     std::vector<ClockListener*> listeners;

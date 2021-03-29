@@ -10,6 +10,8 @@ Clock::Clock() {
     this->frequency = 0;
     this->running = false;
     this->rising = false;
+    this->singleStepping = false;
+    this->remainingTicks = 0;
 }
 
 Clock::~Clock() {
@@ -25,6 +27,7 @@ void Clock::start() {
     counter = 0;
     running = true;
     rising = true;
+    singleStepping = false;
     lastTick = std::chrono::steady_clock::now();
     clockThread = std::thread(&Clock::mainLoop, this);
 }
@@ -36,7 +39,17 @@ void Clock::stop() {
 }
 
 void Clock::singleStep() {
-    // TODO
+    std::cout << "Clock: single stepping clock" << std::endl;
+    assert(frequency > 0);
+
+    counter = 0;
+    running = true;
+    rising = true;
+    singleStepping = true;
+    remainingTicks = 2;
+    lastTick = std::chrono::steady_clock::now();
+    clockThread = std::thread(&Clock::mainLoop, this);
+    clockThread.join();
 }
 
 void Clock::setFrequency(double hz) {
@@ -57,10 +70,16 @@ void Clock::mainLoop() {
                     rising = true;
                 }
             }
+
+            if (singleStepping && --remainingTicks <= 0) {
+                running = false;
+            }
         }
 
         sleep(1);
     }
+
+    std::cout << "Clock: exiting main loop" << std::endl;
 }
 
 bool Clock::tick() {
