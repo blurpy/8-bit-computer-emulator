@@ -16,6 +16,7 @@ Emulator::Emulator() {
     mar = std::make_unique<MemoryAddressRegister>(ram, bus);
     pc = std::make_unique<ProgramCounter>(bus);
     instructionRegister = std::make_unique<InstructionRegister>(bus);
+    out = std::make_unique<OutputRegister>(bus);
 }
 
 Emulator::~Emulator() {
@@ -103,6 +104,24 @@ void Emulator::run() {
     assert(bRegister->readValue() == 14);
     assert(aRegister->readValue() == 42);
 
+    // OUT - Print result on output display
+
+    std::cout << "Emulator: OUT step 1 - fetch" << std::endl;
+    pc->writeToBus(); // CO
+    mar->readFromBus(); // MI
+
+    std::cout << "Emulator: OUT step 2 - fetch" << std::endl;
+    ram->writeToBus(); // RO
+    instructionRegister->readFromBus(); // II
+    pc->increment(); // CE
+
+    std::cout << "Emulator: OUT step 3 - out" << std::endl;
+    aRegister->writeToBus(); // AO
+    out->readFromBus(); // OI
+
+    printValues();
+    assert(out->readValue() == 42);
+
 //    this->bus->write(28);
 //    this->aRegister->readFromBus();
 //    this->bus->write(14);
@@ -128,6 +147,7 @@ void Emulator::printValues() {
     ram->print();
     pc->print();
     instructionRegister->print();
+    out->print();
 }
 
 void Emulator::reset() {
@@ -141,6 +161,7 @@ void Emulator::reset() {
     ram->reset();
     pc->reset();
     instructionRegister->reset();
+    out->reset();
 }
 
 void ClockListener::clockTicked() {

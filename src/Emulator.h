@@ -8,6 +8,7 @@
 #include "Clock.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
+#include "OutputRegister.h"
 #include "ProgramCounter.h"
 #include "RandomAccessMemory.h"
 #include "Register.h"
@@ -30,6 +31,7 @@ private:
     std::unique_ptr<ProgramCounter> pc;
     std::shared_ptr<RandomAccessMemory> ram;
     std::unique_ptr<InstructionRegister> instructionRegister;
+    std::unique_ptr<OutputRegister> out;
 
     void printValues();
     void reset();
