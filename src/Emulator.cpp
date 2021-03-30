@@ -1,6 +1,8 @@
 #include <iostream>
 #include <thread>
 
+#include "Assembler.h"
+
 #include "Emulator.h"
 
 Emulator::Emulator() {
@@ -34,32 +36,13 @@ Emulator::~Emulator() {
     std::cout << "Emulator out" << std::endl;
 }
 
-void Emulator::run() {
+void Emulator::run(const std::string &fileName) {
     std::cout << "Emulator: run start" << std::endl;
 
     reset();
     printValues();
 
-    std::cout << "Emulator: program memory" << std::endl;
-    // LDA 14
-    mar->program(std::bitset<4>("0000"));
-    ram->program(std::bitset<4>("0001"), std::bitset<4>("1110"));
-    // ADD 15
-    mar->program(std::bitset<4>("0001"));
-    ram->program(std::bitset<4>("0010"), std::bitset<4>("1111"));
-    // OUT
-    mar->program(std::bitset<4>("0010"));
-    ram->program(std::bitset<4>("1110"), std::bitset<4>("0000"));
-    // HLT
-    mar->program(std::bitset<4>("0011"));
-    ram->program(std::bitset<4>("1111"), std::bitset<4>("0000"));
-    // X = 28
-    mar->program(std::bitset<4>("1110"));
-    ram->program(std::bitset<8>("00011100"));
-    // Y = 14
-    mar->program(std::bitset<4>("1111"));
-    ram->program(std::bitset<8>("00001110"));
-
+    programMemory(fileName);
     printValues();
 
     std::cout << "Emulator: run clock" << std::endl;
@@ -71,6 +54,18 @@ void Emulator::run() {
     printValues();
 
     std::cout << "Emulator: run stop" << std::endl;
+}
+
+void Emulator::programMemory(const std::string &fileName) {
+    std::cout << "Emulator: program memory" << std::endl;
+
+    auto assembler = std::make_unique<Assembler>();
+    const std::vector<Assembler::Instruction> instructions = assembler->loadInstructions(fileName);
+
+    for (auto instruction : instructions) {
+        mar->program(instruction.address);
+        ram->program(instruction.opcode, instruction.operand);
+    }
 }
 
 void Emulator::printValues() {

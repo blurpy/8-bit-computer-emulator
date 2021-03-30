@@ -21,7 +21,7 @@ public:
     Emulator();
     ~Emulator();
 
-    void run();
+    void run(const std::string &fileName);
 
 private:
     std::shared_ptr<Clock> clock;
@@ -39,6 +39,7 @@ private:
 
     void printValues();
     void reset();
+    void programMemory(const std::string &fileName);
 };
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_H
