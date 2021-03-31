@@ -80,6 +80,21 @@ void Microcode::handleStep2() const {
             mar->in(); // MI
             instructionRegister->out(); // IO
             break;
+        case 0b0100:
+            std::cout << "Microcode step 2 STA" << std::endl;
+            mar->in(); // MI
+            instructionRegister->out(); // IO
+            break;
+        case 0b0101:
+            std::cout << "Microcode step 2 LDI" << std::endl;
+            instructionRegister->out(); // IO
+            aRegister->in(); // AI
+            break;
+        case 0b0110:
+            std::cout << "Microcode step 2 JMP" << std::endl;
+            instructionRegister->out(); // IO
+            pc->jump(); // CJ
+            break;
         case 0b1110:
             std::cout << "Microcode step 2 OUT" << std::endl;
             aRegister->out(); // AO
@@ -109,6 +124,19 @@ void Microcode::handleStep3() const {
             ram->out(); // RO
             bRegister->in(); // BI
             break;
+        case 0b0100:
+            std::cout << "Microcode step 3 STA" << std::endl;
+            ram->in(); // RI
+            aRegister->out(); // AO
+            break;
+        case 0b0101:
+            std::cout << "Microcode step 3 LDI" << std::endl;
+            // Done
+            break;
+        case 0b0110:
+            std::cout << "Microcode step 3 JMP" << std::endl;
+            // Done
+            break;
         case 0b1110:
             std::cout << "Microcode step 3 OUT" << std::endl;
             // Done
@@ -132,6 +160,18 @@ void Microcode::handleStep4() const {
             aRegister->in(); // AI
             alu->out(); // SO
             // TODO FI
+            break;
+        case 0b0100:
+            std::cout << "Microcode step 4 STA" << std::endl;
+            // Done
+            break;
+        case 0b0101:
+            std::cout << "Microcode step 4 LDI" << std::endl;
+            // Done
+            break;
+        case 0b0110:
+            std::cout << "Microcode step 4 JMP" << std::endl;
+            // Done
             break;
         case 0b1110:
             std::cout << "Microcode step 4 OUT" << std::endl;

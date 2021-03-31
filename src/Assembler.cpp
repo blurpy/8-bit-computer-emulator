@@ -102,6 +102,12 @@ std::bitset<4> Assembler::interpretOpcode(const std::string &opcode) {
         return std::bitset<4>("0001");
     } else if (opcode == "ADD") {
         return std::bitset<4>("0010");
+    } else if (opcode == "STA") {
+        return std::bitset<4>("0100");
+    } else if (opcode == "LDI") {
+        return std::bitset<4>("0101");
+    } else if (opcode == "JMP") {
+        return std::bitset<4>("0110");
     } else if (opcode == "OUT") {
         return std::bitset<4>("1110");
     } else if (opcode == "HLT") {
@@ -116,6 +122,15 @@ std::bitset<4> Assembler::interpretOperand(const std::string &opcode, std::vecto
         assert(tokens.size() == 2);
         return std::bitset<4>(std::stoi(tokens[1]));
     } else if (opcode == "ADD") {
+        assert(tokens.size() == 2);
+        return std::bitset<4>(std::stoi(tokens[1]));
+    } else if (opcode == "STA") {
+        assert(tokens.size() == 2);
+        return std::bitset<4>(std::stoi(tokens[1]));
+    } else if (opcode == "LDI") {
+        assert(tokens.size() == 2);
+        return std::bitset<4>(std::stoi(tokens[1]));
+    } else if (opcode == "JMP") {
         assert(tokens.size() == 2);
         return std::bitset<4>(std::stoi(tokens[1]));
     } else if (opcode == "OUT") {
@@ -136,7 +151,7 @@ std::vector<std::string> Assembler::tokenize(const std::string &line) const {
 
     while (stream >> token) {
         // Drop comments
-        if (token == ";") {
+        if (token == ";") { // TODO starts with?
             break;
         }
 

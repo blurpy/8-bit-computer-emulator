@@ -51,11 +51,21 @@ void ProgramCounter::enable() {
     incrementOnClock = true;
 }
 
+void ProgramCounter::jump() {
+    std::cout << "ProgramCounter: jump - will read from bus on clock tick" << std::endl;
+    readOnClock = true;
+}
+
 void ProgramCounter::clockTicked() {
     std::cout << "ProgramCounter: clock ticked" << std::endl;
 
     if (incrementOnClock) {
         increment();
         incrementOnClock = false;
+    }
+
+    if (readOnClock) {
+        readFromBus();
+        readOnClock = false;
     }
 }

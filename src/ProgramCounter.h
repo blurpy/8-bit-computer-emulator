@@ -16,11 +16,13 @@ public:
     void reset();
     void out();
     void enable();
+    void jump();
 
 private:
     std::shared_ptr<Bus> bus;
     uint8_t value;
     bool incrementOnClock;
+    bool readOnClock;
 
     void increment();
     void readFromBus();

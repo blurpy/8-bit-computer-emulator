@@ -62,7 +62,21 @@ void RandomAccessMemory::program(std::bitset<8> newValue) {
     memory[address] = newValue.to_ulong();
 }
 
+void RandomAccessMemory::in() {
+    std::cout << "RandomAccessMemory: in - will read from bus on clock tick" << std::endl;
+    readOnClock = true;
+}
+
 void RandomAccessMemory::out() {
     std::cout << "RandomAccessMemory: out" << std::endl;
     writeToBus();
+}
+
+void RandomAccessMemory::clockTicked() {
+    std::cout << "RandomAccessMemory: clock ticked" << std::endl;
+
+    if (readOnClock) {
+        readFromBus();
+        readOnClock = false;
+    }
 }

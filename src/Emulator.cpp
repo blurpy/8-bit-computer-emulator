@@ -30,6 +30,7 @@ Emulator::Emulator() {
     clock->addListener(aRegister.get());
     clock->addListener(bRegister.get());
     clock->addListener(out.get());
+    clock->addListener(ram.get());
 }
 
 Emulator::~Emulator() {
