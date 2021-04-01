@@ -18,10 +18,8 @@ Emulator::Emulator() {
     pc = std::make_shared<ProgramCounter>(bus);
     instructionRegister = std::make_shared<InstructionRegister>(bus);
     out = std::make_shared<OutputRegister>(bus);
-    stepCounter = std::make_unique<StepCounter>();
     microcode = std::make_shared<Microcode>(mar, pc, ram, instructionRegister, aRegister, bRegister, alu, out, clock);
-
-    stepCounter->setStepListener(microcode);
+    stepCounter = std::make_unique<StepCounter>(microcode);
 
     clock->addListener(mar.get());
     clock->addListener(stepCounter.get());

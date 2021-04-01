@@ -5,8 +5,9 @@
 
 #include "StepCounter.h"
 
-StepCounter::StepCounter() {
+StepCounter::StepCounter(std::shared_ptr<StepListener> stepListener) {
     std::cout << "StepCounter in" << std::endl;
+    this->stepListener = std::move(stepListener);
     this->counter = 0;
     this->init = true;
 }
@@ -38,8 +39,4 @@ void StepCounter::invertedClockTicked() {
     std::cout << "StepCounter: inverted clock ticked" << std::endl;
     increment();
     stepListener->stepReady(counter);
-}
-
-void StepCounter::setStepListener(std::shared_ptr<StepListener> newStepListener) {
-    this->stepListener = std::move(newStepListener);
 }

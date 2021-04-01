@@ -9,12 +9,11 @@
 class StepCounter: public ClockListener {
 
 public:
-    StepCounter();
+    explicit StepCounter(std::shared_ptr<StepListener> stepListener);
     ~StepCounter();
 
     void reset();
     void print() const;
-    void setStepListener(std::shared_ptr<StepListener> stepListener);
 
 private:
     uint8_t counter;
