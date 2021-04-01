@@ -1,16 +1,17 @@
 #ifndef INC_8_BIT_COMPUTER_EMULATOR_MEMORYADDRESSREGISTER_H
 #define INC_8_BIT_COMPUTER_EMULATOR_MEMORYADDRESSREGISTER_H
 
+#include <bitset>
 #include <memory>
 
 #include "Bus.h"
 #include "ClockListener.h"
-#include "RandomAccessMemory.h"
+#include "RegisterListener.h"
 
 class MemoryAddressRegister: public ClockListener {
 
 public:
-    MemoryAddressRegister(std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<Bus> bus);
+    MemoryAddressRegister(std::shared_ptr<RegisterListener> registerListener, std::shared_ptr<Bus> bus);
     ~MemoryAddressRegister();
 
     void print() const;
@@ -19,7 +20,7 @@ public:
     void in();
 
 private:
-    std::shared_ptr<RandomAccessMemory> ram;
+    std::shared_ptr<RegisterListener> registerListener;
     std::shared_ptr<Bus> bus;
     uint8_t value;
     bool readOnClock;

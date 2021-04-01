@@ -6,8 +6,9 @@
 
 #include "Bus.h"
 #include "ClockListener.h"
+#include "RegisterListener.h"
 
-class RandomAccessMemory: public ClockListener {
+class RandomAccessMemory: public ClockListener, public RegisterListener {
 
 public:
     explicit RandomAccessMemory(std::shared_ptr<Bus> bus);
@@ -15,7 +16,6 @@ public:
 
     void print();
     void reset();
-    void setAddress(uint8_t newAddress);
     void program(std::bitset<4> opcode, std::bitset<4> operand);
     void in();
     void out();
@@ -30,6 +30,7 @@ private:
     void writeToBus();
 
     void clockTicked() override;
+    void registerValueChanged(uint8_t newValue) override;
 };
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_RANDOMACCESSMEMORY_H

@@ -6,9 +6,9 @@
 
 #include "MemoryAddressRegister.h"
 
-MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<Bus> bus) {
+MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> registerListener, std::shared_ptr<Bus> bus) {
     std::cout << "MemoryAddressRegister in" << std::endl;
-    this->ram = std::move(ram);
+    this->registerListener = std::move(registerListener);
     this->bus = std::move(bus);
     this->value = 0;
     this->readOnClock = false;
@@ -23,7 +23,7 @@ void MemoryAddressRegister::readFromBus() {
     std::cout << "MemoryAddressRegister: read from bus. Changing value from " << (int) value << " to " << (int) busValue << std::endl;
     assert(busValue <= 15); // 4 bits only
     value = busValue;
-    ram->setAddress(value);
+    registerListener->registerValueChanged(value);
 }
 
 void MemoryAddressRegister::print() const {
@@ -37,7 +37,7 @@ void MemoryAddressRegister::reset() {
 void MemoryAddressRegister::program(std::bitset<4> address) {
     std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
     value = address.to_ulong();
-    ram->setAddress(value);
+    registerListener->registerValueChanged(value);
 }
 
 void MemoryAddressRegister::in() {

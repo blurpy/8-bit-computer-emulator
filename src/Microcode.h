@@ -7,6 +7,7 @@
 #include "MemoryAddressRegister.h"
 #include "OutputRegister.h"
 #include "ProgramCounter.h"
+#include "RandomAccessMemory.h"
 #include "Register.h"
 #include "StepListener.h"
 
