@@ -22,6 +22,10 @@ void Register::readFromBus() {
     uint8_t busValue = bus->read();
     std::cout << this->name << " register: changing value from " << (int) this->value << " to " << (int) busValue << std::endl;
     this->value = busValue;
+
+    if (registerListener != nullptr) {
+        registerListener->registerValueChanged(value);
+    }
 }
 
 void Register::writeToBus() {
@@ -57,4 +61,8 @@ void Register::clockTicked() {
         readFromBus();
         readOnClock = false;
     }
+}
+
+void Register::setRegisterListener(std::shared_ptr<RegisterListener> newRegisterListener) {
+    this->registerListener = std::move(newRegisterListener);
 }

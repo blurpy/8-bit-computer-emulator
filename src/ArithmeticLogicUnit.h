@@ -4,8 +4,9 @@
 #include <memory>
 
 #include "Register.h"
+#include "RegisterListener.h"
 
-class ArithmeticLogicUnit {
+class ArithmeticLogicUnit: public RegisterListener {
 
 public:
     ArithmeticLogicUnit(std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister, std::shared_ptr<Bus> bus);
@@ -24,6 +25,8 @@ private:
     bool zero;
 
     void writeToBus();
+
+    void registerValueChanged(uint8_t newValue) override;
 };
 
 #endif //INC_8_BIT_COMPUTER_ARITHMETICLOGICUNIT_H

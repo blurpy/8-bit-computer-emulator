@@ -6,6 +6,7 @@
 
 #include "Bus.h"
 #include "ClockListener.h"
+#include "RegisterListener.h"
 
 class Register: public ClockListener {
 
@@ -18,9 +19,11 @@ public:
     void reset();
     void in();
     void out();
+    void setRegisterListener(std::shared_ptr<RegisterListener> newRegisterListener);
 
 private:
     std::string name;
+    std::shared_ptr<RegisterListener> registerListener;
     std::shared_ptr<Bus> bus;
     uint8_t value;
     bool readOnClock;
