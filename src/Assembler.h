@@ -28,7 +28,7 @@ private:
     std::bitset<4> interpretOperand(const std::string &opcode, std::vector<std::string> &tokens);
     void addInstruction(std::vector<Instruction> &instructions, const std::string &opcode, std::vector<std::string> &tokens);
     void addData(std::vector<Instruction> &instructions, std::vector<std::string> &tokens) const;
-    std::vector<std::string> tokenize(const std::string &line) const;
+    [[nodiscard]] std::vector<std::string> tokenize(const std::string &line) const;
 };
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_ASSEMBLER_H

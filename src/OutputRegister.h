@@ -9,7 +9,7 @@
 class OutputRegister: public ClockListener {
 
 public:
-    OutputRegister(std::shared_ptr<Bus> bus);
+    explicit OutputRegister(std::shared_ptr<Bus> bus);
     ~OutputRegister();
 
     void print() const;

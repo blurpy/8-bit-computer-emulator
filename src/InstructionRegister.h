@@ -9,14 +9,14 @@
 class InstructionRegister: public ClockListener {
 
 public:
-    InstructionRegister(std::shared_ptr<Bus> bus);
+    explicit InstructionRegister(std::shared_ptr<Bus> bus);
     ~InstructionRegister();
 
     void print() const;
     void reset();
     void in();
     void out();
-    uint8_t getOpcode() const;
+    [[nodiscard]] uint8_t getOpcode() const;
 
 private:
     std::shared_ptr<Bus> bus;

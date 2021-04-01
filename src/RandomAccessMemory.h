@@ -10,7 +10,7 @@
 class RandomAccessMemory: public ClockListener {
 
 public:
-    RandomAccessMemory(std::shared_ptr<Bus> bus);
+    explicit RandomAccessMemory(std::shared_ptr<Bus> bus);
     ~RandomAccessMemory();
 
     void print();

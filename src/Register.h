@@ -13,7 +13,7 @@ public:
     Register(const std::string& name, std::shared_ptr<Bus> bus);
     ~Register();
 
-    uint8_t readValue() const;
+    [[nodiscard]] uint8_t readValue() const;
     void print();
     void reset();
     void in();

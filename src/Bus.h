@@ -7,7 +7,7 @@ public:
     Bus();
     ~Bus();
 
-    uint8_t read() const;
+    [[nodiscard]] uint8_t read() const;
     void write(uint8_t newValue);
     void print() const;
     void reset();

@@ -9,7 +9,7 @@
 class ProgramCounter: public ClockListener {
 
 public:
-    ProgramCounter(std::shared_ptr<Bus> bus);
+    explicit ProgramCounter(std::shared_ptr<Bus> bus);
     ~ProgramCounter();
 
     void print() const;
