@@ -20,6 +20,8 @@ private:
     std::shared_ptr<Register> bRegister;
     std::shared_ptr<Bus> bus;
     uint8_t value;
+    bool carry;
+    bool zero;
 
     void writeToBus();
 };
