@@ -38,6 +38,10 @@ void ArithmeticLogicUnit::out() {
 }
 
 void ArithmeticLogicUnit::registerValueChanged(uint8_t registerValue) {
+    add();
+}
+
+void ArithmeticLogicUnit::add() {
     uint8_t aValue = aRegister->readValue();
     uint8_t bValue = bRegister->readValue();
     uint16_t result = aValue + bValue;
@@ -45,9 +49,9 @@ void ArithmeticLogicUnit::registerValueChanged(uint8_t registerValue) {
     bool newCarry = result > 255;
     bool newZero = newValue == 0; // Both can be active at once if result is 256 (0b100000000) / new value is 0
 
-    std::cout << "ArithmeticLogicUnit: registerValueChanged. changing value from " << (int) value << " to " << (int) result
+    std::cout << "ArithmeticLogicUnit: add. changing value from " << (int) value << " to " << (int) result
               << " (" << (int) newValue << ")" << std::endl;
-    std::cout << "ArithmeticLogicUnit: registerValueChanged. changing bits from C=" << carry << ", Z=" << zero
+    std::cout << "ArithmeticLogicUnit: add. changing bits from C=" << carry << ", Z=" << zero
               << " to C=" << newCarry << ", Z=" << newZero << std::endl;
 
     value = newValue;

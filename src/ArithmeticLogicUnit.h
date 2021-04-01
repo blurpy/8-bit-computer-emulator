@@ -25,6 +25,7 @@ private:
     bool zero;
 
     void writeToBus();
+    void add();
 
     void registerValueChanged(uint8_t newValue) override;
 };
