@@ -10,6 +10,7 @@ ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
     this->bus = std::move(bus);
     this->value = 0;
     this->incrementOnClock = false;
+    this->readOnClock = false;
 }
 
 ProgramCounter::~ProgramCounter() {

@@ -9,6 +9,7 @@ RandomAccessMemory::RandomAccessMemory(std::shared_ptr<Bus> bus) {
     std::cout << "RandomAccessMemory in" << std::endl;
     this->bus = std::move(bus);
     this->address = 0;
+    this->readOnClock = false;
 }
 
 RandomAccessMemory::~RandomAccessMemory() {
