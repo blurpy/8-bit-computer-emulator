@@ -80,6 +80,11 @@ void Microcode::handleStep2() const {
             mar->in(); // MI
             instructionRegister->out(); // IO
             break;
+        case 0b0011:
+            std::cout << "Microcode step 2 SUB" << std::endl;
+            mar->in(); // MI
+            instructionRegister->out(); // IO
+            break;
         case 0b0100:
             std::cout << "Microcode step 2 STA" << std::endl;
             mar->in(); // MI
@@ -124,6 +129,11 @@ void Microcode::handleStep3() const {
             ram->out(); // RO
             bRegister->in(); // BI
             break;
+        case 0b0011:
+            std::cout << "Microcode step 3 SUB" << std::endl;
+            ram->out(); // RO
+            bRegister->in(); // BI
+            break;
         case 0b0100:
             std::cout << "Microcode step 3 STA" << std::endl;
             ram->in(); // RI
@@ -158,6 +168,13 @@ void Microcode::handleStep4() const {
         case 0b0010:
             std::cout << "Microcode step 4 ADD" << std::endl;
             aRegister->in(); // AI
+            alu->out(); // SO
+            // TODO FI
+            break;
+        case 0b0011:
+            std::cout << "Microcode step 4 SUB" << std::endl;
+            aRegister->in(); // AI
+            alu->subtract(); // S-
             alu->out(); // SO
             // TODO FI
             break;

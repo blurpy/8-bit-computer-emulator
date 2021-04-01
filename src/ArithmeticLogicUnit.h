@@ -15,6 +15,7 @@ public:
     void print() const;
     void reset();
     void out();
+    void subtract();
 
 private:
     std::shared_ptr<Register> aRegister;

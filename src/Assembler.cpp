@@ -102,6 +102,8 @@ std::bitset<4> Assembler::interpretOpcode(const std::string &opcode) {
         return std::bitset<4>("0001");
     } else if (opcode == "ADD") {
         return std::bitset<4>("0010");
+    } else if (opcode == "SUB") {
+        return std::bitset<4>("0011");
     } else if (opcode == "STA") {
         return std::bitset<4>("0100");
     } else if (opcode == "LDI") {
@@ -122,6 +124,9 @@ std::bitset<4> Assembler::interpretOperand(const std::string &opcode, std::vecto
         assert(tokens.size() == 2);
         return std::bitset<4>(std::stoi(tokens[1]));
     } else if (opcode == "ADD") {
+        assert(tokens.size() == 2);
+        return std::bitset<4>(std::stoi(tokens[1]));
+    } else if (opcode == "SUB") {
         assert(tokens.size() == 2);
         return std::bitset<4>(std::stoi(tokens[1]));
     } else if (opcode == "STA") {
