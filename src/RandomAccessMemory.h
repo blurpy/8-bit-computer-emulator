@@ -16,9 +16,7 @@ public:
     void print();
     void reset();
     void setAddress(uint8_t newAddress);
-    void program(uint8_t newValue);
     void program(std::bitset<4> opcode, std::bitset<4> operand);
-    void program(std::bitset<8> newValue);
     void in();
     void out();
 

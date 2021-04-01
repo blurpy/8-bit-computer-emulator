@@ -47,20 +47,10 @@ void RandomAccessMemory::setAddress(uint8_t newAddress) {
     address = newAddress;
 }
 
-void RandomAccessMemory::program(uint8_t newValue) {
-    std::cout << "RandomAccessMemory: programming at address " << (int) address << " with value " << (int) newValue << std::endl;
-    memory[address] = newValue;
-}
-
 void RandomAccessMemory::program(std::bitset<4> opcode, std::bitset<4> operand) {
     std::cout << "RandomAccessMemory: programming at address " << (int) address << " with opcode " << opcode << " and operand " << operand << std::endl;
     std::bitset<8> newValue(opcode.to_string() + operand.to_string());
         memory[address] = newValue.to_ulong();
-}
-
-void RandomAccessMemory::program(std::bitset<8> newValue) {
-    std::cout << "RandomAccessMemory: programming at address " << (int) address << " with value " << newValue << std::endl;
-    memory[address] = newValue.to_ulong();
 }
 
 void RandomAccessMemory::in() {

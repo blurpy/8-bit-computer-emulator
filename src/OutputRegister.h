@@ -12,7 +12,6 @@ public:
     OutputRegister(std::shared_ptr<Bus> bus);
     ~OutputRegister();
 
-    uint8_t readValue() const;
     void print() const;
     void reset();
     void in();

@@ -22,10 +22,6 @@ void OutputRegister::readFromBus() {
     value = busValue;
 }
 
-uint8_t OutputRegister::readValue() const {
-    return this->value;
-}
-
 void OutputRegister::print() const {
     printf("OutputRegister: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }

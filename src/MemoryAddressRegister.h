@@ -15,7 +15,6 @@ public:
 
     void print() const;
     void reset();
-    void program(uint8_t newValue);
     void program(std::bitset<4> address);
     void in();
 

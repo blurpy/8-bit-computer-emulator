@@ -34,12 +34,6 @@ void MemoryAddressRegister::reset() {
     value = 0;
 }
 
-void MemoryAddressRegister::program(uint8_t newValue) {
-    std::cout << "MemoryAddressRegister: programming at address " << (int) newValue << std::endl;
-    value = newValue;
-    ram->setAddress(value);
-}
-
 void MemoryAddressRegister::program(std::bitset<4> address) {
     std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
     value = address.to_ulong();
