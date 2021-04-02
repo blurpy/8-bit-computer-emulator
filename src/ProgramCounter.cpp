@@ -7,7 +7,7 @@
 
 ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
     if (Utils::debugL2()) {
-        std::cout << "ProgramCounter in" << std::endl;
+        std::cout << "ProgramCounter construct" << std::endl;
     }
 
     this->bus = std::move(bus);

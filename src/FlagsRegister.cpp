@@ -7,7 +7,7 @@
 
 FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
     if (Utils::debugL2()) {
-        std::cout << "FlagsRegister in" << std::endl;
+        std::cout << "FlagsRegister construct" << std::endl;
     }
 
     this->alu = std::move(alu);

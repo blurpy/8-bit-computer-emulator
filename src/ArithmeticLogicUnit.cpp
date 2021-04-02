@@ -9,7 +9,7 @@ ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<GenericRegister> aRegis
                                          std::shared_ptr<GenericRegister> bRegister,
                                          std::shared_ptr<Bus> bus) {
     if (Utils::debugL2()) {
-        std::cout << "ArithmeticLogicUnit in" << std::endl;
+        std::cout << "ArithmeticLogicUnit construct" << std::endl;
     }
 
     this->aRegister = std::move(aRegister);

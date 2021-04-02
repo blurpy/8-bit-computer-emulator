@@ -8,7 +8,7 @@
 
 Clock::Clock() {
     if (Utils::debugL2()) {
-        std::cout << "Clock in" << std::endl;
+        std::cout << "Clock construct" << std::endl;
     }
 
     this->counter = 0;

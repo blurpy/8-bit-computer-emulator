@@ -12,7 +12,7 @@ GenericRegister::GenericRegister(const std::string& name, std::shared_ptr<Bus> b
     this->readOnClock = false;
 
     if (Utils::debugL2()) {
-        std::cout << this->name << " register in" << std::endl;
+        std::cout << this->name << " register construct" << std::endl;
     }
 }
 

@@ -17,7 +17,7 @@ InstructionDecoder::InstructionDecoder(std::shared_ptr<MemoryAddressRegister> me
                                        std::shared_ptr<FlagsRegister> flagsRegister,
                                        std::shared_ptr<Clock> clock) {
     if (Utils::debugL2()) {
-        std::cout << "InstructionDecoder in" << std::endl;
+        std::cout << "InstructionDecoder construct" << std::endl;
     }
 
     this->memoryAddressRegister = std::move(memoryAddressRegister);

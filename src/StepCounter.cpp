@@ -7,7 +7,7 @@
 
 StepCounter::StepCounter(std::shared_ptr<StepListener> stepListener) {
     if (Utils::debugL2()) {
-        std::cout << "StepCounter in" << std::endl;
+        std::cout << "StepCounter construct" << std::endl;
     }
 
     this->stepListener = std::move(stepListener);

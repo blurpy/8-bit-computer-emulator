@@ -8,7 +8,7 @@
 
 MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> registerListener, std::shared_ptr<Bus> bus) {
     if (Utils::debugL2()) {
-        std::cout << "MemoryAddressRegister in" << std::endl;
+        std::cout << "MemoryAddressRegister construct" << std::endl;
     }
 
     this->registerListener = std::move(registerListener);

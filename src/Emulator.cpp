@@ -8,7 +8,7 @@
 
 Emulator::Emulator() {
     if (Utils::debugL2()) {
-        std::cout << "Emulator in" << std::endl;
+        std::cout << "Emulator construct" << std::endl;
     }
 
     clock = std::make_shared<Clock>();

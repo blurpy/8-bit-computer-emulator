@@ -7,7 +7,7 @@
 
 RandomAccessMemory::RandomAccessMemory(std::shared_ptr<Bus> bus) {
     if (Utils::debugL2()) {
-        std::cout << "RandomAccessMemory in" << std::endl;
+        std::cout << "RandomAccessMemory construct" << std::endl;
     }
 
     this->bus = std::move(bus);

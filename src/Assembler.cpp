@@ -10,7 +10,7 @@
 
 Assembler::Assembler() {
     if (Utils::debugL2()) {
-        std::cout << "Assembler in" << std::endl;
+        std::cout << "Assembler construct" << std::endl;
     }
 
     this->currentMemoryLocation = 0;

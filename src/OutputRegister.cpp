@@ -7,7 +7,7 @@
 
 OutputRegister::OutputRegister(std::shared_ptr<Bus> bus) {
     if (Utils::debugL2()) {
-        std::cout << "OutputRegister in" << std::endl;
+        std::cout << "OutputRegister construct" << std::endl;
     }
 
     this->bus = std::move(bus);

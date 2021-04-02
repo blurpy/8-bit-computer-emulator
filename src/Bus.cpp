@@ -6,7 +6,7 @@
 
 Bus::Bus() {
     if (Utils::debugL2()) {
-        std::cout << "Bus in" << std::endl;
+        std::cout << "Bus construct" << std::endl;
     }
 
     this->value = 0;

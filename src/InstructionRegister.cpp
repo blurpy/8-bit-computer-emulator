@@ -6,7 +6,7 @@
 
 InstructionRegister::InstructionRegister(std::shared_ptr<Bus> bus) {
     if (Utils::debugL2()) {
-        std::cout << "InstructionRegister in" << std::endl;
+        std::cout << "InstructionRegister construct" << std::endl;
     }
 
     this->bus = std::move(bus);
