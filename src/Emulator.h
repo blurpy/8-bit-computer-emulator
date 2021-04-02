@@ -29,12 +29,12 @@ private:
     std::shared_ptr<Bus> bus;
     std::shared_ptr<Register> aRegister;
     std::shared_ptr<Register> bRegister;
-    std::shared_ptr<ArithmeticLogicUnit> alu;
-    std::shared_ptr<MemoryAddressRegister> mar;
-    std::shared_ptr<ProgramCounter> pc;
-    std::shared_ptr<RandomAccessMemory> ram;
+    std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
+    std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
+    std::shared_ptr<ProgramCounter> programCounter;
+    std::shared_ptr<RandomAccessMemory> randomAccessMemory;
     std::shared_ptr<InstructionRegister> instructionRegister;
-    std::shared_ptr<OutputRegister> out;
+    std::shared_ptr<OutputRegister> outputRegister;
     std::unique_ptr<StepCounter> stepCounter;
     std::shared_ptr<InstructionDecoder> instructionDecoder;
     std::shared_ptr<FlagsRegister> flagsRegister;

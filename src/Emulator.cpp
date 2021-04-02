@@ -15,31 +15,34 @@ Emulator::Emulator() {
     bus = std::make_shared<Bus>();
     aRegister = std::make_shared<Register>("A", bus);
     bRegister = std::make_shared<Register>("B", bus);
-    alu = std::make_shared<ArithmeticLogicUnit>(aRegister, bRegister, bus);
-    ram = std::make_shared<RandomAccessMemory>(bus);
-    mar = std::make_shared<MemoryAddressRegister>(ram, bus);
-    pc = std::make_shared<ProgramCounter>(bus);
+    arithmeticLogicUnit = std::make_shared<ArithmeticLogicUnit>(aRegister, bRegister, bus);
+    randomAccessMemory = std::make_shared<RandomAccessMemory>(bus);
+    memoryAddressRegister = std::make_shared<MemoryAddressRegister>(randomAccessMemory, bus);
+    programCounter = std::make_shared<ProgramCounter>(bus);
     instructionRegister = std::make_shared<InstructionRegister>(bus);
-    out = std::make_shared<OutputRegister>(bus);
-    flagsRegister = std::make_shared<FlagsRegister>(alu);
-    instructionDecoder = std::make_shared<InstructionDecoder>(mar, pc, ram, instructionRegister, aRegister, bRegister, alu, out, flagsRegister, clock);
+    outputRegister = std::make_shared<OutputRegister>(bus);
+    flagsRegister = std::make_shared<FlagsRegister>(arithmeticLogicUnit);
+    instructionDecoder = std::make_shared<InstructionDecoder>(memoryAddressRegister, programCounter,
+                                                              randomAccessMemory, instructionRegister, aRegister,
+                                                              bRegister, arithmeticLogicUnit, outputRegister,
+                                                              flagsRegister, clock);
     stepCounter = std::make_unique<StepCounter>(instructionDecoder);
 
     // Cyclic dependency - also, setting it here to reuse the shared pointers
-    aRegister->setRegisterListener(alu);
-    bRegister->setRegisterListener(alu);
+    aRegister->setRegisterListener(arithmeticLogicUnit);
+    bRegister->setRegisterListener(arithmeticLogicUnit);
 
     // This order is also the order the components receive ticks from the clock.
     // It's important that flags are read first since SUB and ADD change the value in registers on the same clock tick.
     clock->addListener(flagsRegister.get());
-    clock->addListener(mar.get());
+    clock->addListener(memoryAddressRegister.get());
     clock->addListener(stepCounter.get());
     clock->addListener(instructionRegister.get());
-    clock->addListener(pc.get());
+    clock->addListener(programCounter.get());
     clock->addListener(aRegister.get());
     clock->addListener(bRegister.get());
-    clock->addListener(out.get());
-    clock->addListener(ram.get());
+    clock->addListener(outputRegister.get());
+    clock->addListener(randomAccessMemory.get());
 }
 
 Emulator::~Emulator() {
@@ -90,8 +93,8 @@ bool Emulator::programMemory(const std::string &fileName) {
     }
 
     for (auto instruction : instructions) {
-        mar->program(instruction.address);
-        ram->program(instruction.opcode, instruction.operand);
+        memoryAddressRegister->program(instruction.address);
+        randomAccessMemory->program(instruction.opcode, instruction.operand);
     }
 
     return true;
@@ -103,12 +106,12 @@ void Emulator::printValues() {
     bus->print();
     aRegister->print();
     bRegister->print();
-    alu->print();
-    mar->print();
-    ram->print();
-    pc->print();
+    arithmeticLogicUnit->print();
+    memoryAddressRegister->print();
+    randomAccessMemory->print();
+    programCounter->print();
     instructionRegister->print();
-    out->print();
+    outputRegister->print();
     stepCounter->print();
     flagsRegister->print();
 }
@@ -119,12 +122,12 @@ void Emulator::reset() {
     bus->reset();
     aRegister->reset();
     bRegister->reset();
-    alu->reset();
-    mar->reset();
-    ram->reset();
-    pc->reset();
+    arithmeticLogicUnit->reset();
+    memoryAddressRegister->reset();
+    randomAccessMemory->reset();
+    programCounter->reset();
     instructionRegister->reset();
-    out->reset();
+    outputRegister->reset();
     stepCounter->reset();
     flagsRegister->reset();
 }
