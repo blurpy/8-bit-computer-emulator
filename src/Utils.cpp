@@ -7,3 +7,7 @@
 bool Utils::debug() {
     return DEBUG;
 }
+
+std::bitset<4> Utils::to4bits(uint8_t value) {
+    return std::bitset<4>(value);
+}

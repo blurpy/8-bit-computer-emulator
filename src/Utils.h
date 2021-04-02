@@ -1,6 +1,8 @@
 #ifndef INC_8_BIT_COMPUTER_UTILS_H
 #define INC_8_BIT_COMPUTER_UTILS_H
 
+#include <bitset>
+
 // Pattern for printf to display a byte in binary
 #define BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
@@ -19,6 +21,7 @@ public:
     static const bool DEBUG = false;
 
     static bool debug();
+    static std::bitset<4> to4bits(uint8_t value);
 };
 
 #endif //INC_8_BIT_COMPUTER_UTILS_H
