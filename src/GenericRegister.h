@@ -1,5 +1,5 @@
-#ifndef INC_8_BIT_COMPUTER_REGISTER_H
-#define INC_8_BIT_COMPUTER_REGISTER_H
+#ifndef INC_8_BIT_COMPUTER_GENERICREGISTER_H
+#define INC_8_BIT_COMPUTER_GENERICREGISTER_H
 
 #include <memory>
 #include <string>
@@ -34,4 +34,4 @@ private:
     void clockTicked() override;
 };
 
-#endif //INC_8_BIT_COMPUTER_REGISTER_H
+#endif //INC_8_BIT_COMPUTER_GENERICREGISTER_H
