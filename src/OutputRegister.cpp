@@ -6,7 +6,7 @@
 #include "OutputRegister.h"
 
 OutputRegister::OutputRegister(std::shared_ptr<Bus> bus) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "OutputRegister in" << std::endl;
     }
 
@@ -16,7 +16,7 @@ OutputRegister::OutputRegister(std::shared_ptr<Bus> bus) {
 }
 
 OutputRegister::~OutputRegister() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "OutputRegister out" << std::endl;
     }
 }
@@ -24,7 +24,7 @@ OutputRegister::~OutputRegister() {
 void OutputRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "OutputRegister: read from bus. Changing value from " << (int) value << " to " << (int) busValue
                   << std::endl;
     }
@@ -43,7 +43,7 @@ void OutputRegister::reset() {
 }
 
 void OutputRegister::in() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "OutputRegister: in - will read from bus on clock tick" << std::endl;
     }
 
@@ -51,7 +51,7 @@ void OutputRegister::in() {
 }
 
 void OutputRegister::clockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "OutputRegister: clock ticked" << std::endl;
     }
 

@@ -6,7 +6,7 @@
 #include "FlagsRegister.h"
 
 FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "FlagsRegister in" << std::endl;
     }
 
@@ -17,7 +17,7 @@ FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
 }
 
 FlagsRegister::~FlagsRegister() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "FlagsRegister out" << std::endl;
     }
 }
@@ -32,7 +32,7 @@ void FlagsRegister::reset() {
 }
 
 void FlagsRegister::in() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "FlagsRegister: in - will read from ALU on clock tick" << std::endl;
     }
 
@@ -43,7 +43,7 @@ void FlagsRegister::readFromAlu() {
     bool aluCarry = alu->isCarry();
     bool aluZero = alu->isZero();
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "FlagsRegister: read from ALU. Changing values from CF=" << carryFlag << ", ZF=" << zeroFlag
                   << " to CF=" << aluCarry << ", ZF=" << aluZero << std::endl;
     }
@@ -53,7 +53,7 @@ void FlagsRegister::readFromAlu() {
 }
 
 void FlagsRegister::clockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "FlagsRegister: clock ticked" << std::endl;
     }
     

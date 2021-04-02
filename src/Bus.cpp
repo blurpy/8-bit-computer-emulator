@@ -5,7 +5,7 @@
 #include "Bus.h"
 
 Bus::Bus() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Bus in" << std::endl;
     }
 
@@ -13,7 +13,7 @@ Bus::Bus() {
 }
 
 Bus::~Bus() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Bus out" << std::endl;
     }
 }
@@ -23,7 +23,7 @@ uint8_t Bus::read() const {
 }
 
 void Bus::write(uint8_t newValue) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Bus: changing value from " << (int) this->value << " to " << (int) newValue << std::endl;
     }
 

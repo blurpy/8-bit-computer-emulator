@@ -7,7 +7,7 @@
 #include "Clock.h"
 
 Clock::Clock() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Clock in" << std::endl;
     }
 
@@ -20,7 +20,7 @@ Clock::Clock() {
 }
 
 Clock::~Clock() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Clock out" << std::endl;
     }
 

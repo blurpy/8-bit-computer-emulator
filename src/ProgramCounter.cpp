@@ -6,7 +6,7 @@
 #include "ProgramCounter.h"
 
 ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter in" << std::endl;
     }
 
@@ -17,7 +17,7 @@ ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
 }
 
 ProgramCounter::~ProgramCounter() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter out" << std::endl;
     }
 }
@@ -25,7 +25,7 @@ ProgramCounter::~ProgramCounter() {
 void ProgramCounter::increment() {
     value = ++value % 16;
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter: incremented to " << (int) value << std::endl;
     }
 }
@@ -33,7 +33,7 @@ void ProgramCounter::increment() {
 void ProgramCounter::readFromBus() {
     uint8_t busValue = bus->read();
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter: changing value from " << (int) value << " to " << (int) busValue << std::endl;
     }
 
@@ -42,7 +42,7 @@ void ProgramCounter::readFromBus() {
 }
 
 void ProgramCounter::writeToBus() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter: writing to bus " << (int) value << std::endl;
     }
 
@@ -58,7 +58,7 @@ void ProgramCounter::reset() {
 }
 
 void ProgramCounter::out() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter: out" << std::endl;
     }
 
@@ -66,7 +66,7 @@ void ProgramCounter::out() {
 }
 
 void ProgramCounter::enable() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter: enable - will increment on clock tick" << std::endl;
     }
 
@@ -74,7 +74,7 @@ void ProgramCounter::enable() {
 }
 
 void ProgramCounter::jump() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter: jump - will read from bus on clock tick" << std::endl;
     }
 
@@ -82,7 +82,7 @@ void ProgramCounter::jump() {
 }
 
 void ProgramCounter::clockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ProgramCounter: clock ticked" << std::endl;
     }
 

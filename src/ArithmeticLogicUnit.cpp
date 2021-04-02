@@ -6,7 +6,7 @@
 #include "ArithmeticLogicUnit.h"
 
 ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister, std::shared_ptr<Bus> bus) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit in" << std::endl;
     }
 
@@ -19,7 +19,7 @@ ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<Register> aRegister, st
 }
 
 ArithmeticLogicUnit::~ArithmeticLogicUnit() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit out" << std::endl;
     }
 }
@@ -38,7 +38,7 @@ void ArithmeticLogicUnit::reset() {
 }
 
 void ArithmeticLogicUnit::out() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit: out" << std::endl;
     }
 
@@ -57,7 +57,7 @@ void ArithmeticLogicUnit::add() {
     bool newCarry = result > 255;
     bool newZero = newValue == 0; // Both can be active at once if result is 256 (0b100000000) / new value is 0
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit: add. changing value from " << (int) value << " to " << (int) result
                   << " (" << (int) newValue << ")" << std::endl;
         std::cout << "ArithmeticLogicUnit: add. changing bits from C=" << carry << ", Z=" << zero
@@ -108,7 +108,7 @@ void ArithmeticLogicUnit::subtract() {
     bool newCarry = result > 255;
     bool newZero = newValue == 0; // Both can be active at once if result is 256 (0b100000000) / new value is 0
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit: subtract. changing value from " << (int) value << " to " << (int) result
                   << " (" << (int) newValue << ")" << std::endl;
         std::cout << "ArithmeticLogicUnit: subtract. changing bits from C=" << carry << ", Z=" << zero

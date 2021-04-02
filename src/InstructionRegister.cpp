@@ -5,7 +5,7 @@
 #include "InstructionRegister.h"
 
 InstructionRegister::InstructionRegister(std::shared_ptr<Bus> bus) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "InstructionRegister in" << std::endl;
     }
 
@@ -15,7 +15,7 @@ InstructionRegister::InstructionRegister(std::shared_ptr<Bus> bus) {
 }
 
 InstructionRegister::~InstructionRegister() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "InstructionRegister out" << std::endl;
     }
 }
@@ -23,7 +23,7 @@ InstructionRegister::~InstructionRegister() {
 void InstructionRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "InstructionRegister: read from bus. Changing value from " << (int) value << " to "
                   << (int) busValue << std::endl;
     }
@@ -45,7 +45,7 @@ void InstructionRegister::reset() {
 }
 
 void InstructionRegister::in() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "InstructionRegister: in - will read from bus on clock tick" << std::endl;
     }
 
@@ -53,7 +53,7 @@ void InstructionRegister::in() {
 }
 
 void InstructionRegister::out() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "InstructionRegister: out" << std::endl;
     }
 
@@ -61,7 +61,7 @@ void InstructionRegister::out() {
 }
 
 void InstructionRegister::clockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "InstructionRegister: clock ticked" << std::endl;
     }
 

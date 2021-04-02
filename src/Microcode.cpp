@@ -11,7 +11,7 @@ Microcode::Microcode(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr
                      std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister,
                      std::shared_ptr<ArithmeticLogicUnit> alu, std::shared_ptr<OutputRegister> out,
                      std::shared_ptr<FlagsRegister> flagsRegister, std::shared_ptr<Clock> clock) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Microcode in" << std::endl;
     }
 
@@ -28,13 +28,13 @@ Microcode::Microcode(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr
 }
 
 Microcode::~Microcode() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Microcode out" << std::endl;
     }
 }
 
 void Microcode::stepReady(uint8_t step) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Microcode step received: " << (int) step << std::endl;
     }
 

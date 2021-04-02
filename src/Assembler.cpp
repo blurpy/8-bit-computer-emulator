@@ -9,7 +9,7 @@
 #include "Assembler.h"
 
 Assembler::Assembler() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Assembler in" << std::endl;
     }
 
@@ -17,7 +17,7 @@ Assembler::Assembler() {
 }
 
 Assembler::~Assembler() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Assembler out" << std::endl;
     }
 }

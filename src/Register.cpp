@@ -11,13 +11,13 @@ Register::Register(const std::string& name, std::shared_ptr<Bus> bus) {
     this->value = 0;
     this->readOnClock = false;
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << this->name << " register in" << std::endl;
     }
 }
 
 Register::~Register() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << this->name << " register out" << std::endl;
     }
 }
@@ -25,7 +25,7 @@ Register::~Register() {
 void Register::readFromBus() {
     uint8_t busValue = bus->read();
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << this->name << " register: changing value from " << (int) this->value << " to " << (int) busValue << std::endl;
     }
 
@@ -53,7 +53,7 @@ void Register::reset() {
 }
 
 void Register::in() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << this->name << " register: in - will read from bus on clock tick" << std::endl;
     }
 
@@ -61,7 +61,7 @@ void Register::in() {
 }
 
 void Register::out() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << this->name << " register: out" << std::endl;
     }
 
@@ -69,7 +69,7 @@ void Register::out() {
 }
 
 void Register::clockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << this->name << " register: clock ticked" << std::endl;
     }
 

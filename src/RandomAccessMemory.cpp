@@ -6,7 +6,7 @@
 #include "RandomAccessMemory.h"
 
 RandomAccessMemory::RandomAccessMemory(std::shared_ptr<Bus> bus) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory in" << std::endl;
     }
 
@@ -16,7 +16,7 @@ RandomAccessMemory::RandomAccessMemory(std::shared_ptr<Bus> bus) {
 }
 
 RandomAccessMemory::~RandomAccessMemory() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory out" << std::endl;
     }
 }
@@ -25,7 +25,7 @@ void RandomAccessMemory::readFromBus() {
     uint8_t busValue = bus->read();
     uint8_t currentValue = memory[address];
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: changing value from " << (int) currentValue << " to " << (int) busValue
                   << " at address " << (int) address << std::endl;
     }
@@ -34,7 +34,7 @@ void RandomAccessMemory::readFromBus() {
 }
 
 void RandomAccessMemory::writeToBus() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: writing to bus " << (int) memory[address] << std::endl;
     }
 
@@ -55,7 +55,7 @@ void RandomAccessMemory::reset() {
 }
 
 void RandomAccessMemory::program(std::bitset<4> opcode, std::bitset<4> operand) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: programming at address " << (int) address << " with opcode " << opcode
                   << " and operand " << operand << std::endl;
     }
@@ -65,7 +65,7 @@ void RandomAccessMemory::program(std::bitset<4> opcode, std::bitset<4> operand) 
 }
 
 void RandomAccessMemory::in() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: in - will read from bus on clock tick" << std::endl;
     }
 
@@ -73,7 +73,7 @@ void RandomAccessMemory::in() {
 }
 
 void RandomAccessMemory::out() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: out" << std::endl;
     }
 
@@ -81,7 +81,7 @@ void RandomAccessMemory::out() {
 }
 
 void RandomAccessMemory::clockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: clock ticked" << std::endl;
     }
 
@@ -92,7 +92,7 @@ void RandomAccessMemory::clockTicked() {
 }
 
 void RandomAccessMemory::registerValueChanged(uint8_t newValue) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: registerValueChanged. "
                   << "changing address from " << (int) address << " to " << (int) newValue << std::endl;
     }

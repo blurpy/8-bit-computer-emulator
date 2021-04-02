@@ -7,7 +7,7 @@
 #include "MemoryAddressRegister.h"
 
 MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> registerListener, std::shared_ptr<Bus> bus) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister in" << std::endl;
     }
 
@@ -18,7 +18,7 @@ MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> r
 }
 
 MemoryAddressRegister::~MemoryAddressRegister() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister out" << std::endl;
     }
 }
@@ -26,7 +26,7 @@ MemoryAddressRegister::~MemoryAddressRegister() {
 void MemoryAddressRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: read from bus. Changing value from " << (int) value << " to "
                   << (int) busValue << std::endl;
     }
@@ -45,7 +45,7 @@ void MemoryAddressRegister::reset() {
 }
 
 void MemoryAddressRegister::program(std::bitset<4> address) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
     }
 
@@ -54,7 +54,7 @@ void MemoryAddressRegister::program(std::bitset<4> address) {
 }
 
 void MemoryAddressRegister::in() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: in - will read from bus on clock tick" << std::endl;
     }
 
@@ -62,7 +62,7 @@ void MemoryAddressRegister::in() {
 }
 
 void MemoryAddressRegister::clockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: clock ticked" << std::endl;
     }
 

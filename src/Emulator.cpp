@@ -7,7 +7,7 @@
 #include "Emulator.h"
 
 Emulator::Emulator() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Emulator in" << std::endl;
     }
 
@@ -43,7 +43,7 @@ Emulator::Emulator() {
 }
 
 Emulator::~Emulator() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "Emulator out" << std::endl;
     }
 }

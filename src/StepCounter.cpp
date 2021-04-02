@@ -6,7 +6,7 @@
 #include "StepCounter.h"
 
 StepCounter::StepCounter(std::shared_ptr<StepListener> stepListener) {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "StepCounter in" << std::endl;
     }
 
@@ -16,7 +16,7 @@ StepCounter::StepCounter(std::shared_ptr<StepListener> stepListener) {
 }
 
 StepCounter::~StepCounter() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "StepCounter out" << std::endl;
     }
 }
@@ -37,13 +37,13 @@ void StepCounter::increment() {
         counter = ++counter % 5;
     }
 
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "StepCounter: incremented to " << (int) counter << std::endl;
     }
 }
 
 void StepCounter::invertedClockTicked() {
-    if (Utils::debug()) {
+    if (Utils::debugL2()) {
         std::cout << "StepCounter: inverted clock ticked" << std::endl;
     }
 
