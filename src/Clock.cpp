@@ -2,10 +2,15 @@
 #include <cmath>
 #include <iostream>
 
+#include "Utils.h"
+
 #include "Clock.h"
 
 Clock::Clock() {
-    std::cout << "Clock in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Clock in" << std::endl;
+    }
+
     this->counter = 0;
     this->frequency = 0;
     this->running = false;
@@ -15,7 +20,10 @@ Clock::Clock() {
 }
 
 Clock::~Clock() {
-    std::cout << "Clock out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Clock out" << std::endl;
+    }
+
     running = false;
     listeners.clear();
 }
@@ -60,7 +68,9 @@ void Clock::setFrequency(double hz) {
 }
 
 void Clock::mainLoop() {
-    std::cout << "Clock: starting main loop" << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Clock: starting main loop" << std::endl;
+    }
 
     while (running) {
         if (tick()) {
@@ -86,7 +96,9 @@ void Clock::mainLoop() {
         sleep(1);
     }
 
-    std::cout << "Clock: exiting main loop" << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Clock: exiting main loop" << std::endl;
+    }
 }
 
 bool Clock::tick() {

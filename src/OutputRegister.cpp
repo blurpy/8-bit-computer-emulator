@@ -6,14 +6,19 @@
 #include "OutputRegister.h"
 
 OutputRegister::OutputRegister(std::shared_ptr<Bus> bus) {
-    std::cout << "OutputRegister in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "OutputRegister in" << std::endl;
+    }
+
     this->bus = std::move(bus);
     this->value = 0;
     this->readOnClock = false;
 }
 
 OutputRegister::~OutputRegister() {
-    std::cout << "OutputRegister out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "OutputRegister out" << std::endl;
+    }
 }
 
 void OutputRegister::readFromBus() {

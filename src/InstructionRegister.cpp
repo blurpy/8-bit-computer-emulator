@@ -5,14 +5,19 @@
 #include "InstructionRegister.h"
 
 InstructionRegister::InstructionRegister(std::shared_ptr<Bus> bus) {
-    std::cout << "InstructionRegister in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "InstructionRegister in" << std::endl;
+    }
+
     this->bus = std::move(bus);
     this->value = 0;
     this->readOnClock = false;
 }
 
 InstructionRegister::~InstructionRegister() {
-    std::cout << "InstructionRegister out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "InstructionRegister out" << std::endl;
+    }
 }
 
 void InstructionRegister::readFromBus() {

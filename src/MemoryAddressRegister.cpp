@@ -7,7 +7,10 @@
 #include "MemoryAddressRegister.h"
 
 MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> registerListener, std::shared_ptr<Bus> bus) {
-    std::cout << "MemoryAddressRegister in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "MemoryAddressRegister in" << std::endl;
+    }
+
     this->registerListener = std::move(registerListener);
     this->bus = std::move(bus);
     this->value = 0;
@@ -15,7 +18,9 @@ MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> r
 }
 
 MemoryAddressRegister::~MemoryAddressRegister() {
-    std::cout << "MemoryAddressRegister out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "MemoryAddressRegister out" << std::endl;
+    }
 }
 
 void MemoryAddressRegister::readFromBus() {

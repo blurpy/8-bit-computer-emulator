@@ -4,15 +4,22 @@
 #include <sstream>
 #include <vector>
 
+#include "Utils.h"
+
 #include "Assembler.h"
 
 Assembler::Assembler() {
-    std::cout << "Assembler in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Assembler in" << std::endl;
+    }
+
     this->currentMemoryLocation = 0;
 }
 
 Assembler::~Assembler() {
-    std::cout << "Assembler out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Assembler out" << std::endl;
+    }
 }
 
 std::vector<Assembler::Instruction> Assembler::loadInstructions(const std::string &fileName) {
@@ -50,7 +57,9 @@ std::vector<Assembler::Instruction> Assembler::interpret(const std::vector<std::
     std::vector<Instruction> instructions;
 
     for (const auto &line : lines) {
-        std::cout << "Assembler: " << line << std::endl;
+        if (Utils::debugL1()) {
+            std::cout << "Assembler: " << line << std::endl;
+        }
 
         std::vector<std::string> tokens = tokenize(line);
         std::string opcode = tokens[0];
@@ -84,7 +93,10 @@ void Assembler::addData(std::vector<Instruction> &instructions, std::vector<std:
     Assembler::Instruction instruction = {std::bitset<4>(currentMemoryLocation), msb, lsb};
     instructions.push_back(instruction);
 
-    std::cout << "Assembler: " << instruction.address << " " << instruction.opcode << " " << instruction.operand << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Assembler: " << instruction.address << " " << instruction.opcode << " " << instruction.operand
+                  << std::endl;
+    }
 }
 
 void Assembler::addInstruction(std::vector<Instruction> &instructions, const std::string &opcode, std::vector<std::string> &tokens) {
@@ -94,7 +106,10 @@ void Assembler::addInstruction(std::vector<Instruction> &instructions, const std
     Assembler::Instruction instruction = {std::bitset<4>(currentMemoryLocation), opcodeBitset, operandBitset};
     instructions.push_back(instruction);
 
-    std::cout << "Assembler: " << instruction.address << " " << instruction.opcode << " " << instruction.operand << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Assembler: " << instruction.address << " " << instruction.opcode << " " << instruction.operand
+                  << std::endl;
+    }
 }
 
 std::bitset<4> Assembler::interpretOpcode(const std::string &opcode) {

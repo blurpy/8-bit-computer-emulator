@@ -6,7 +6,10 @@
 #include "ArithmeticLogicUnit.h"
 
 ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister, std::shared_ptr<Bus> bus) {
-    std::cout << "ArithmeticLogicUnit in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "ArithmeticLogicUnit in" << std::endl;
+    }
+
     this->aRegister = std::move(aRegister);
     this->bRegister = std::move(bRegister);
     this->bus = std::move(bus);
@@ -16,7 +19,9 @@ ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<Register> aRegister, st
 }
 
 ArithmeticLogicUnit::~ArithmeticLogicUnit() {
-    std::cout << "ArithmeticLogicUnit out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "ArithmeticLogicUnit out" << std::endl;
+    }
 }
 
 void ArithmeticLogicUnit::writeToBus() {

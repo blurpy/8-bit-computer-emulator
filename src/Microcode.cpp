@@ -11,7 +11,9 @@ Microcode::Microcode(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr
                      std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister,
                      std::shared_ptr<ArithmeticLogicUnit> alu, std::shared_ptr<OutputRegister> out,
                      std::shared_ptr<FlagsRegister> flagsRegister, std::shared_ptr<Clock> clock) {
-    std::cout << "Microcode in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Microcode in" << std::endl;
+    }
 
     this->mar = std::move(mar);
     this->pc = std::move(pc);
@@ -26,7 +28,9 @@ Microcode::Microcode(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr
 }
 
 Microcode::~Microcode() {
-    std::cout << "Microcode out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Microcode out" << std::endl;
+    }
 }
 
 void Microcode::stepReady(uint8_t step) {
@@ -57,14 +61,18 @@ void Microcode::stepReady(uint8_t step) {
 }
 
 void Microcode::handleStep0() const {
-    std::cout << "Microcode step 0 FETCH: CO|MI" << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Microcode step 0 FETCH: CO|MI" << std::endl;
+    }
 
     pc->out(); // CO
     mar->in(); // MI
 }
 
 void Microcode::handleStep1() const {
-    std::cout << "Microcode step 1 FETCH: RO|II|CE" << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Microcode step 1 FETCH: RO|II|CE" << std::endl;
+    }
 
     ram->out(); // RO
     instructionRegister->in(); // II
@@ -77,42 +85,58 @@ void Microcode::handleStep2() const {
 
     switch (opcode) {
         case 0x0001:
-            std::cout << "Microcode step 2 LDA (" << opcodeBits << "): MI|IO" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 LDA (" << opcodeBits << "): MI|IO" << std::endl;
+            }
             mar->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0010:
-            std::cout << "Microcode step 2 ADD (" << opcodeBits << "): MI|IO" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 ADD (" << opcodeBits << "): MI|IO" << std::endl;
+            }
             mar->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0011:
-            std::cout << "Microcode step 2 SUB (" << opcodeBits << "): MI|IO" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 SUB (" << opcodeBits << "): MI|IO" << std::endl;
+            }
             mar->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0100:
-            std::cout << "Microcode step 2 STA (" << opcodeBits << "): MI|IO" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 STA (" << opcodeBits << "): MI|IO" << std::endl;
+            }
             mar->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0101:
-            std::cout << "Microcode step 2 LDI (" << opcodeBits << "): IO|AI" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 LDI (" << opcodeBits << "): IO|AI" << std::endl;
+            }
             instructionRegister->out(); // IO
             aRegister->in(); // AI
             break;
         case 0b0110:
-            std::cout << "Microcode step 2 JMP (" << opcodeBits << "): IO|CJ" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 JMP (" << opcodeBits << "): IO|CJ" << std::endl;
+            }
             instructionRegister->out(); // IO
             pc->jump(); // CJ
             break;
         case 0b1110:
-            std::cout << "Microcode step 2 OUT (" << opcodeBits << "): AO|OI" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 OUT (" << opcodeBits << "): AO|OI" << std::endl;
+            }
             aRegister->out(); // AO
             out->in(); // OI
             break;
         case 0b1111:
-            std::cout << "Microcode step 2 HLT (" << opcodeBits << "): HLT" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 2 HLT (" << opcodeBits << "): HLT" << std::endl;
+            }
             clock->stop(); // HLT
             break;
         default:
@@ -127,35 +151,49 @@ void Microcode::handleStep3() const {
 
     switch (opcode) {
         case 0x0001:
-            std::cout << "Microcode step 3 LDA (" << opcodeBits << "): RO|AI" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 LDA (" << opcodeBits << "): RO|AI" << std::endl;
+            }
             ram->out(); // RO
             aRegister->in(); // AI
             break;
         case 0b0010:
-            std::cout << "Microcode step 3 ADD (" << opcodeBits << "): RO|BI" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 ADD (" << opcodeBits << "): RO|BI" << std::endl;
+            }
             ram->out(); // RO
             bRegister->in(); // BI
             break;
         case 0b0011:
-            std::cout << "Microcode step 3 SUB (" << opcodeBits << "): RO|BI" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 SUB (" << opcodeBits << "): RO|BI" << std::endl;
+            }
             ram->out(); // RO
             bRegister->in(); // BI
             break;
         case 0b0100:
-            std::cout << "Microcode step 3 STA (" << opcodeBits << "): RI|AO" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 STA (" << opcodeBits << "): RI|AO" << std::endl;
+            }
             ram->in(); // RI
             aRegister->out(); // AO
             break;
         case 0b0101:
-            std::cout << "Microcode step 3 LDI (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 LDI (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         case 0b0110:
-            std::cout << "Microcode step 3 JMP (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 JMP (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         case 0b1110:
-            std::cout << "Microcode step 3 OUT (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 OUT (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         default:
@@ -170,36 +208,50 @@ void Microcode::handleStep4() const {
 
     switch (opcode) {
         case 0x0001:
-            std::cout << "Microcode step 4 LDA (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 LDA (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         case 0b0010:
-            std::cout << "Microcode step 4 ADD (" << opcodeBits << "): AI|SO|FI" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 ADD (" << opcodeBits << "): AI|SO|FI" << std::endl;
+            }
             aRegister->in(); // AI
             alu->out(); // SO
             flagsRegister->in(); // FI
             break;
         case 0b0011:
-            std::cout << "Microcode step 4 SUB (" << opcodeBits << "): AI|S-|SO|FI" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 SUB (" << opcodeBits << "): AI|S-|SO|FI" << std::endl;
+            }
             aRegister->in(); // AI
             alu->subtract(); // S-
             alu->out(); // SO
             flagsRegister->in(); // FI
             break;
         case 0b0100:
-            std::cout << "Microcode step 4 STA (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 STA (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         case 0b0101:
-            std::cout << "Microcode step 4 LDI (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 LDI (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         case 0b0110:
-            std::cout << "Microcode step 4 JMP (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 JMP (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         case 0b1110:
-            std::cout << "Microcode step 4 OUT (" << opcodeBits << "): Done" << std::endl;
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 OUT (" << opcodeBits << "): Done" << std::endl;
+            }
             // Done
             break;
         default:

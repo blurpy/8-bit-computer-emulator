@@ -2,11 +2,14 @@
 #include <thread>
 
 #include "Assembler.h"
+#include "Utils.h"
 
 #include "Emulator.h"
 
 Emulator::Emulator() {
-    std::cout << "Emulator in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Emulator in" << std::endl;
+    }
 
     clock = std::make_shared<Clock>();
     bus = std::make_shared<Bus>();
@@ -40,19 +43,22 @@ Emulator::Emulator() {
 }
 
 Emulator::~Emulator() {
-    std::cout << "Emulator out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Emulator out" << std::endl;
+    }
 }
 
 void Emulator::run(const std::string &fileName) {
-    std::cout << "Emulator: run start" << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Emulator: run start" << std::endl;
+    }
 
     reset();
-    printValues();
-
     programMemory(fileName);
-    printValues();
 
-    std::cout << "Emulator: run clock" << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Emulator: run clock" << std::endl;
+    }
 
     clock->setFrequency(20);
     clock->start();
@@ -60,7 +66,9 @@ void Emulator::run(const std::string &fileName) {
 
     printValues();
 
-    std::cout << "Emulator: run stop" << std::endl;
+    if (Utils::debugL1()) {
+        std::cout << "Emulator: run stop" << std::endl;
+    }
 }
 
 void Emulator::programMemory(const std::string &fileName) {

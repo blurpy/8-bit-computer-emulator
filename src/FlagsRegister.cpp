@@ -6,7 +6,10 @@
 #include "FlagsRegister.h"
 
 FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
-    std::cout << "FlagsRegister in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "FlagsRegister in" << std::endl;
+    }
+
     this->alu = std::move(alu);
     this->readOnClock = false;
     this->carryFlag = false;
@@ -14,7 +17,9 @@ FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
 }
 
 FlagsRegister::~FlagsRegister() {
-    std::cout << "FlagsRegister out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "FlagsRegister out" << std::endl;
+    }
 }
 
 void FlagsRegister::print() const {

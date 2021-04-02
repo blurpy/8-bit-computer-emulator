@@ -6,7 +6,10 @@
 #include "ProgramCounter.h"
 
 ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
-    std::cout << "ProgramCounter in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "ProgramCounter in" << std::endl;
+    }
+
     this->bus = std::move(bus);
     this->value = 0;
     this->incrementOnClock = false;
@@ -14,7 +17,9 @@ ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
 }
 
 ProgramCounter::~ProgramCounter() {
-    std::cout << "ProgramCounter out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "ProgramCounter out" << std::endl;
+    }
 }
 
 void ProgramCounter::increment() {

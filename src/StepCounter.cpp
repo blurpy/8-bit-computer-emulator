@@ -6,14 +6,19 @@
 #include "StepCounter.h"
 
 StepCounter::StepCounter(std::shared_ptr<StepListener> stepListener) {
-    std::cout << "StepCounter in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "StepCounter in" << std::endl;
+    }
+
     this->stepListener = std::move(stepListener);
     this->counter = 0;
     this->init = true;
 }
 
 StepCounter::~StepCounter() {
-    std::cout << "StepCounter out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "StepCounter out" << std::endl;
+    }
 }
 
 void StepCounter::print() const {

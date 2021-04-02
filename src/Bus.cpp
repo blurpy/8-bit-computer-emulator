@@ -5,12 +5,17 @@
 #include "Bus.h"
 
 Bus::Bus() {
-    std::cout << "Bus in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Bus in" << std::endl;
+    }
+
     this->value = 0;
 }
 
 Bus::~Bus() {
-    std::cout << "Bus out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Bus out" << std::endl;
+    }
 }
 
 uint8_t Bus::read() const {

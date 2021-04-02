@@ -18,9 +18,10 @@
 class Utils {
 
 public:
-    static const bool DEBUG = false;
+    static const int DEBUG = 0;
 
     static bool debug();
+    static bool debugL1();
     static std::bitset<4> to4bits(uint8_t value);
 };
 

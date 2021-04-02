@@ -5,7 +5,11 @@
  * and unreachable code inside.
  */
 bool Utils::debug() {
-    return DEBUG;
+    return DEBUG >= 2;
+}
+
+bool Utils::debugL1() {
+    return DEBUG >= 1;
 }
 
 std::bitset<4> Utils::to4bits(uint8_t value) {

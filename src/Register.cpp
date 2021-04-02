@@ -11,11 +11,15 @@ Register::Register(const std::string& name, std::shared_ptr<Bus> bus) {
     this->value = 0;
     this->readOnClock = false;
 
-    std::cout << this->name << " register in" << std::endl;
+    if (Utils::debug()) {
+        std::cout << this->name << " register in" << std::endl;
+    }
 }
 
 Register::~Register() {
-    std::cout << this->name << " register out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << this->name << " register out" << std::endl;
+    }
 }
 
 void Register::readFromBus() {
