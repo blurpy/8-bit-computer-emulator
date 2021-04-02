@@ -58,7 +58,11 @@ void Emulator::run(const std::string &fileName) {
     }
 
     reset();
-    programMemory(fileName);
+
+    if (!programMemory(fileName)) {
+        std::cerr << "Emulator: no instructions loaded. Aborting" << std::endl;
+        return;
+    }
 
     if (Utils::debugL1()) {
         std::cout << "Emulator: run clock" << std::endl;
@@ -75,16 +79,22 @@ void Emulator::run(const std::string &fileName) {
     }
 }
 
-void Emulator::programMemory(const std::string &fileName) {
+bool Emulator::programMemory(const std::string &fileName) {
     std::cout << "Emulator: program memory" << std::endl;
 
     auto assembler = std::make_unique<Assembler>();
     const std::vector<Assembler::Instruction> instructions = assembler->loadInstructions(fileName);
 
+    if (instructions.empty()) {
+        return false;
+    }
+
     for (auto instruction : instructions) {
         mar->program(instruction.address);
         ram->program(instruction.opcode, instruction.operand);
     }
+
+    return true;
 }
 
 void Emulator::printValues() {
