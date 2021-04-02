@@ -18,7 +18,7 @@ ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
 
 ProgramCounter::~ProgramCounter() {
     if (Utils::debugL2()) {
-        std::cout << "ProgramCounter out" << std::endl;
+        std::cout << "ProgramCounter destruct" << std::endl;
     }
 }
 

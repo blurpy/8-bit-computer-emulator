@@ -22,7 +22,7 @@ ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<GenericRegister> aRegis
 
 ArithmeticLogicUnit::~ArithmeticLogicUnit() {
     if (Utils::debugL2()) {
-        std::cout << "ArithmeticLogicUnit out" << std::endl;
+        std::cout << "ArithmeticLogicUnit destruct" << std::endl;
     }
 }
 

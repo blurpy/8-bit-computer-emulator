@@ -19,7 +19,7 @@ MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> r
 
 MemoryAddressRegister::~MemoryAddressRegister() {
     if (Utils::debugL2()) {
-        std::cout << "MemoryAddressRegister out" << std::endl;
+        std::cout << "MemoryAddressRegister destruct" << std::endl;
     }
 }
 

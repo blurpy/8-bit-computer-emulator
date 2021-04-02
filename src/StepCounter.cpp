@@ -17,7 +17,7 @@ StepCounter::StepCounter(std::shared_ptr<StepListener> stepListener) {
 
 StepCounter::~StepCounter() {
     if (Utils::debugL2()) {
-        std::cout << "StepCounter out" << std::endl;
+        std::cout << "StepCounter destruct" << std::endl;
     }
 }
 

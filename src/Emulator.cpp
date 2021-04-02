@@ -47,7 +47,7 @@ Emulator::Emulator() {
 
 Emulator::~Emulator() {
     if (Utils::debugL2()) {
-        std::cout << "Emulator out" << std::endl;
+        std::cout << "Emulator destruct" << std::endl;
     }
 
     // Fix memory not being freed automatically, probably due to cyclic reference

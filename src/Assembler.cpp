@@ -18,7 +18,7 @@ Assembler::Assembler() {
 
 Assembler::~Assembler() {
     if (Utils::debugL2()) {
-        std::cout << "Assembler out" << std::endl;
+        std::cout << "Assembler destruct" << std::endl;
     }
 }
 

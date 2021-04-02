@@ -34,7 +34,7 @@ InstructionDecoder::InstructionDecoder(std::shared_ptr<MemoryAddressRegister> me
 
 InstructionDecoder::~InstructionDecoder() {
     if (Utils::debugL2()) {
-        std::cout << "InstructionDecoder out" << std::endl;
+        std::cout << "InstructionDecoder destruct" << std::endl;
     }
 }
 

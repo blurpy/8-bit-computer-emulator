@@ -17,7 +17,7 @@ OutputRegister::OutputRegister(std::shared_ptr<Bus> bus) {
 
 OutputRegister::~OutputRegister() {
     if (Utils::debugL2()) {
-        std::cout << "OutputRegister out" << std::endl;
+        std::cout << "OutputRegister destruct" << std::endl;
     }
 }
 

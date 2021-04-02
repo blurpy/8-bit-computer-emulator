@@ -18,7 +18,7 @@ FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
 
 FlagsRegister::~FlagsRegister() {
     if (Utils::debugL2()) {
-        std::cout << "FlagsRegister out" << std::endl;
+        std::cout << "FlagsRegister destruct" << std::endl;
     }
 }
 

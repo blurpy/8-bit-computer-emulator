@@ -16,7 +16,7 @@ InstructionRegister::InstructionRegister(std::shared_ptr<Bus> bus) {
 
 InstructionRegister::~InstructionRegister() {
     if (Utils::debugL2()) {
-        std::cout << "InstructionRegister out" << std::endl;
+        std::cout << "InstructionRegister destruct" << std::endl;
     }
 }
 

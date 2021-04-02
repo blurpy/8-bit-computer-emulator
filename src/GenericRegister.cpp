@@ -18,7 +18,7 @@ GenericRegister::GenericRegister(const std::string& name, std::shared_ptr<Bus> b
 
 GenericRegister::~GenericRegister() {
     if (Utils::debugL2()) {
-        std::cout << this->name << " register out" << std::endl;
+        std::cout << this->name << " register destruct" << std::endl;
     }
 }
 

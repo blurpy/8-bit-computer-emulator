@@ -21,7 +21,7 @@ Clock::Clock() {
 
 Clock::~Clock() {
     if (Utils::debugL2()) {
-        std::cout << "Clock out" << std::endl;
+        std::cout << "Clock destruct" << std::endl;
     }
 
     running = false;

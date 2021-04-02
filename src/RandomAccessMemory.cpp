@@ -17,7 +17,7 @@ RandomAccessMemory::RandomAccessMemory(std::shared_ptr<Bus> bus) {
 
 RandomAccessMemory::~RandomAccessMemory() {
     if (Utils::debugL2()) {
-        std::cout << "RandomAccessMemory out" << std::endl;
+        std::cout << "RandomAccessMemory destruct" << std::endl;
     }
 }
 

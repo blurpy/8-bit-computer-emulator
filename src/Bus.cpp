@@ -14,7 +14,7 @@ Bus::Bus() {
 
 Bus::~Bus() {
     if (Utils::debugL2()) {
-        std::cout << "Bus out" << std::endl;
+        std::cout << "Bus destruct" << std::endl;
     }
 }
 
