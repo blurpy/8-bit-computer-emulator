@@ -113,7 +113,9 @@ void Assembler::addInstruction(std::vector<Instruction> &instructions, const std
 }
 
 std::bitset<4> Assembler::interpretOpcode(const std::string &opcode) {
-    if (opcode == "LDA") {
+    if (opcode == "NOP") {
+        return std::bitset<4>("0000");
+    } else if (opcode == "LDA") {
         return std::bitset<4>("0001");
     } else if (opcode == "ADD") {
         return std::bitset<4>("0010");
@@ -131,11 +133,15 @@ std::bitset<4> Assembler::interpretOpcode(const std::string &opcode) {
         return std::bitset<4>("1111");
     }
 
+    std::cerr << "Assembler: interpret opcode - unknown opcode " << opcode << std::endl;
     assert(false);
 }
 
 std::bitset<4> Assembler::interpretOperand(const std::string &opcode, std::vector<std::string> &tokens) {
-    if (opcode == "LDA") {
+    if (opcode == "NOP") {
+        assert(tokens.size() == 1);
+        return std::bitset<4>("0000");
+    } else if (opcode == "LDA") {
         assert(tokens.size() == 2);
         return std::bitset<4>(std::stoi(tokens[1]));
     } else if (opcode == "ADD") {
@@ -161,6 +167,7 @@ std::bitset<4> Assembler::interpretOperand(const std::string &opcode, std::vecto
         return std::bitset<4>("0000");
     }
 
+    std::cerr << "Assembler: interpret operand - unknown opcode " << opcode << std::endl;
     assert(false);
 }
 
