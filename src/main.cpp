@@ -4,10 +4,10 @@
 #include "Emulator.h"
 
 int main(int argc, char **argv) {
-    std::cout << "Hello!" << std::endl;
+    std::cout << "Starting the 8-bit-computer emulator" << std::endl;
 
     if (argc != 2) {
-        std::cerr << "Usage: emulator <program.asm>" << std::endl;
+        std::cerr << "Usage: 8bit <program.asm>" << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     const auto emulator = std::make_unique<Emulator>();
     emulator->run(fileName);
 
-    std::cout << "Good bye!" << std::endl;
+    std::cout << "Finished" << std::endl;
 
     return EXIT_SUCCESS;
 }
