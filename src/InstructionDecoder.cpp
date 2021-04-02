@@ -6,23 +6,28 @@
 
 #include "InstructionDecoder.h"
 
-InstructionDecoder::InstructionDecoder(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr<ProgramCounter> pc,
-                                       std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<InstructionRegister> instructionRegister,
-                                       std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister,
-                                       std::shared_ptr<ArithmeticLogicUnit> alu, std::shared_ptr<OutputRegister> out,
-                                       std::shared_ptr<FlagsRegister> flagsRegister, std::shared_ptr<Clock> clock) {
+InstructionDecoder::InstructionDecoder(std::shared_ptr<MemoryAddressRegister> memoryAddressRegister,
+                                       std::shared_ptr<ProgramCounter> programCounter,
+                                       std::shared_ptr<RandomAccessMemory> randomAccessMemory,
+                                       std::shared_ptr<InstructionRegister> instructionRegister,
+                                       std::shared_ptr<Register> aRegister,
+                                       std::shared_ptr<Register> bRegister,
+                                       std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit,
+                                       std::shared_ptr<OutputRegister> outputRegister,
+                                       std::shared_ptr<FlagsRegister> flagsRegister,
+                                       std::shared_ptr<Clock> clock) {
     if (Utils::debugL2()) {
         std::cout << "InstructionDecoder in" << std::endl;
     }
 
-    this->mar = std::move(mar);
-    this->pc = std::move(pc);
-    this->ram = std::move(ram);
+    this->memoryAddressRegister = std::move(memoryAddressRegister);
+    this->programCounter = std::move(programCounter);
+    this->randomAccessMemory = std::move(randomAccessMemory);
     this->instructionRegister = std::move(instructionRegister);
     this->aRegister = std::move(aRegister);
     this->bRegister = std::move(bRegister);
-    this->alu = std::move(alu);
-    this->out = std::move(out);
+    this->arithmeticLogicUnit = std::move(arithmeticLogicUnit);
+    this->outputRegister = std::move(outputRegister);
     this->flagsRegister = std::move(flagsRegister);
     this->clock = std::move(clock);
 }
@@ -65,8 +70,8 @@ void InstructionDecoder::handleStep0() const {
         std::cout << "InstructionDecoder step 0 FETCH: CO|MI" << std::endl;
     }
 
-    pc->out(); // CO
-    mar->in(); // MI
+    programCounter->out(); // CO
+    memoryAddressRegister->in(); // MI
 }
 
 void InstructionDecoder::handleStep1() const {
@@ -74,9 +79,9 @@ void InstructionDecoder::handleStep1() const {
         std::cout << "InstructionDecoder step 1 FETCH: RO|II|CE" << std::endl;
     }
 
-    ram->out(); // RO
+    randomAccessMemory->out(); // RO
     instructionRegister->in(); // II
-    pc->enable(); // CE
+    programCounter->enable(); // CE
 }
 
 void InstructionDecoder::handleStep2() const {
@@ -94,28 +99,28 @@ void InstructionDecoder::handleStep2() const {
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 LDA (" << opcodeBits << "): MI|IO" << std::endl;
             }
-            mar->in(); // MI
+            memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0010:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 ADD (" << opcodeBits << "): MI|IO" << std::endl;
             }
-            mar->in(); // MI
+            memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0011:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 SUB (" << opcodeBits << "): MI|IO" << std::endl;
             }
-            mar->in(); // MI
+            memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0100:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 STA (" << opcodeBits << "): MI|IO" << std::endl;
             }
-            mar->in(); // MI
+            memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
         case 0b0101:
@@ -130,7 +135,7 @@ void InstructionDecoder::handleStep2() const {
                 std::cout << "InstructionDecoder step 2 JMP (" << opcodeBits << "): IO|CJ" << std::endl;
             }
             instructionRegister->out(); // IO
-            pc->jump(); // CJ
+            programCounter->jump(); // CJ
             break;
         case 0b0111:
             if (flagsRegister->isCarryFlag()) {
@@ -138,7 +143,7 @@ void InstructionDecoder::handleStep2() const {
                     std::cout << "InstructionDecoder step 2 JC (" << opcodeBits << "): IO|CJ" << std::endl;
                 }
                 instructionRegister->out(); // IO
-                pc->jump(); // CJ
+                programCounter->jump(); // CJ
             } else {
                 if (Utils::debugL1()) {
                     std::cout << "InstructionDecoder step 2 JC (" << opcodeBits << "): Done" << std::endl;
@@ -152,7 +157,7 @@ void InstructionDecoder::handleStep2() const {
                     std::cout << "InstructionDecoder step 2 JZ (" << opcodeBits << "): IO|CJ" << std::endl;
                 }
                 instructionRegister->out(); // IO
-                pc->jump(); // CJ
+                programCounter->jump(); // CJ
             } else {
                 if (Utils::debugL1()) {
                     std::cout << "InstructionDecoder step 2 JZ (" << opcodeBits << "): Done" << std::endl;
@@ -165,7 +170,7 @@ void InstructionDecoder::handleStep2() const {
                 std::cout << "InstructionDecoder step 2 OUT (" << opcodeBits << "): AO|OI" << std::endl;
             }
             aRegister->out(); // AO
-            out->in(); // OI
+            outputRegister->in(); // OI
             break;
         case 0b1111:
             if (Utils::debugL1()) {
@@ -194,28 +199,28 @@ void InstructionDecoder::handleStep3() const {
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 LDA (" << opcodeBits << "): RO|AI" << std::endl;
             }
-            ram->out(); // RO
+            randomAccessMemory->out(); // RO
             aRegister->in(); // AI
             break;
         case 0b0010:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 ADD (" << opcodeBits << "): RO|BI" << std::endl;
             }
-            ram->out(); // RO
+            randomAccessMemory->out(); // RO
             bRegister->in(); // BI
             break;
         case 0b0011:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 SUB (" << opcodeBits << "): RO|BI" << std::endl;
             }
-            ram->out(); // RO
+            randomAccessMemory->out(); // RO
             bRegister->in(); // BI
             break;
         case 0b0100:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 STA (" << opcodeBits << "): RI|AO" << std::endl;
             }
-            ram->in(); // RI
+            randomAccessMemory->in(); // RI
             aRegister->out(); // AO
             break;
         case 0b0101:
@@ -276,7 +281,7 @@ void InstructionDecoder::handleStep4() const {
                 std::cout << "InstructionDecoder step 4 ADD (" << opcodeBits << "): AI|SO|FI" << std::endl;
             }
             aRegister->in(); // AI
-            alu->out(); // SO
+            arithmeticLogicUnit->out(); // SO
             flagsRegister->in(); // FI
             break;
         case 0b0011:
@@ -284,8 +289,8 @@ void InstructionDecoder::handleStep4() const {
                 std::cout << "InstructionDecoder step 4 SUB (" << opcodeBits << "): AI|S-|SO|FI" << std::endl;
             }
             aRegister->in(); // AI
-            alu->subtract(); // S-
-            alu->out(); // SO
+            arithmeticLogicUnit->subtract(); // S-
+            arithmeticLogicUnit->out(); // SO
             flagsRegister->in(); // FI
             break;
         case 0b0100:
