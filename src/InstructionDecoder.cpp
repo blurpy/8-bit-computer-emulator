@@ -89,13 +89,13 @@ void InstructionDecoder::handleStep2() const {
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
     switch (opcode) {
-        case 0x0000:
+        case 0b0000:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 NOP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0x0001:
+        case 0b0001:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 LDA (" << opcodeBits << "): MI|IO" << std::endl;
             }
@@ -189,13 +189,13 @@ void InstructionDecoder::handleStep3() const {
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
     switch (opcode) {
-        case 0x0000:
+        case 0b0000:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 NOP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0x0001:
+        case 0b0001:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 LDA (" << opcodeBits << "): RO|AI" << std::endl;
             }
@@ -264,13 +264,13 @@ void InstructionDecoder::handleStep4() const {
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
     switch (opcode) {
-        case 0x0000:
+        case 0b0000:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 NOP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0x0001:
+        case 0b0001:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 LDA (" << opcodeBits << "): Done" << std::endl;
             }
