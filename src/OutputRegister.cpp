@@ -25,6 +25,8 @@ void OutputRegister::readFromBus() {
     }
 
     value = busValue;
+
+    std::cout << "*** Display: " << (int) value << std::endl;
 }
 
 void OutputRegister::print() const {
