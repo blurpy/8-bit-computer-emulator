@@ -7,13 +7,13 @@
 #include "Bus.h"
 #include "Clock.h"
 #include "FlagsRegister.h"
+#include "GenericRegister.h"
 #include "InstructionDecoder.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
 #include "OutputRegister.h"
 #include "ProgramCounter.h"
 #include "RandomAccessMemory.h"
-#include "Register.h"
 #include "StepCounter.h"
 
 class Emulator {
@@ -27,8 +27,8 @@ public:
 private:
     std::shared_ptr<Clock> clock;
     std::shared_ptr<Bus> bus;
-    std::shared_ptr<Register> aRegister;
-    std::shared_ptr<Register> bRegister;
+    std::shared_ptr<GenericRegister> aRegister;
+    std::shared_ptr<GenericRegister> bRegister;
     std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
     std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
     std::shared_ptr<ProgramCounter> programCounter;

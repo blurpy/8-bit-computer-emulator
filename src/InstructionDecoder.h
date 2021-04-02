@@ -4,12 +4,12 @@
 #include "ArithmeticLogicUnit.h"
 #include "Clock.h"
 #include "FlagsRegister.h"
+#include "GenericRegister.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
 #include "OutputRegister.h"
 #include "ProgramCounter.h"
 #include "RandomAccessMemory.h"
-#include "Register.h"
 #include "StepListener.h"
 
 class InstructionDecoder: public StepListener {
@@ -19,8 +19,8 @@ public:
                        std::shared_ptr<ProgramCounter> programCounter,
                        std::shared_ptr<RandomAccessMemory> randomAccessMemory,
                        std::shared_ptr<InstructionRegister> instructionRegister,
-                       std::shared_ptr<Register> aRegister,
-                       std::shared_ptr<Register> bRegister,
+                       std::shared_ptr<GenericRegister> aRegister,
+                       std::shared_ptr<GenericRegister> bRegister,
                        std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit,
                        std::shared_ptr<OutputRegister> outputRegister,
                        std::shared_ptr<FlagsRegister> flagsRegister,
@@ -32,8 +32,8 @@ private:
     std::shared_ptr<ProgramCounter> programCounter;
     std::shared_ptr<RandomAccessMemory> randomAccessMemory;
     std::shared_ptr<InstructionRegister> instructionRegister;
-    std::shared_ptr<Register> aRegister;
-    std::shared_ptr<Register> bRegister;
+    std::shared_ptr<GenericRegister> aRegister;
+    std::shared_ptr<GenericRegister> bRegister;
     std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
     std::shared_ptr<OutputRegister> outputRegister;
     std::shared_ptr<FlagsRegister> flagsRegister;

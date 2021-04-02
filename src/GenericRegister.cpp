@@ -3,9 +3,9 @@
 
 #include "Utils.h"
 
-#include "Register.h"
+#include "GenericRegister.h"
 
-Register::Register(const std::string& name, std::shared_ptr<Bus> bus) {
+GenericRegister::GenericRegister(const std::string& name, std::shared_ptr<Bus> bus) {
     this->name = name;
     this->bus = std::move(bus);
     this->value = 0;
@@ -16,13 +16,13 @@ Register::Register(const std::string& name, std::shared_ptr<Bus> bus) {
     }
 }
 
-Register::~Register() {
+GenericRegister::~GenericRegister() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register out" << std::endl;
     }
 }
 
-void Register::readFromBus() {
+void GenericRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
     if (Utils::debugL2()) {
@@ -36,23 +36,23 @@ void Register::readFromBus() {
     }
 }
 
-void Register::writeToBus() {
+void GenericRegister::writeToBus() {
     this->bus->write(this->value);
 }
 
-uint8_t Register::readValue() const {
+uint8_t GenericRegister::readValue() const {
     return this->value;
 }
 
-void Register::print() {
+void GenericRegister::print() {
     printf("%s register: %d / 0x%02X / " BINARY_PATTERN " \n", this->name.c_str(), this->value, this->value, BYTE_TO_BINARY(this->value));
 }
 
-void Register::reset() {
+void GenericRegister::reset() {
     value = 0;
 }
 
-void Register::in() {
+void GenericRegister::in() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register: in - will read from bus on clock tick" << std::endl;
     }
@@ -60,7 +60,7 @@ void Register::in() {
     readOnClock = true;
 }
 
-void Register::out() {
+void GenericRegister::out() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register: out" << std::endl;
     }
@@ -68,7 +68,7 @@ void Register::out() {
     writeToBus();
 }
 
-void Register::clockTicked() {
+void GenericRegister::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register: clock ticked" << std::endl;
     }
@@ -79,6 +79,6 @@ void Register::clockTicked() {
     }
 }
 
-void Register::setRegisterListener(std::shared_ptr<RegisterListener> newRegisterListener) {
+void GenericRegister::setRegisterListener(std::shared_ptr<RegisterListener> newRegisterListener) {
     this->registerListener = std::move(newRegisterListener);
 }

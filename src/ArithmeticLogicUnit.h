@@ -3,13 +3,15 @@
 
 #include <memory>
 
-#include "Register.h"
+#include "GenericRegister.h"
 #include "RegisterListener.h"
 
 class ArithmeticLogicUnit: public RegisterListener {
 
 public:
-    ArithmeticLogicUnit(std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister, std::shared_ptr<Bus> bus);
+    ArithmeticLogicUnit(std::shared_ptr<GenericRegister> aRegister,
+                        std::shared_ptr<GenericRegister> bRegister,
+                        std::shared_ptr<Bus> bus);
     ~ArithmeticLogicUnit();
 
     void print() const;
@@ -20,8 +22,8 @@ public:
     [[nodiscard]] bool isZero() const;
 
 private:
-    std::shared_ptr<Register> aRegister;
-    std::shared_ptr<Register> bRegister;
+    std::shared_ptr<GenericRegister> aRegister;
+    std::shared_ptr<GenericRegister> bRegister;
     std::shared_ptr<Bus> bus;
     uint8_t value;
     bool carry;

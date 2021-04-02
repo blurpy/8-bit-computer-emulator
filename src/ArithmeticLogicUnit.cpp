@@ -5,7 +5,9 @@
 
 #include "ArithmeticLogicUnit.h"
 
-ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister, std::shared_ptr<Bus> bus) {
+ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<GenericRegister> aRegister,
+                                         std::shared_ptr<GenericRegister> bRegister,
+                                         std::shared_ptr<Bus> bus) {
     if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit in" << std::endl;
     }

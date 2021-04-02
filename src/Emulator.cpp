@@ -13,8 +13,8 @@ Emulator::Emulator() {
 
     clock = std::make_shared<Clock>();
     bus = std::make_shared<Bus>();
-    aRegister = std::make_shared<Register>("A", bus);
-    bRegister = std::make_shared<Register>("B", bus);
+    aRegister = std::make_shared<GenericRegister>("A", bus);
+    bRegister = std::make_shared<GenericRegister>("B", bus);
     arithmeticLogicUnit = std::make_shared<ArithmeticLogicUnit>(aRegister, bRegister, bus);
     randomAccessMemory = std::make_shared<RandomAccessMemory>(bus);
     memoryAddressRegister = std::make_shared<MemoryAddressRegister>(randomAccessMemory, bus);

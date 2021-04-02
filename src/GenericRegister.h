@@ -8,11 +8,11 @@
 #include "ClockListener.h"
 #include "RegisterListener.h"
 
-class Register: public ClockListener {
+class GenericRegister: public ClockListener {
 
 public:
-    Register(const std::string& name, std::shared_ptr<Bus> bus);
-    ~Register();
+    GenericRegister(const std::string& name, std::shared_ptr<Bus> bus);
+    ~GenericRegister();
 
     [[nodiscard]] uint8_t readValue() const;
     void print();
