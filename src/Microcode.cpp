@@ -132,6 +132,34 @@ void Microcode::handleStep2() const {
             instructionRegister->out(); // IO
             pc->jump(); // CJ
             break;
+        case 0b0111:
+            if (flagsRegister->isCarryFlag()) {
+                if (Utils::debugL1()) {
+                    std::cout << "Microcode step 2 JC (" << opcodeBits << "): IO|CJ" << std::endl;
+                }
+                instructionRegister->out(); // IO
+                pc->jump(); // CJ
+            } else {
+                if (Utils::debugL1()) {
+                    std::cout << "Microcode step 2 JC (" << opcodeBits << "): Done" << std::endl;
+                }
+                // Done
+            }
+            break;
+        case 0b1000:
+            if (flagsRegister->isZeroFlag()) {
+                if (Utils::debugL1()) {
+                    std::cout << "Microcode step 2 JZ (" << opcodeBits << "): IO|CJ" << std::endl;
+                }
+                instructionRegister->out(); // IO
+                pc->jump(); // CJ
+            } else {
+                if (Utils::debugL1()) {
+                    std::cout << "Microcode step 2 JZ (" << opcodeBits << "): Done" << std::endl;
+                }
+                // Done
+            }
+            break;
         case 0b1110:
             if (Utils::debugL1()) {
                 std::cout << "Microcode step 2 OUT (" << opcodeBits << "): AO|OI" << std::endl;
@@ -202,6 +230,18 @@ void Microcode::handleStep3() const {
             }
             // Done
             break;
+        case 0b0111:
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 JC (" << opcodeBits << "): Done" << std::endl;
+            }
+            // Done
+            break;
+        case 0b1000:
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 3 JZ (" << opcodeBits << "): Done" << std::endl;
+            }
+            // Done
+            break;
         case 0b1110:
             if (Utils::debugL1()) {
                 std::cout << "Microcode step 3 OUT (" << opcodeBits << "): Done" << std::endl;
@@ -263,6 +303,18 @@ void Microcode::handleStep4() const {
         case 0b0110:
             if (Utils::debugL1()) {
                 std::cout << "Microcode step 4 JMP (" << opcodeBits << "): Done" << std::endl;
+            }
+            // Done
+            break;
+        case 0b0111:
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 JC (" << opcodeBits << "): Done" << std::endl;
+            }
+            // Done
+            break;
+        case 0b1000:
+            if (Utils::debugL1()) {
+                std::cout << "Microcode step 4 JZ (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;

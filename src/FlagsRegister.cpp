@@ -62,3 +62,11 @@ void FlagsRegister::clockTicked() {
         readOnClock = false;
     }
 }
+
+bool FlagsRegister::isCarryFlag() const {
+    return carryFlag;
+}
+
+bool FlagsRegister::isZeroFlag() const {
+    return zeroFlag;
+}

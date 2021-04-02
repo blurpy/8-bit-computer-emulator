@@ -13,6 +13,8 @@ public:
     void print() const;
     void reset();
     void in();
+    [[nodiscard]] bool isCarryFlag() const;
+    [[nodiscard]] bool isZeroFlag() const;
 
 private:
     std::shared_ptr<ArithmeticLogicUnit> alu;

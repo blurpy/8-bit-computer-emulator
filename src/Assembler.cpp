@@ -127,6 +127,10 @@ std::bitset<4> Assembler::interpretOpcode(const std::string &opcode) {
         return std::bitset<4>("0101");
     } else if (opcode == "JMP") {
         return std::bitset<4>("0110");
+    } else if (opcode == "JC") {
+        return std::bitset<4>("0111");
+    } else if (opcode == "JZ") {
+        return std::bitset<4>("1000");
     } else if (opcode == "OUT") {
         return std::bitset<4>("1110");
     } else if (opcode == "HLT") {
@@ -159,6 +163,12 @@ std::bitset<4> Assembler::interpretOperand(const std::string &opcode, std::vecto
     } else if (opcode == "JMP") {
         assert(tokens.size() == 2);
         return std::bitset<4>(std::stoi(tokens[1]));
+    } else if (opcode == "JC") {
+        assert(tokens.size() == 2);
+        return std::bitset<4>(std::stoi(tokens[1]));
+    } else if (opcode == "JZ") {
+        assert(tokens.size() == 2);
+        return std::bitset<4>(std::stoi(tokens[1]));
     } else if (opcode == "OUT") {
         assert(tokens.size() == 1);
         return std::bitset<4>("0000");
@@ -183,6 +193,10 @@ std::vector<std::string> Assembler::tokenize(const std::string &line) const {
         }
 
         tokens.push_back(token);
+
+        if (Utils::debugL2()) {
+            std::cout << "Token: " << token << std::endl;
+        }
     }
 
     return tokens;
