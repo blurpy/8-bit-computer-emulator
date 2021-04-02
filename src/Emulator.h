@@ -6,6 +6,7 @@
 #include "ArithmeticLogicUnit.h"
 #include "Bus.h"
 #include "Clock.h"
+#include "FlagsRegister.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
 #include "Microcode.h"
@@ -36,6 +37,7 @@ private:
     std::shared_ptr<OutputRegister> out;
     std::unique_ptr<StepCounter> stepCounter;
     std::shared_ptr<Microcode> microcode;
+    std::shared_ptr<FlagsRegister> flagsRegister;
 
     void printValues();
     void reset();

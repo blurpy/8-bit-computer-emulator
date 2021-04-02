@@ -16,6 +16,8 @@ public:
     void reset();
     void out();
     void subtract();
+    [[nodiscard]] bool isCarry() const;
+    [[nodiscard]] bool isZero() const;
 
 private:
     std::shared_ptr<Register> aRegister;

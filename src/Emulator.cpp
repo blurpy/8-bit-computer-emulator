@@ -18,13 +18,17 @@ Emulator::Emulator() {
     pc = std::make_shared<ProgramCounter>(bus);
     instructionRegister = std::make_shared<InstructionRegister>(bus);
     out = std::make_shared<OutputRegister>(bus);
-    microcode = std::make_shared<Microcode>(mar, pc, ram, instructionRegister, aRegister, bRegister, alu, out, clock);
+    flagsRegister = std::make_shared<FlagsRegister>(alu);
+    microcode = std::make_shared<Microcode>(mar, pc, ram, instructionRegister, aRegister, bRegister, alu, out, flagsRegister, clock);
     stepCounter = std::make_unique<StepCounter>(microcode);
 
     // Cyclic dependency - also, setting it here to reuse the shared pointers
     aRegister->setRegisterListener(alu);
     bRegister->setRegisterListener(alu);
 
+    // This order is also the order the components receive ticks from the clock.
+    // It's important that flags are read first since SUB and ADD change the value in registers on the same clock tick.
+    clock->addListener(flagsRegister.get());
     clock->addListener(mar.get());
     clock->addListener(stepCounter.get());
     clock->addListener(instructionRegister.get());
@@ -84,6 +88,7 @@ void Emulator::printValues() {
     instructionRegister->print();
     out->print();
     stepCounter->print();
+    flagsRegister->print();
 }
 
 void Emulator::reset() {
@@ -99,4 +104,5 @@ void Emulator::reset() {
     instructionRegister->reset();
     out->reset();
     stepCounter->reset();
+    flagsRegister->reset();
 }

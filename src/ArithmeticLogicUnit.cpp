@@ -107,3 +107,11 @@ void ArithmeticLogicUnit::subtract() {
     carry = newCarry;
     zero = newZero;
 }
+
+bool ArithmeticLogicUnit::isCarry() const {
+    return carry;
+}
+
+bool ArithmeticLogicUnit::isZero() const {
+    return zero;
+}

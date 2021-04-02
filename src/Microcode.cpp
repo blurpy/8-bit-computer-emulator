@@ -8,7 +8,7 @@ Microcode::Microcode(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr
                      std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<InstructionRegister> instructionRegister,
                      std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister,
                      std::shared_ptr<ArithmeticLogicUnit> alu, std::shared_ptr<OutputRegister> out,
-                     std::shared_ptr<Clock> clock) {
+                     std::shared_ptr<FlagsRegister> flagsRegister, std::shared_ptr<Clock> clock) {
     std::cout << "Microcode in" << std::endl;
 
     this->mar = std::move(mar);
@@ -19,6 +19,7 @@ Microcode::Microcode(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr
     this->bRegister = std::move(bRegister);
     this->alu = std::move(alu);
     this->out = std::move(out);
+    this->flagsRegister = std::move(flagsRegister);
     this->clock = std::move(clock);
 }
 
@@ -169,14 +170,14 @@ void Microcode::handleStep4() const {
             std::cout << "Microcode step 4 ADD" << std::endl;
             aRegister->in(); // AI
             alu->out(); // SO
-            // TODO FI
+            flagsRegister->in(); // FI
             break;
         case 0b0011:
             std::cout << "Microcode step 4 SUB" << std::endl;
             aRegister->in(); // AI
             alu->subtract(); // S-
             alu->out(); // SO
-            // TODO FI
+            flagsRegister->in(); // FI
             break;
         case 0b0100:
             std::cout << "Microcode step 4 STA" << std::endl;

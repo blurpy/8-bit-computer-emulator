@@ -3,6 +3,7 @@
 
 #include "ArithmeticLogicUnit.h"
 #include "Clock.h"
+#include "FlagsRegister.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
 #include "OutputRegister.h"
@@ -18,7 +19,7 @@ public:
               std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<InstructionRegister> instructionRegister,
               std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister,
               std::shared_ptr<ArithmeticLogicUnit> alu, std::shared_ptr<OutputRegister> out,
-              std::shared_ptr<Clock> clock);
+              std::shared_ptr<FlagsRegister> flagsRegister, std::shared_ptr<Clock> clock);
     ~Microcode();
 
 private:
@@ -30,6 +31,7 @@ private:
     std::shared_ptr<Register> bRegister;
     std::shared_ptr<ArithmeticLogicUnit> alu;
     std::shared_ptr<OutputRegister> out;
+    std::shared_ptr<FlagsRegister> flagsRegister;
     std::shared_ptr<Clock> clock;
 
     void handleStep0() const;
