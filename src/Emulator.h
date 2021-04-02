@@ -7,9 +7,9 @@
 #include "Bus.h"
 #include "Clock.h"
 #include "FlagsRegister.h"
+#include "InstructionDecoder.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
-#include "Microcode.h"
 #include "OutputRegister.h"
 #include "ProgramCounter.h"
 #include "RandomAccessMemory.h"
@@ -36,7 +36,7 @@ private:
     std::shared_ptr<InstructionRegister> instructionRegister;
     std::shared_ptr<OutputRegister> out;
     std::unique_ptr<StepCounter> stepCounter;
-    std::shared_ptr<Microcode> microcode;
+    std::shared_ptr<InstructionDecoder> instructionDecoder;
     std::shared_ptr<FlagsRegister> flagsRegister;
 
     void printValues();

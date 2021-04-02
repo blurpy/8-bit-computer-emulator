@@ -22,8 +22,8 @@ Emulator::Emulator() {
     instructionRegister = std::make_shared<InstructionRegister>(bus);
     out = std::make_shared<OutputRegister>(bus);
     flagsRegister = std::make_shared<FlagsRegister>(alu);
-    microcode = std::make_shared<Microcode>(mar, pc, ram, instructionRegister, aRegister, bRegister, alu, out, flagsRegister, clock);
-    stepCounter = std::make_unique<StepCounter>(microcode);
+    instructionDecoder = std::make_shared<InstructionDecoder>(mar, pc, ram, instructionRegister, aRegister, bRegister, alu, out, flagsRegister, clock);
+    stepCounter = std::make_unique<StepCounter>(instructionDecoder);
 
     // Cyclic dependency - also, setting it here to reuse the shared pointers
     aRegister->setRegisterListener(alu);

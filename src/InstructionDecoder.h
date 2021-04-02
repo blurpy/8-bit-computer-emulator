@@ -1,5 +1,5 @@
-#ifndef INC_8_BIT_COMPUTER_EMULATOR_MICROCODE_H
-#define INC_8_BIT_COMPUTER_EMULATOR_MICROCODE_H
+#ifndef INC_8_BIT_COMPUTER_EMULATOR_INSTRUCTIONDECODER_H
+#define INC_8_BIT_COMPUTER_EMULATOR_INSTRUCTIONDECODER_H
 
 #include "ArithmeticLogicUnit.h"
 #include "Clock.h"
@@ -12,15 +12,15 @@
 #include "Register.h"
 #include "StepListener.h"
 
-class Microcode: public StepListener {
+class InstructionDecoder: public StepListener {
 
 public:
-    Microcode(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr<ProgramCounter> pc,
-              std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<InstructionRegister> instructionRegister,
-              std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister,
-              std::shared_ptr<ArithmeticLogicUnit> alu, std::shared_ptr<OutputRegister> out,
-              std::shared_ptr<FlagsRegister> flagsRegister, std::shared_ptr<Clock> clock);
-    ~Microcode();
+    InstructionDecoder(std::shared_ptr<MemoryAddressRegister> mar, std::shared_ptr<ProgramCounter> pc,
+                       std::shared_ptr<RandomAccessMemory> ram, std::shared_ptr<InstructionRegister> instructionRegister,
+                       std::shared_ptr<Register> aRegister, std::shared_ptr<Register> bRegister,
+                       std::shared_ptr<ArithmeticLogicUnit> alu, std::shared_ptr<OutputRegister> out,
+                       std::shared_ptr<FlagsRegister> flagsRegister, std::shared_ptr<Clock> clock);
+    ~InstructionDecoder();
 
 private:
     std::shared_ptr<MemoryAddressRegister> mar;
@@ -43,4 +43,4 @@ private:
     void stepReady(uint8_t step) override;
 };
 
-#endif //INC_8_BIT_COMPUTER_EMULATOR_MICROCODE_H
+#endif //INC_8_BIT_COMPUTER_EMULATOR_INSTRUCTIONDECODER_H
