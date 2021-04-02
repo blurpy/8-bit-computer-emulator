@@ -17,7 +17,12 @@ InstructionRegister::~InstructionRegister() {
 
 void InstructionRegister::readFromBus() {
     uint8_t busValue = bus->read();
-    std::cout << "InstructionRegister: read from bus. Changing value from " << (int) value << " to " << (int) busValue << std::endl;
+
+    if (Utils::debug()) {
+        std::cout << "InstructionRegister: read from bus. Changing value from " << (int) value << " to "
+                  << (int) busValue << std::endl;
+    }
+
     value = busValue;
 }
 
@@ -35,17 +40,25 @@ void InstructionRegister::reset() {
 }
 
 void InstructionRegister::in() {
-    std::cout << "InstructionRegister: in - will read from bus on clock tick" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "InstructionRegister: in - will read from bus on clock tick" << std::endl;
+    }
+
     readOnClock = true;
 }
 
 void InstructionRegister::out() {
-    std::cout << "InstructionRegister: out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "InstructionRegister: out" << std::endl;
+    }
+
     writeToBus();
 }
 
 void InstructionRegister::clockTicked() {
-    std::cout << "InstructionRegister: clock ticked" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "InstructionRegister: clock ticked" << std::endl;
+    }
 
     if (readOnClock) {
         readFromBus();

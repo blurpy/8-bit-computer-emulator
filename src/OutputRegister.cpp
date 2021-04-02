@@ -18,7 +18,12 @@ OutputRegister::~OutputRegister() {
 
 void OutputRegister::readFromBus() {
     uint8_t busValue = bus->read();
-    std::cout << "OutputRegister: read from bus. Changing value from " << (int) value << " to " << (int) busValue << std::endl;
+
+    if (Utils::debug()) {
+        std::cout << "OutputRegister: read from bus. Changing value from " << (int) value << " to " << (int) busValue
+                  << std::endl;
+    }
+
     value = busValue;
 }
 
@@ -31,12 +36,17 @@ void OutputRegister::reset() {
 }
 
 void OutputRegister::in() {
-    std::cout << "OutputRegister: in - will read from bus on clock tick" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "OutputRegister: in - will read from bus on clock tick" << std::endl;
+    }
+
     readOnClock = true;
 }
 
 void OutputRegister::clockTicked() {
-    std::cout << "OutputRegister: clock ticked" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "OutputRegister: clock ticked" << std::endl;
+    }
 
     if (readOnClock) {
         readFromBus();

@@ -15,6 +15,10 @@
 
 class Utils {
 
+public:
+    static const bool DEBUG = false;
+
+    static bool debug();
 };
 
 #endif //INC_8_BIT_COMPUTER_UTILS_H

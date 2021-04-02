@@ -18,7 +18,10 @@ uint8_t Bus::read() const {
 }
 
 void Bus::write(uint8_t newValue) {
-    std::cout << "Bus: changing value from " << (int) this->value << " to " << (int) newValue << std::endl;
+    if (Utils::debug()) {
+        std::cout << "Bus: changing value from " << (int) this->value << " to " << (int) newValue << std::endl;
+    }
+
     this->value = newValue;
 }
 

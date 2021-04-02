@@ -20,7 +20,11 @@ Register::~Register() {
 
 void Register::readFromBus() {
     uint8_t busValue = bus->read();
-    std::cout << this->name << " register: changing value from " << (int) this->value << " to " << (int) busValue << std::endl;
+
+    if (Utils::debug()) {
+        std::cout << this->name << " register: changing value from " << (int) this->value << " to " << (int) busValue << std::endl;
+    }
+
     this->value = busValue;
 
     if (registerListener != nullptr) {
@@ -45,17 +49,25 @@ void Register::reset() {
 }
 
 void Register::in() {
-    std::cout << this->name << " register: in - will read from bus on clock tick" << std::endl;
+    if (Utils::debug()) {
+        std::cout << this->name << " register: in - will read from bus on clock tick" << std::endl;
+    }
+
     readOnClock = true;
 }
 
 void Register::out() {
-    std::cout << this->name << " register: out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << this->name << " register: out" << std::endl;
+    }
+
     writeToBus();
 }
 
 void Register::clockTicked() {
-    std::cout << this->name << " register: clock ticked" << std::endl;
+    if (Utils::debug()) {
+        std::cout << this->name << " register: clock ticked" << std::endl;
+    }
 
     if (readOnClock) {
         readFromBus();

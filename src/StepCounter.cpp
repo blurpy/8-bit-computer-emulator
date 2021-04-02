@@ -32,11 +32,16 @@ void StepCounter::increment() {
         counter = ++counter % 5;
     }
 
-    std::cout << "StepCounter: incremented to " << (int) counter << std::endl;
+    if (Utils::debug()) {
+        std::cout << "StepCounter: incremented to " << (int) counter << std::endl;
+    }
 }
 
 void StepCounter::invertedClockTicked() {
-    std::cout << "StepCounter: inverted clock ticked" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "StepCounter: inverted clock ticked" << std::endl;
+    }
+
     increment();
     stepListener->stepReady(counter);
 }

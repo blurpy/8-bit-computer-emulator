@@ -20,7 +20,12 @@ MemoryAddressRegister::~MemoryAddressRegister() {
 
 void MemoryAddressRegister::readFromBus() {
     uint8_t busValue = bus->read();
-    std::cout << "MemoryAddressRegister: read from bus. Changing value from " << (int) value << " to " << (int) busValue << std::endl;
+
+    if (Utils::debug()) {
+        std::cout << "MemoryAddressRegister: read from bus. Changing value from " << (int) value << " to "
+                  << (int) busValue << std::endl;
+    }
+
     assert(busValue <= 15); // 4 bits only
     value = busValue;
     registerListener->registerValueChanged(value);
@@ -35,18 +40,26 @@ void MemoryAddressRegister::reset() {
 }
 
 void MemoryAddressRegister::program(std::bitset<4> address) {
-    std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
+    if (Utils::debug()) {
+        std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
+    }
+
     value = address.to_ulong();
     registerListener->registerValueChanged(value);
 }
 
 void MemoryAddressRegister::in() {
-    std::cout << "MemoryAddressRegister: in - will read from bus on clock tick" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "MemoryAddressRegister: in - will read from bus on clock tick" << std::endl;
+    }
+
     readOnClock = true;
 }
 
 void MemoryAddressRegister::clockTicked() {
-    std::cout << "MemoryAddressRegister: clock ticked" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "MemoryAddressRegister: clock ticked" << std::endl;
+    }
 
     if (readOnClock) {
         readFromBus();

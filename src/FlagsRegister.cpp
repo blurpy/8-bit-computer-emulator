@@ -1,6 +1,8 @@
 #include <iostream>
 #include <utility>
 
+#include "Utils.h"
+
 #include "FlagsRegister.h"
 
 FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
@@ -25,7 +27,10 @@ void FlagsRegister::reset() {
 }
 
 void FlagsRegister::in() {
-    std::cout << "FlagsRegister: in - will read from ALU on clock tick" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "FlagsRegister: in - will read from ALU on clock tick" << std::endl;
+    }
+
     readOnClock = true;
 }
 
@@ -33,15 +38,19 @@ void FlagsRegister::readFromAlu() {
     bool aluCarry = alu->isCarry();
     bool aluZero = alu->isZero();
 
-    std::cout << "FlagsRegister: read from ALU. Changing values from CF=" << carryFlag << ", ZF=" << zeroFlag
-              << " to CF=" << aluCarry << ", ZF=" << aluZero << std::endl;
+    if (Utils::debug()) {
+        std::cout << "FlagsRegister: read from ALU. Changing values from CF=" << carryFlag << ", ZF=" << zeroFlag
+                  << " to CF=" << aluCarry << ", ZF=" << aluZero << std::endl;
+    }
 
     carryFlag = aluCarry;
     zeroFlag = aluZero;
 }
 
 void FlagsRegister::clockTicked() {
-    std::cout << "FlagsRegister: clock ticked" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "FlagsRegister: clock ticked" << std::endl;
+    }
     
     if (readOnClock) {
         readFromAlu();

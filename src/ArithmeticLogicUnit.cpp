@@ -33,7 +33,10 @@ void ArithmeticLogicUnit::reset() {
 }
 
 void ArithmeticLogicUnit::out() {
-    std::cout << "ArithmeticLogicUnit: out" << std::endl;
+    if (Utils::debug()) {
+        std::cout << "ArithmeticLogicUnit: out" << std::endl;
+    }
+
     writeToBus();
 }
 
@@ -49,10 +52,12 @@ void ArithmeticLogicUnit::add() {
     bool newCarry = result > 255;
     bool newZero = newValue == 0; // Both can be active at once if result is 256 (0b100000000) / new value is 0
 
-    std::cout << "ArithmeticLogicUnit: add. changing value from " << (int) value << " to " << (int) result
-              << " (" << (int) newValue << ")" << std::endl;
-    std::cout << "ArithmeticLogicUnit: add. changing bits from C=" << carry << ", Z=" << zero
-              << " to C=" << newCarry << ", Z=" << newZero << std::endl;
+    if (Utils::debug()) {
+        std::cout << "ArithmeticLogicUnit: add. changing value from " << (int) value << " to " << (int) result
+                  << " (" << (int) newValue << ")" << std::endl;
+        std::cout << "ArithmeticLogicUnit: add. changing bits from C=" << carry << ", Z=" << zero
+                  << " to C=" << newCarry << ", Z=" << newZero << std::endl;
+    }
 
     value = newValue;
     carry = newCarry;
@@ -98,10 +103,12 @@ void ArithmeticLogicUnit::subtract() {
     bool newCarry = result > 255;
     bool newZero = newValue == 0; // Both can be active at once if result is 256 (0b100000000) / new value is 0
 
-    std::cout << "ArithmeticLogicUnit: subtract. changing value from " << (int) value << " to " << (int) result
-              << " (" << (int) newValue << ")" << std::endl;
-    std::cout << "ArithmeticLogicUnit: subtract. changing bits from C=" << carry << ", Z=" << zero
-              << " to C=" << newCarry << ", Z=" << newZero << std::endl;
+    if (Utils::debug()) {
+        std::cout << "ArithmeticLogicUnit: subtract. changing value from " << (int) value << " to " << (int) result
+                  << " (" << (int) newValue << ")" << std::endl;
+        std::cout << "ArithmeticLogicUnit: subtract. changing bits from C=" << carry << ", Z=" << zero
+                  << " to C=" << newCarry << ", Z=" << newZero << std::endl;
+    }
 
     value = newValue;
     carry = newCarry;
