@@ -2,6 +2,7 @@
 #include <iostream>
 #include <utility>
 
+#include "Instructions.h"
 #include "Utils.h"
 
 #include "InstructionDecoder.h"
@@ -89,55 +90,55 @@ void InstructionDecoder::handleStep2() const {
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
     switch (opcode) {
-        case 0b0000:
+        case Instructions::NOP.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 NOP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0001:
+        case Instructions::LDA.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 LDA (" << opcodeBits << "): MI|IO" << std::endl;
             }
             memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
-        case 0b0010:
+        case Instructions::ADD.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 ADD (" << opcodeBits << "): MI|IO" << std::endl;
             }
             memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
-        case 0b0011:
+        case Instructions::SUB.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 SUB (" << opcodeBits << "): MI|IO" << std::endl;
             }
             memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
-        case 0b0100:
+        case Instructions::STA.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 STA (" << opcodeBits << "): MI|IO" << std::endl;
             }
             memoryAddressRegister->in(); // MI
             instructionRegister->out(); // IO
             break;
-        case 0b0101:
+        case Instructions::LDI.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 LDI (" << opcodeBits << "): IO|AI" << std::endl;
             }
             instructionRegister->out(); // IO
             aRegister->in(); // AI
             break;
-        case 0b0110:
+        case Instructions::JMP.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 JMP (" << opcodeBits << "): IO|CJ" << std::endl;
             }
             instructionRegister->out(); // IO
             programCounter->jump(); // CJ
             break;
-        case 0b0111:
+        case Instructions::JC.opcode:
             if (flagsRegister->isCarryFlag()) {
                 if (Utils::debugL1()) {
                     std::cout << "InstructionDecoder step 2 JC (" << opcodeBits << "): IO|CJ" << std::endl;
@@ -151,7 +152,7 @@ void InstructionDecoder::handleStep2() const {
                 // Done
             }
             break;
-        case 0b1000:
+        case Instructions::JZ.opcode:
             if (flagsRegister->isZeroFlag()) {
                 if (Utils::debugL1()) {
                     std::cout << "InstructionDecoder step 2 JZ (" << opcodeBits << "): IO|CJ" << std::endl;
@@ -165,14 +166,14 @@ void InstructionDecoder::handleStep2() const {
                 // Done
             }
             break;
-        case 0b1110:
+        case Instructions::OUT.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 OUT (" << opcodeBits << "): AO|OI" << std::endl;
             }
             aRegister->out(); // AO
             outputRegister->in(); // OI
             break;
-        case 0b1111:
+        case Instructions::HLT.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 HLT (" << opcodeBits << "): HLT" << std::endl;
             }
@@ -189,65 +190,65 @@ void InstructionDecoder::handleStep3() const {
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
     switch (opcode) {
-        case 0b0000:
+        case Instructions::NOP.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 NOP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0001:
+        case Instructions::LDA.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 LDA (" << opcodeBits << "): RO|AI" << std::endl;
             }
             randomAccessMemory->out(); // RO
             aRegister->in(); // AI
             break;
-        case 0b0010:
+        case Instructions::ADD.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 ADD (" << opcodeBits << "): RO|BI" << std::endl;
             }
             randomAccessMemory->out(); // RO
             bRegister->in(); // BI
             break;
-        case 0b0011:
+        case Instructions::SUB.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 SUB (" << opcodeBits << "): RO|BI" << std::endl;
             }
             randomAccessMemory->out(); // RO
             bRegister->in(); // BI
             break;
-        case 0b0100:
+        case Instructions::STA.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 STA (" << opcodeBits << "): RI|AO" << std::endl;
             }
             randomAccessMemory->in(); // RI
             aRegister->out(); // AO
             break;
-        case 0b0101:
+        case Instructions::LDI.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 LDI (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0110:
+        case Instructions::JMP.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 JMP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0111:
+        case Instructions::JC.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 JC (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b1000:
+        case Instructions::JZ.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 JZ (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b1110:
+        case Instructions::OUT.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 3 OUT (" << opcodeBits << "): Done" << std::endl;
             }
@@ -264,19 +265,19 @@ void InstructionDecoder::handleStep4() const {
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
     switch (opcode) {
-        case 0b0000:
+        case Instructions::NOP.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 NOP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0001:
+        case Instructions::LDA.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 LDA (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0010:
+        case Instructions::ADD.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 ADD (" << opcodeBits << "): AI|SO|FI" << std::endl;
             }
@@ -284,7 +285,7 @@ void InstructionDecoder::handleStep4() const {
             arithmeticLogicUnit->out(); // SO
             flagsRegister->in(); // FI
             break;
-        case 0b0011:
+        case Instructions::SUB.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 SUB (" << opcodeBits << "): AI|S-|SO|FI" << std::endl;
             }
@@ -293,37 +294,37 @@ void InstructionDecoder::handleStep4() const {
             arithmeticLogicUnit->out(); // SO
             flagsRegister->in(); // FI
             break;
-        case 0b0100:
+        case Instructions::STA.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 STA (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0101:
+        case Instructions::LDI.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 LDI (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0110:
+        case Instructions::JMP.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 JMP (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b0111:
+        case Instructions::JC.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 JC (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b1000:
+        case Instructions::JZ.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 JZ (" << opcodeBits << "): Done" << std::endl;
             }
             // Done
             break;
-        case 0b1110:
+        case Instructions::OUT.opcode:
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 4 OUT (" << opcodeBits << "): Done" << std::endl;
             }
