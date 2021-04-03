@@ -4,7 +4,6 @@
 #include <sstream>
 #include <vector>
 
-
 #include "Instructions.h"
 #include "Utils.h"
 
@@ -64,20 +63,20 @@ std::vector<Assembler::Instruction> Assembler::interpret(const std::vector<std::
         }
 
         std::vector<std::string> tokens = tokenize(line);
-        std::string opcode = tokens[0];
+        std::string mnemonic = tokens[0];
 
         // Supports 2 pseudo-instructions that can be used for adding data to the memory before the program runs.
         // This is to support the flexibility of the DIP switches in the memory module.
-        if (opcode == "ORG") {
+        if (mnemonic == "ORG") {
             // "Origin" - changes memory location to the address in the parameter
             std::string operand = tokens[1];
             currentMemoryLocation = std::stoi(operand);
-        } else if (opcode == "DB") {
+        } else if (mnemonic == "DB") {
             // "Define byte" - sets the parameter as a byte in memory at the current memory location
             addData(instructions, tokens);
             currentMemoryLocation++;
         } else {
-            addInstruction(instructions, opcode, tokens);
+            addInstruction(instructions, mnemonic, tokens);
             currentMemoryLocation++;
         }
     }
@@ -101,9 +100,9 @@ void Assembler::addData(std::vector<Instruction> &instructions, std::vector<std:
     }
 }
 
-void Assembler::addInstruction(std::vector<Instruction> &instructions, const std::string &opcode, std::vector<std::string> &tokens) {
-    const std::bitset<4> &opcodeBitset = interpretOpcode(opcode);
-    const std::bitset<4> &operandBitset = interpretOperand(opcode, tokens);
+void Assembler::addInstruction(std::vector<Instruction> &instructions, const std::string &mnemonic, std::vector<std::string> &tokens) {
+    const std::bitset<4> &opcodeBitset = interpretMnemonic(mnemonic);
+    const std::bitset<4> &operandBitset = interpretOperand(mnemonic, tokens);
 
     Assembler::Instruction instruction = {std::bitset<4>(currentMemoryLocation), opcodeBitset, operandBitset};
     instructions.push_back(instruction);
@@ -114,22 +113,22 @@ void Assembler::addInstruction(std::vector<Instruction> &instructions, const std
     }
 }
 
-std::bitset<4> Assembler::interpretOpcode(const std::string &opcode) {
-    const Instructions::Instruction &instruction = Instructions::find(opcode);
+std::bitset<4> Assembler::interpretMnemonic(const std::string &mnemonic) {
+    const Instructions::Instruction &instruction = Instructions::find(mnemonic);
 
     if (instruction == Instructions::UNKNOWN) {
-        std::cerr << "Assembler: interpret opcode - unknown opcode " << opcode << std::endl;
+        std::cerr << "Assembler: interpret mnemonic - unknown mnemonic " << mnemonic << std::endl;
         assert(false);
     }
 
     return instruction.opcodeAsBitset();
 }
 
-std::bitset<4> Assembler::interpretOperand(const std::string &opcode, std::vector<std::string> &tokens) {
-    const Instructions::Instruction &instruction = Instructions::find(opcode);
+std::bitset<4> Assembler::interpretOperand(const std::string &mnemonic, std::vector<std::string> &tokens) {
+    const Instructions::Instruction &instruction = Instructions::find(mnemonic);
 
     if (instruction == Instructions::UNKNOWN) {
-        std::cerr << "Assembler: interpret operand - unknown opcode " << opcode << std::endl;
+        std::cerr << "Assembler: interpret operand - unknown mnemonic " << mnemonic << std::endl;
         assert(false);
     }
 

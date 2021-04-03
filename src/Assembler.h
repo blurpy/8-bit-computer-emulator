@@ -24,9 +24,9 @@ private:
 
     std::vector<std::string> loadFile(const std::string &fileName);
     std::vector<Instruction> interpret(const std::vector<std::string> &lines);
-    std::bitset<4> interpretOpcode(const std::string &opcode);
-    std::bitset<4> interpretOperand(const std::string &opcode, std::vector<std::string> &tokens);
-    void addInstruction(std::vector<Instruction> &instructions, const std::string &opcode, std::vector<std::string> &tokens);
+    std::bitset<4> interpretMnemonic(const std::string &mnemonic);
+    std::bitset<4> interpretOperand(const std::string &mnemonic, std::vector<std::string> &tokens);
+    void addInstruction(std::vector<Instruction> &instructions, const std::string &mnemonic, std::vector<std::string> &tokens);
     void addData(std::vector<Instruction> &instructions, std::vector<std::string> &tokens) const;
     [[nodiscard]] std::vector<std::string> tokenize(const std::string &line) const;
 };
