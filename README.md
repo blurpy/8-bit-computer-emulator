@@ -33,7 +33,7 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ ./8bit <program.asm>
+$ ./src/8bit <program.asm>
 ```
 
 Different programs are available in the programs directory.
