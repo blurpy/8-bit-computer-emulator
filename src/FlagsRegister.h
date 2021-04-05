@@ -14,7 +14,7 @@
 class FlagsRegister: public ClockListener {
 
 public:
-    explicit FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu);
+    explicit FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit);
     ~FlagsRegister();
 
     /** Print current flag values to standard out. */
@@ -29,7 +29,7 @@ public:
     [[nodiscard]] bool isZeroFlag() const;
 
 private:
-    std::shared_ptr<ArithmeticLogicUnit> alu;
+    std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
     bool readOnClock;
     bool carryFlag;
     bool zeroFlag;

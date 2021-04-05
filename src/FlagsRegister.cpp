@@ -5,12 +5,12 @@
 
 #include "FlagsRegister.h"
 
-FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu) {
+FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit) {
     if (Utils::debugL2()) {
         std::cout << "FlagsRegister construct" << std::endl;
     }
 
-    this->alu = std::move(alu);
+    this->arithmeticLogicUnit = std::move(arithmeticLogicUnit);
     this->readOnClock = false;
     this->carryFlag = false;
     this->zeroFlag = false;
@@ -40,8 +40,8 @@ void FlagsRegister::in() {
 }
 
 void FlagsRegister::readFromAlu() {
-    bool aluCarry = alu->isCarry();
-    bool aluZero = alu->isZero();
+    bool aluCarry = arithmeticLogicUnit->isCarry();
+    bool aluZero = arithmeticLogicUnit->isZero();
 
     if (Utils::debugL2()) {
         std::cout << "FlagsRegister: read from ALU. Changing values from CF=" << carryFlag << ", ZF=" << zeroFlag
