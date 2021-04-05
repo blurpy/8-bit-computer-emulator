@@ -37,6 +37,8 @@ void ArithmeticLogicUnit::print() const {
 
 void ArithmeticLogicUnit::reset() {
     value = 0;
+    carry = false;
+    zero = true;
 }
 
 void ArithmeticLogicUnit::out() {
