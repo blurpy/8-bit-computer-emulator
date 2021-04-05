@@ -5,6 +5,10 @@
 #include <string>
 #include <vector>
 
+/**
+ * Reads files of type .asm with assembly source code, and turns the lines into machine instructions
+ * that can be programmed into memory.
+ */
 class Assembler {
 
 public:
@@ -17,6 +21,7 @@ public:
         std::bitset<4> operand;
     };
 
+    /** Turns the assembly code in the file into machine instructions. */
     std::vector<Instruction> loadInstructions(const std::string &fileName);
 
 private:

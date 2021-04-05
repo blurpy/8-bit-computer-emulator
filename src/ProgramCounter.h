@@ -6,16 +6,27 @@
 #include "Bus.h"
 #include "ClockListener.h"
 
+/**
+ * 4-bit counter (0->15) that keeps track of the memory location of the next instruction to execute.
+ *
+ * Normal operation is to output the current value to the bus during the fetch cycle, and increment
+ * by 1 afterwards. It also supports jumping to a memory location read from the bus.
+ */
 class ProgramCounter: public ClockListener {
 
 public:
     explicit ProgramCounter(std::shared_ptr<Bus> bus);
     ~ProgramCounter();
 
+    /** Print current value to standard out. */
     void print() const;
+    /** Reset counter to 0. */
     void reset();
+    /** Output counter value to the bus. */
     void out();
+    /** Increment counter value by 1 on next clock tick. */
     void enable();
+    /** Use value from bus as new counter value on next clock tick. */
     void jump();
 
 private:

@@ -4,16 +4,28 @@
 #include "ArithmeticLogicUnit.h"
 #include "ClockListener.h"
 
+/**
+ * Register to store flags.
+ *
+ * The flags are:
+ * - Carry: whether the ALU calculation results in a number larger than 8 bit (255) and has wrapped around.
+ * - Zero: whether the ALU calculation results in 0.
+ */
 class FlagsRegister: public ClockListener {
 
 public:
     explicit FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu);
     ~FlagsRegister();
 
+    /** Print current flag values to standard out. */
     void print() const;
+    /** Reset flags to false. */
     void reset();
+    /** Use carry and zero bits from ALU as new flag values on next clock tick. */
     void in();
+    /** Is the carry flag set. */
     [[nodiscard]] bool isCarryFlag() const;
+    /** Is the zero flag set. */
     [[nodiscard]] bool isZeroFlag() const;
 
 private:
