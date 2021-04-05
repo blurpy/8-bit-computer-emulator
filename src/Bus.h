@@ -1,6 +1,8 @@
 #ifndef INC_8_BIT_COMPUTER_BUS_H
 #define INC_8_BIT_COMPUTER_BUS_H
 
+#include <cstdint>
+
 class Bus {
 
 public:
