@@ -7,7 +7,7 @@
 class FlagsRegister: public ClockListener {
 
 public:
-    FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu);
+    explicit FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> alu);
     ~FlagsRegister();
 
     void print() const;
