@@ -1,5 +1,5 @@
-#include "doctest.h"
-#include "fakeit.hpp"
+#include "include/doctest.h"
+#include "include/fakeit.hpp"
 
 #include "FlagsRegister.h"
 
