@@ -20,7 +20,7 @@ public:
     ~GenericRegister();
 
     /** Get the current value in the register. */
-    [[nodiscard]] uint8_t readValue() const;
+    [[nodiscard]] virtual uint8_t readValue() const;
     /** Print current value to standard out. */
     void print();
     /** Reset the register value to 0. */
