@@ -3,9 +3,14 @@
 
 #include <cstdint>
 
+/**
+ * Interface for use by a register to notify a listener (implementing this interface)
+ * of a change in the register value.
+ */
 class RegisterListener {
 
 public:
+    /** The register has change its value to newValue. */
     virtual void registerValueChanged(uint8_t newValue);
 };
 
