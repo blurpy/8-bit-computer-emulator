@@ -18,8 +18,8 @@ public:
     void reset();
     void out();
     void subtract();
-    [[nodiscard]] bool isCarry() const;
-    [[nodiscard]] bool isZero() const;
+    [[nodiscard]] virtual bool isCarry() const;
+    [[nodiscard]] virtual bool isZero() const;
 
 private:
     std::shared_ptr<GenericRegister> aRegister;
