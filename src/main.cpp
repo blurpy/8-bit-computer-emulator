@@ -14,7 +14,13 @@ int main(int argc, char **argv) {
     std::string fileName = argv[1];
 
     const auto emulator = std::make_unique<Emulator>();
-    emulator->run(fileName);
+
+    try {
+        emulator->run(fileName);
+    } catch (const std::runtime_error &e) {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
     std::cout << "Finished" << std::endl;
 

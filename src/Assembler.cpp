@@ -36,8 +36,7 @@ std::vector<std::string> Assembler::loadFile(const std::string &fileName) {
     std::ifstream file(fileName);
 
     if (!file.is_open()) {
-        std::cerr << "Assembler: failed to open file: " << fileName << std::endl;
-        return std::vector<std::string>();
+        throw std::runtime_error("Assembler: failed to open file: " + fileName);
     }
 
     std::vector<std::string> lines;

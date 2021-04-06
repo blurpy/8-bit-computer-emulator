@@ -63,8 +63,7 @@ void Emulator::run(const std::string &fileName) {
     reset();
 
     if (!programMemory(fileName)) {
-        std::cerr << "Emulator: no instructions loaded. Aborting" << std::endl;
-        return;
+        throw std::runtime_error("Emulator: no instructions loaded. Aborting");
     }
 
     if (Utils::debugL1()) {
