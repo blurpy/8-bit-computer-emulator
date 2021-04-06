@@ -93,7 +93,7 @@ void Clock::mainLoop() {
             }
         }
 
-        sleep(1);
+        sleep(100);
     }
 
     if (Utils::debugL1()) {
@@ -119,8 +119,8 @@ bool Clock::tick() {
     return incremented;
 }
 
-void Clock::sleep(int milliseconds) const {
-    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+void Clock::sleep(int microseconds) const {
+    std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
 }
 
 void Clock::addListener(ClockListener* listener) {

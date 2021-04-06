@@ -33,7 +33,7 @@ private:
 
     void mainLoop();
     bool tick();
-    void sleep(int milliseconds) const;
+    void sleep(int microseconds) const;
 };
 
 #endif //INC_8_BIT_COMPUTER_CLOCK_H
