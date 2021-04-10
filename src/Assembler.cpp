@@ -62,6 +62,11 @@ std::vector<Assembler::Instruction> Assembler::interpret(const std::vector<std::
         }
 
         std::vector<std::string> tokens = tokenize(line);
+
+        if (tokens.empty()) {
+            continue; // Skip pure comment lines
+        }
+
         std::string mnemonic = tokens[0];
 
         // Supports 2 pseudo-instructions that can be used for adding data to the memory before the program runs.
