@@ -1,4 +1,3 @@
-#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -89,7 +88,9 @@ std::vector<Assembler::Instruction> Assembler::interpret(const std::vector<std::
 }
 
 void Assembler::addData(std::vector<Instruction> &instructions, std::vector<std::string> &tokens) const {
-    assert(tokens.size() == 2);
+    if (tokens.size() != 2) {
+        throw std::runtime_error("Assembler: wrong number of arguments to data");
+    }
 
     uint8_t value = std::stoi(tokens[1]);
     std::bitset<4> msb = value >> 4;
@@ -121,8 +122,7 @@ std::bitset<4> Assembler::interpretMnemonic(const std::string &mnemonic) {
     const Instructions::Instruction &instruction = Instructions::find(mnemonic);
 
     if (instruction == Instructions::UNKNOWN) {
-        std::cerr << "Assembler: interpret mnemonic - unknown mnemonic " << mnemonic << std::endl;
-        assert(false);
+        throw std::runtime_error("Assembler: interpret mnemonic - unknown mnemonic " + mnemonic);
     }
 
     return instruction.opcodeAsBitset();
@@ -132,8 +132,7 @@ std::bitset<4> Assembler::interpretOperand(const std::string &mnemonic, std::vec
     const Instructions::Instruction &instruction = Instructions::find(mnemonic);
 
     if (instruction == Instructions::UNKNOWN) {
-        std::cerr << "Assembler: interpret operand - unknown mnemonic " << mnemonic << std::endl;
-        assert(false);
+        throw std::runtime_error("Assembler: interpret operand - unknown mnemonic " + mnemonic);
     }
 
     if (instruction.hasOperand) {
@@ -150,7 +149,7 @@ std::vector<std::string> Assembler::tokenize(const std::string &line) const {
 
     while (stream >> token) {
         // Drop comments
-        if (token == ";") { // TODO starts with?
+        if (Utils::startsWith(token, ";")) {
             break;
         }
 

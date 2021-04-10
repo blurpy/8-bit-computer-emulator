@@ -136,4 +136,27 @@ TEST_SUITE("AssemblerTest") {
             CHECK_EQ(std::bitset<8>(db2.opcode.to_string() + db2.operand.to_string()).to_ulong(), 5);
         }
     }
+
+    TEST_CASE("loadInstructions() should return empty list for empty file") {
+        Assembler assembler;
+
+        const std::vector<Assembler::Instruction> &instructions = assembler.loadInstructions(
+                "../../programs/empty_test.asm");
+
+        CHECK_EQ(instructions.size(), 0);
+    }
+
+    TEST_CASE("loadInstructions() should throw exception for invalid instruction") {
+        Assembler assembler;
+
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/invalid_instruction_test.asm"),
+                          "Assembler: interpret mnemonic - unknown mnemonic monkey");
+    }
+
+    TEST_CASE("loadInstructions() should throw exception if wrong number of arguments to data definition") {
+        Assembler assembler;
+
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/invalid_data_test.asm"),
+                          "Assembler: wrong number of arguments to data");
+    }
 }
