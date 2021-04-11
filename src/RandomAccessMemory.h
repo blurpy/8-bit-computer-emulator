@@ -1,6 +1,7 @@
 #ifndef INC_8_BIT_COMPUTER_EMULATOR_RANDOMACCESSMEMORY_H
 #define INC_8_BIT_COMPUTER_EMULATOR_RANDOMACCESSMEMORY_H
 
+#include <array>
 #include <bitset>
 #include <memory>
 
@@ -22,7 +23,7 @@ public:
 
 private:
     std::shared_ptr<Bus> bus;
-    uint8_t memory[16]{};
+    std::array<uint8_t, 16> memory{};
     uint8_t address;
     bool readOnClock;
 
