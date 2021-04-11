@@ -3,9 +3,24 @@
 
 #include <bitset>
 
+// Pattern for printf to display 3 bits in binary
+#define BIT_3_PATTERN "%c%c%c"
+#define BIT_3_TO_BINARY(byte) \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0')
+
+// Pattern for printf to display 4 bits in binary
+#define BIT_4_PATTERN "%c%c%c%c"
+#define BIT_4_TO_BINARY(byte) \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0')
+
 // Pattern for printf to display a byte in binary
 #define BINARY_PATTERN "%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)  \
+#define BYTE_TO_BINARY(byte) \
   (byte & 0x80 ? '1' : '0'), \
   (byte & 0x40 ? '1' : '0'), \
   (byte & 0x20 ? '1' : '0'), \

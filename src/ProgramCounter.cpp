@@ -50,7 +50,7 @@ void ProgramCounter::writeToBus() {
 }
 
 void ProgramCounter::print() const {
-    printf("ProgramCounter: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
+    printf("ProgramCounter: %d / 0x%02X / " BIT_4_PATTERN " \n", value, value, BIT_4_TO_BINARY(value));
 }
 
 void ProgramCounter::reset() {

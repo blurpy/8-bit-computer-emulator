@@ -41,7 +41,7 @@ void RandomAccessMemory::writeToBus() {
 }
 
 void RandomAccessMemory::print() {
-    printf("RandomAccessMemory: current address - %d / 0x%02X / " BINARY_PATTERN " \n", address, address, BYTE_TO_BINARY(address));
+    printf("RandomAccessMemory: current address - %d / 0x%02X / " BIT_4_PATTERN " \n", address, address, BIT_4_TO_BINARY(address));
     printf("RandomAccessMemory: current value - %d / 0x%02X / " BINARY_PATTERN " \n", memory[address], memory[address], BYTE_TO_BINARY(memory[address]));
 
     for (int i = 0; i < sizeof(memory); i++) {

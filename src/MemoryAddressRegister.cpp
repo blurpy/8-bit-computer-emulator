@@ -37,7 +37,7 @@ void MemoryAddressRegister::readFromBus() {
 }
 
 void MemoryAddressRegister::print() const {
-    printf("MemoryAddressRegister: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
+    printf("MemoryAddressRegister: %d / 0x%02X / " BIT_4_PATTERN " \n", value, value, BIT_4_TO_BINARY(value));
 }
 
 void MemoryAddressRegister::reset() {

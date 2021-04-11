@@ -21,7 +21,7 @@ StepCounter::~StepCounter() {
 }
 
 void StepCounter::print() const {
-    printf("StepCounter: %d / 0x%02X / " BINARY_PATTERN " \n", counter, counter, BYTE_TO_BINARY(counter));
+    printf("StepCounter: %d / 0x%02X / " BIT_3_PATTERN " \n", counter, counter, BIT_3_TO_BINARY(counter));
 }
 
 void StepCounter::reset() {
