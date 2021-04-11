@@ -8,7 +8,7 @@
 
 #include "Assembler.h"
 
-Assembler::Assembler() {
+Core::Assembler::Assembler() {
     if (Utils::debugL2()) {
         std::cout << "Assembler construct" << std::endl;
     }
@@ -16,20 +16,20 @@ Assembler::Assembler() {
     this->currentMemoryLocation = 0;
 }
 
-Assembler::~Assembler() {
+Core::Assembler::~Assembler() {
     if (Utils::debugL2()) {
         std::cout << "Assembler destruct" << std::endl;
     }
 }
 
-std::vector<Assembler::Instruction> Assembler::loadInstructions(const std::string &fileName) {
+std::vector<Core::Assembler::Instruction> Core::Assembler::loadInstructions(const std::string &fileName) {
     std::vector<std::string> lines = loadFile(fileName);
     std::vector<Instruction> instructions = interpret(lines);
 
     return instructions;
 }
 
-std::vector<std::string> Assembler::loadFile(const std::string &fileName) {
+std::vector<std::string> Core::Assembler::loadFile(const std::string &fileName) {
     std::cout << "Assembler: loading file: " << fileName << std::endl;
 
     std::ifstream file(fileName);
@@ -52,7 +52,7 @@ std::vector<std::string> Assembler::loadFile(const std::string &fileName) {
     return lines;
 }
 
-std::vector<Assembler::Instruction> Assembler::interpret(const std::vector<std::string> &lines) {
+std::vector<Core::Assembler::Instruction> Core::Assembler::interpret(const std::vector<std::string> &lines) {
     std::vector<Instruction> instructions;
 
     for (const auto &line : lines) {
@@ -87,7 +87,7 @@ std::vector<Assembler::Instruction> Assembler::interpret(const std::vector<std::
     return instructions;
 }
 
-void Assembler::addData(std::vector<Instruction> &instructions, const std::vector<std::string> &tokens) const {
+void Core::Assembler::addData(std::vector<Instruction> &instructions, const std::vector<std::string> &tokens) const {
     if (tokens.size() != 2) {
         throw std::runtime_error("Assembler: wrong number of arguments to data");
     }
@@ -105,7 +105,7 @@ void Assembler::addData(std::vector<Instruction> &instructions, const std::vecto
     }
 }
 
-void Assembler::addInstruction(std::vector<Instruction> &instructions, const std::string &mnemonic, const std::vector<std::string> &tokens) {
+void Core::Assembler::addInstruction(std::vector<Instruction> &instructions, const std::string &mnemonic, const std::vector<std::string> &tokens) {
     const std::bitset<4> &opcodeBitset = interpretMnemonic(mnemonic);
     const std::bitset<4> &operandBitset = interpretOperand(mnemonic, tokens);
 
@@ -118,7 +118,7 @@ void Assembler::addInstruction(std::vector<Instruction> &instructions, const std
     }
 }
 
-std::bitset<4> Assembler::interpretMnemonic(const std::string &mnemonic) {
+std::bitset<4> Core::Assembler::interpretMnemonic(const std::string &mnemonic) {
     const Instructions::Instruction &instruction = Instructions::find(mnemonic);
 
     if (instruction == Instructions::UNKNOWN) {
@@ -128,7 +128,7 @@ std::bitset<4> Assembler::interpretMnemonic(const std::string &mnemonic) {
     return instruction.opcodeAsBitset();
 }
 
-std::bitset<4> Assembler::interpretOperand(const std::string &mnemonic, const std::vector<std::string> &tokens) {
+std::bitset<4> Core::Assembler::interpretOperand(const std::string &mnemonic, const std::vector<std::string> &tokens) {
     const Instructions::Instruction &instruction = Instructions::find(mnemonic);
 
     if (instruction == Instructions::UNKNOWN) {
@@ -142,7 +142,7 @@ std::bitset<4> Assembler::interpretOperand(const std::string &mnemonic, const st
     }
 }
 
-std::vector<std::string> Assembler::tokenize(const std::string &line) const {
+std::vector<std::string> Core::Assembler::tokenize(const std::string &line) const {
     std::stringstream stream(line);
     std::vector<std::string> tokens;
     std::string token;

@@ -4,7 +4,7 @@
 
 #include "InstructionRegister.h"
 
-InstructionRegister::InstructionRegister(const std::shared_ptr<Bus> &bus) {
+Core::InstructionRegister::InstructionRegister(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "InstructionRegister construct" << std::endl;
     }
@@ -14,13 +14,13 @@ InstructionRegister::InstructionRegister(const std::shared_ptr<Bus> &bus) {
     this->readOnClock = false;
 }
 
-InstructionRegister::~InstructionRegister() {
+Core::InstructionRegister::~InstructionRegister() {
     if (Utils::debugL2()) {
         std::cout << "InstructionRegister destruct" << std::endl;
     }
 }
 
-void InstructionRegister::readFromBus() {
+void Core::InstructionRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
     if (Utils::debugL2()) {
@@ -31,20 +31,20 @@ void InstructionRegister::readFromBus() {
     value = busValue;
 }
 
-void InstructionRegister::writeToBus() {
+void Core::InstructionRegister::writeToBus() {
     uint8_t operand = value & 0x0F; // Extract the last 4 bits
     bus->write(operand);
 }
 
-void InstructionRegister::print() const {
+void Core::InstructionRegister::print() const {
     printf("InstructionRegister: %d / 0x%02X / " BYTE_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
-void InstructionRegister::reset() {
+void Core::InstructionRegister::reset() {
     value = 0;
 }
 
-void InstructionRegister::in() {
+void Core::InstructionRegister::in() {
     if (Utils::debugL2()) {
         std::cout << "InstructionRegister: in - will read from bus on clock tick" << std::endl;
     }
@@ -52,7 +52,7 @@ void InstructionRegister::in() {
     readOnClock = true;
 }
 
-void InstructionRegister::out() {
+void Core::InstructionRegister::out() {
     if (Utils::debugL2()) {
         std::cout << "InstructionRegister: out" << std::endl;
     }
@@ -60,7 +60,7 @@ void InstructionRegister::out() {
     writeToBus();
 }
 
-void InstructionRegister::clockTicked() {
+void Core::InstructionRegister::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << "InstructionRegister: clock ticked" << std::endl;
     }
@@ -71,6 +71,6 @@ void InstructionRegister::clockTicked() {
     }
 }
 
-uint8_t InstructionRegister::getOpcode() const {
+uint8_t Core::InstructionRegister::getOpcode() const {
     return value >> 4; // Extract the first 4 bits;
 }

@@ -2,6 +2,8 @@
 
 #include "core/ProgramCounter.h"
 
+using namespace Core;
+
 TEST_SUITE("ProgramCounterTest") {
     TEST_CASE("out() should put 0 on the bus on new instance") {
         const std::shared_ptr<Bus> &busSharedPtr = std::make_shared<Bus>();

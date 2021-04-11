@@ -2,6 +2,8 @@
 
 #include "core/Utils.h"
 
+using namespace Core;
+
 TEST_SUITE("UtilsTest") {
     TEST_CASE("startsWith() should only return true when parameter is exact and at the start") {
         CHECK(Utils::startsWith("this string", "this"));

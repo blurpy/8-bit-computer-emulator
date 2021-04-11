@@ -2,6 +2,8 @@
 
 #include "core/Bus.h"
 
+using namespace Core;
+
 TEST_SUITE("BusTest") {
     TEST_CASE("read() should return 0 on new instance") {
         Bus bus = Bus();

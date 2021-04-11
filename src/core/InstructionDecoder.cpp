@@ -6,16 +6,16 @@
 
 #include "InstructionDecoder.h"
 
-InstructionDecoder::InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
-                                       const std::shared_ptr<ProgramCounter> &programCounter,
-                                       const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
-                                       const std::shared_ptr<InstructionRegister> &instructionRegister,
-                                       const std::shared_ptr<GenericRegister> &aRegister,
-                                       const std::shared_ptr<GenericRegister> &bRegister,
-                                       const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit,
-                                       const std::shared_ptr<OutputRegister> &outputRegister,
-                                       const std::shared_ptr<FlagsRegister> &flagsRegister,
-                                       const std::shared_ptr<Clock> &clock) {
+Core::InstructionDecoder::InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
+                                             const std::shared_ptr<ProgramCounter> &programCounter,
+                                             const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
+                                             const std::shared_ptr<InstructionRegister> &instructionRegister,
+                                             const std::shared_ptr<GenericRegister> &aRegister,
+                                             const std::shared_ptr<GenericRegister> &bRegister,
+                                             const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit,
+                                             const std::shared_ptr<OutputRegister> &outputRegister,
+                                             const std::shared_ptr<FlagsRegister> &flagsRegister,
+                                             const std::shared_ptr<Clock> &clock) {
     if (Utils::debugL2()) {
         std::cout << "InstructionDecoder construct" << std::endl;
     }
@@ -32,13 +32,13 @@ InstructionDecoder::InstructionDecoder(const std::shared_ptr<MemoryAddressRegist
     this->clock = clock;
 }
 
-InstructionDecoder::~InstructionDecoder() {
+Core::InstructionDecoder::~InstructionDecoder() {
     if (Utils::debugL2()) {
         std::cout << "InstructionDecoder destruct" << std::endl;
     }
 }
 
-void InstructionDecoder::stepReady(const uint8_t step) {
+void Core::InstructionDecoder::stepReady(const uint8_t step) {
     if (Utils::debugL2()) {
         std::cout << "InstructionDecoder step received: " << (int) step << std::endl;
     }
@@ -65,7 +65,7 @@ void InstructionDecoder::stepReady(const uint8_t step) {
     }
 }
 
-void InstructionDecoder::handleStep0() const {
+void Core::InstructionDecoder::handleStep0() const {
     if (Utils::debugL1()) {
         std::cout << "InstructionDecoder step 0 FETCH: CO|MI" << std::endl;
     }
@@ -74,7 +74,7 @@ void InstructionDecoder::handleStep0() const {
     memoryAddressRegister->in(); // MI
 }
 
-void InstructionDecoder::handleStep1() const {
+void Core::InstructionDecoder::handleStep1() const {
     if (Utils::debugL1()) {
         std::cout << "InstructionDecoder step 1 FETCH: RO|II|CE" << std::endl;
     }
@@ -84,7 +84,7 @@ void InstructionDecoder::handleStep1() const {
     programCounter->enable(); // CE
 }
 
-void InstructionDecoder::handleStep2() const {
+void Core::InstructionDecoder::handleStep2() const {
     uint8_t opcode = instructionRegister->getOpcode();
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
@@ -184,7 +184,7 @@ void InstructionDecoder::handleStep2() const {
     }
 }
 
-void InstructionDecoder::handleStep3() const {
+void Core::InstructionDecoder::handleStep3() const {
     uint8_t opcode = instructionRegister->getOpcode();
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 
@@ -259,7 +259,7 @@ void InstructionDecoder::handleStep3() const {
     }
 }
 
-void InstructionDecoder::handleStep4() const {
+void Core::InstructionDecoder::handleStep4() const {
     uint8_t opcode = instructionRegister->getOpcode();
     const std::bitset<4> &opcodeBits = Utils::to4bits(opcode);
 

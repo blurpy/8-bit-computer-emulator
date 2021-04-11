@@ -12,40 +12,43 @@
 #include "RandomAccessMemory.h"
 #include "StepListener.h"
 
-class InstructionDecoder: public StepListener {
+namespace Core {
 
-public:
-    InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
-                       const std::shared_ptr<ProgramCounter> &programCounter,
-                       const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
-                       const std::shared_ptr<InstructionRegister> &instructionRegister,
-                       const std::shared_ptr<GenericRegister> &aRegister,
-                       const std::shared_ptr<GenericRegister> &bRegister,
-                       const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit,
-                       const std::shared_ptr<OutputRegister> &outputRegister,
-                       const std::shared_ptr<FlagsRegister> &flagsRegister,
-                       const std::shared_ptr<Clock> &clock);
-    ~InstructionDecoder();
+    class InstructionDecoder: public StepListener {
 
-private:
-    std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
-    std::shared_ptr<ProgramCounter> programCounter;
-    std::shared_ptr<RandomAccessMemory> randomAccessMemory;
-    std::shared_ptr<InstructionRegister> instructionRegister;
-    std::shared_ptr<GenericRegister> aRegister;
-    std::shared_ptr<GenericRegister> bRegister;
-    std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
-    std::shared_ptr<OutputRegister> outputRegister;
-    std::shared_ptr<FlagsRegister> flagsRegister;
-    std::shared_ptr<Clock> clock;
+    public:
+        InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
+                           const std::shared_ptr<ProgramCounter> &programCounter,
+                           const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
+                           const std::shared_ptr<InstructionRegister> &instructionRegister,
+                           const std::shared_ptr<GenericRegister> &aRegister,
+                           const std::shared_ptr<GenericRegister> &bRegister,
+                           const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit,
+                           const std::shared_ptr<OutputRegister> &outputRegister,
+                           const std::shared_ptr<FlagsRegister> &flagsRegister,
+                           const std::shared_ptr<Clock> &clock);
+        ~InstructionDecoder();
 
-    void handleStep0() const;
-    void handleStep1() const;
-    void handleStep2() const;
-    void handleStep3() const;
-    void handleStep4() const;
+    private:
+        std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
+        std::shared_ptr<ProgramCounter> programCounter;
+        std::shared_ptr<RandomAccessMemory> randomAccessMemory;
+        std::shared_ptr<InstructionRegister> instructionRegister;
+        std::shared_ptr<GenericRegister> aRegister;
+        std::shared_ptr<GenericRegister> bRegister;
+        std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
+        std::shared_ptr<OutputRegister> outputRegister;
+        std::shared_ptr<FlagsRegister> flagsRegister;
+        std::shared_ptr<Clock> clock;
 
-    void stepReady(uint8_t step) override;
-};
+        void handleStep0() const;
+        void handleStep1() const;
+        void handleStep2() const;
+        void handleStep3() const;
+        void handleStep4() const;
+
+        void stepReady(uint8_t step) override;
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_INSTRUCTIONDECODER_H

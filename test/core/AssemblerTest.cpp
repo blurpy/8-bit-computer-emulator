@@ -3,6 +3,8 @@
 #include "core/Assembler.h"
 #include "core/Instructions.h"
 
+using namespace Core;
+
 TEST_SUITE("AssemblerTest") {
     TEST_CASE("loadInstructions() should parse all instructions") {
         Assembler assembler;

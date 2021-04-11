@@ -6,7 +6,7 @@
 
 #include "Emulator.h"
 
-Emulator::Emulator() {
+Core::Emulator::Emulator() {
     if (Utils::debugL2()) {
         std::cout << "Emulator construct" << std::endl;
     }
@@ -45,7 +45,7 @@ Emulator::Emulator() {
     clock->addListener(randomAccessMemory);
 }
 
-Emulator::~Emulator() {
+Core::Emulator::~Emulator() {
     if (Utils::debugL2()) {
         std::cout << "Emulator destruct" << std::endl;
     }
@@ -57,7 +57,7 @@ Emulator::~Emulator() {
     clock->clearListeners();
 }
 
-void Emulator::run(const std::string &fileName) {
+void Core::Emulator::run(const std::string &fileName) {
     if (Utils::debugL1()) {
         std::cout << "Emulator: run start" << std::endl;
     }
@@ -83,7 +83,7 @@ void Emulator::run(const std::string &fileName) {
     }
 }
 
-bool Emulator::programMemory(const std::string &fileName) {
+bool Core::Emulator::programMemory(const std::string &fileName) {
     std::cout << "Emulator: program memory" << std::endl;
 
     auto assembler = std::make_unique<Assembler>();
@@ -101,7 +101,7 @@ bool Emulator::programMemory(const std::string &fileName) {
     return true;
 }
 
-void Emulator::printValues() {
+void Core::Emulator::printValues() {
     std::cout << "Emulator: print current values" << std::endl;
 
     bus->print();
@@ -117,7 +117,7 @@ void Emulator::printValues() {
     flagsRegister->print();
 }
 
-void Emulator::reset() {
+void Core::Emulator::reset() {
     std::cout << "Emulator: reset" << std::endl;
 
     bus->reset();

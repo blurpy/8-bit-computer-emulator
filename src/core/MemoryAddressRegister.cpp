@@ -5,8 +5,8 @@
 
 #include "MemoryAddressRegister.h"
 
-MemoryAddressRegister::MemoryAddressRegister(const std::shared_ptr<RegisterListener> &registerListener,
-                                             const std::shared_ptr<Bus> &bus) {
+Core::MemoryAddressRegister::MemoryAddressRegister(const std::shared_ptr<RegisterListener> &registerListener,
+                                                   const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister construct" << std::endl;
     }
@@ -17,13 +17,13 @@ MemoryAddressRegister::MemoryAddressRegister(const std::shared_ptr<RegisterListe
     this->readOnClock = false;
 }
 
-MemoryAddressRegister::~MemoryAddressRegister() {
+Core::MemoryAddressRegister::~MemoryAddressRegister() {
     if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister destruct" << std::endl;
     }
 }
 
-void MemoryAddressRegister::readFromBus() {
+void Core::MemoryAddressRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
     if (Utils::debugL2()) {
@@ -36,15 +36,15 @@ void MemoryAddressRegister::readFromBus() {
     registerListener->registerValueChanged(value);
 }
 
-void MemoryAddressRegister::print() const {
+void Core::MemoryAddressRegister::print() const {
     printf("MemoryAddressRegister: %d / 0x%02X / " BIT_4_PATTERN " \n", value, value, BIT_4_TO_BINARY(value));
 }
 
-void MemoryAddressRegister::reset() {
+void Core::MemoryAddressRegister::reset() {
     value = 0;
 }
 
-void MemoryAddressRegister::program(const std::bitset<4> &address) {
+void Core::MemoryAddressRegister::program(const std::bitset<4> &address) {
     if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
     }
@@ -53,7 +53,7 @@ void MemoryAddressRegister::program(const std::bitset<4> &address) {
     registerListener->registerValueChanged(value);
 }
 
-void MemoryAddressRegister::in() {
+void Core::MemoryAddressRegister::in() {
     if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: in - will read from bus on clock tick" << std::endl;
     }
@@ -61,7 +61,7 @@ void MemoryAddressRegister::in() {
     readOnClock = true;
 }
 
-void MemoryAddressRegister::clockTicked() {
+void Core::MemoryAddressRegister::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: clock ticked" << std::endl;
     }

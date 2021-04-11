@@ -4,7 +4,7 @@
 
 #include "GenericRegister.h"
 
-GenericRegister::GenericRegister(const std::string& name, const std::shared_ptr<Bus> &bus) {
+Core::GenericRegister::GenericRegister(const std::string& name, const std::shared_ptr<Bus> &bus) {
     this->name = name;
     this->bus = bus;
     this->value = 0;
@@ -15,13 +15,13 @@ GenericRegister::GenericRegister(const std::string& name, const std::shared_ptr<
     }
 }
 
-GenericRegister::~GenericRegister() {
+Core::GenericRegister::~GenericRegister() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register destruct" << std::endl;
     }
 }
 
-void GenericRegister::readFromBus() {
+void Core::GenericRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
     if (Utils::debugL2()) {
@@ -35,23 +35,23 @@ void GenericRegister::readFromBus() {
     }
 }
 
-void GenericRegister::writeToBus() {
+void Core::GenericRegister::writeToBus() {
     this->bus->write(this->value);
 }
 
-uint8_t GenericRegister::readValue() const {
+uint8_t Core::GenericRegister::readValue() const {
     return this->value;
 }
 
-void GenericRegister::print() {
+void Core::GenericRegister::print() {
     printf("%s register: %d / 0x%02X / " BYTE_PATTERN " \n", this->name.c_str(), this->value, this->value, BYTE_TO_BINARY(this->value));
 }
 
-void GenericRegister::reset() {
+void Core::GenericRegister::reset() {
     value = 0;
 }
 
-void GenericRegister::in() {
+void Core::GenericRegister::in() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register: in - will read from bus on clock tick" << std::endl;
     }
@@ -59,7 +59,7 @@ void GenericRegister::in() {
     readOnClock = true;
 }
 
-void GenericRegister::out() {
+void Core::GenericRegister::out() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register: out" << std::endl;
     }
@@ -67,7 +67,7 @@ void GenericRegister::out() {
     writeToBus();
 }
 
-void GenericRegister::clockTicked() {
+void Core::GenericRegister::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << this->name << " register: clock ticked" << std::endl;
     }
@@ -78,6 +78,6 @@ void GenericRegister::clockTicked() {
     }
 }
 
-void GenericRegister::setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener) {
+void Core::GenericRegister::setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener) {
     this->registerListener = newRegisterListener;
 }

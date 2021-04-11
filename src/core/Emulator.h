@@ -16,32 +16,35 @@
 #include "RandomAccessMemory.h"
 #include "StepCounter.h"
 
-class Emulator {
+namespace Core {
 
-public:
-    Emulator();
-    ~Emulator();
+    class Emulator {
 
-    void run(const std::string &fileName);
+    public:
+        Emulator();
+        ~Emulator();
 
-private:
-    std::shared_ptr<Clock> clock;
-    std::shared_ptr<Bus> bus;
-    std::shared_ptr<GenericRegister> aRegister;
-    std::shared_ptr<GenericRegister> bRegister;
-    std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
-    std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
-    std::shared_ptr<ProgramCounter> programCounter;
-    std::shared_ptr<RandomAccessMemory> randomAccessMemory;
-    std::shared_ptr<InstructionRegister> instructionRegister;
-    std::shared_ptr<OutputRegister> outputRegister;
-    std::shared_ptr<StepCounter> stepCounter;
-    std::shared_ptr<InstructionDecoder> instructionDecoder;
-    std::shared_ptr<FlagsRegister> flagsRegister;
+        void run(const std::string &fileName);
 
-    void printValues();
-    void reset();
-    [[nodiscard]] bool programMemory(const std::string &fileName);
-};
+    private:
+        std::shared_ptr<Clock> clock;
+        std::shared_ptr<Bus> bus;
+        std::shared_ptr<GenericRegister> aRegister;
+        std::shared_ptr<GenericRegister> bRegister;
+        std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
+        std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
+        std::shared_ptr<ProgramCounter> programCounter;
+        std::shared_ptr<RandomAccessMemory> randomAccessMemory;
+        std::shared_ptr<InstructionRegister> instructionRegister;
+        std::shared_ptr<OutputRegister> outputRegister;
+        std::shared_ptr<StepCounter> stepCounter;
+        std::shared_ptr<InstructionDecoder> instructionDecoder;
+        std::shared_ptr<FlagsRegister> flagsRegister;
+
+        void printValues();
+        void reset();
+        [[nodiscard]] bool programMemory(const std::string &fileName);
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_H

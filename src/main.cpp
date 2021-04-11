@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
 
     std::string fileName = argv[1];
 
-    const auto emulator = std::make_unique<Emulator>();
+    const auto emulator = std::make_unique<Core::Emulator>();
 
     try {
         emulator->run(fileName);

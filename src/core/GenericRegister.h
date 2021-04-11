@@ -8,41 +8,44 @@
 #include "ClockListener.h"
 #include "RegisterListener.h"
 
-/**
- * Generic 8-bit register with standard operations for reading from the bus and writing to the bus.
- *
- * Supports an optional listener that can be notified immediately whenever the value of the register changes.
- */
-class GenericRegister: public ClockListener {
+namespace Core {
 
-public:
-    GenericRegister(const std::string& name, const std::shared_ptr<Bus> &bus);
-    ~GenericRegister();
+    /**
+     * Generic 8-bit register with standard operations for reading from the bus and writing to the bus.
+     *
+     * Supports an optional listener that can be notified immediately whenever the value of the register changes.
+     */
+    class GenericRegister: public ClockListener {
 
-    /** Get the current value in the register. */
-    [[nodiscard]] virtual uint8_t readValue() const;
-    /** Print current value to standard out. */
-    void print();
-    /** Reset the register value to 0. */
-    void reset();
-    /** Take value from the bus on next clock tick. */
-    void in();
-    /** Output current value to the bus. */
-    void out();
-    /** Set a listener that will be notified when the value changes. */
-    void setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener);
+    public:
+        GenericRegister(const std::string& name, const std::shared_ptr<Bus> &bus);
+        ~GenericRegister();
 
-private:
-    std::string name;
-    std::shared_ptr<RegisterListener> registerListener;
-    std::shared_ptr<Bus> bus;
-    uint8_t value;
-    bool readOnClock;
+        /** Get the current value in the register. */
+        [[nodiscard]] virtual uint8_t readValue() const;
+        /** Print current value to standard out. */
+        void print();
+        /** Reset the register value to 0. */
+        void reset();
+        /** Take value from the bus on next clock tick. */
+        void in();
+        /** Output current value to the bus. */
+        void out();
+        /** Set a listener that will be notified when the value changes. */
+        void setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener);
 
-    void readFromBus();
-    void writeToBus();
+    private:
+        std::string name;
+        std::shared_ptr<RegisterListener> registerListener;
+        std::shared_ptr<Bus> bus;
+        uint8_t value;
+        bool readOnClock;
 
-    void clockTicked() override;
-};
+        void readFromBus();
+        void writeToBus();
+
+        void clockTicked() override;
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_GENERICREGISTER_H

@@ -8,27 +8,30 @@
 #include "ClockListener.h"
 #include "RegisterListener.h"
 
-class MemoryAddressRegister: public ClockListener {
+namespace Core {
 
-public:
-    MemoryAddressRegister(const std::shared_ptr<RegisterListener> &registerListener,
-                          const std::shared_ptr<Bus> &bus);
-    ~MemoryAddressRegister();
+    class MemoryAddressRegister: public ClockListener {
 
-    void print() const;
-    void reset();
-    void program(const std::bitset<4> &address);
-    void in();
+    public:
+        MemoryAddressRegister(const std::shared_ptr<RegisterListener> &registerListener,
+                              const std::shared_ptr<Bus> &bus);
+        ~MemoryAddressRegister();
 
-private:
-    std::shared_ptr<RegisterListener> registerListener;
-    std::shared_ptr<Bus> bus;
-    uint8_t value;
-    bool readOnClock;
+        void print() const;
+        void reset();
+        void program(const std::bitset<4> &address);
+        void in();
 
-    void readFromBus();
+    private:
+        std::shared_ptr<RegisterListener> registerListener;
+        std::shared_ptr<Bus> bus;
+        uint8_t value;
+        bool readOnClock;
 
-    void clockTicked() override;
-};
+        void readFromBus();
+
+        void clockTicked() override;
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_MEMORYADDRESSREGISTER_H

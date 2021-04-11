@@ -3,6 +3,8 @@
 
 #include "core/FlagsRegister.h"
 
+using namespace Core;
+
 TEST_SUITE("FlagsRegisterTest") {
     TEST_CASE("flags should be false on new instance") {
         fakeit::Mock<ArithmeticLogicUnit> aluMock;

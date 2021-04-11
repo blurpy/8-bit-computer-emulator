@@ -4,7 +4,7 @@
 
 #include "FlagsRegister.h"
 
-FlagsRegister::FlagsRegister(const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit) {
+Core::FlagsRegister::FlagsRegister(const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit) {
     if (Utils::debugL2()) {
         std::cout << "FlagsRegister construct" << std::endl;
     }
@@ -15,22 +15,22 @@ FlagsRegister::FlagsRegister(const std::shared_ptr<ArithmeticLogicUnit> &arithme
     this->zeroFlag = false;
 }
 
-FlagsRegister::~FlagsRegister() {
+Core::FlagsRegister::~FlagsRegister() {
     if (Utils::debugL2()) {
         std::cout << "FlagsRegister destruct" << std::endl;
     }
 }
 
-void FlagsRegister::print() const {
+void Core::FlagsRegister::print() const {
     std::cout << "FlagsRegister: CF=" << carryFlag << ", ZF=" << zeroFlag << std::endl;
 }
 
-void FlagsRegister::reset() {
+void Core::FlagsRegister::reset() {
     carryFlag = false;
     zeroFlag = false;
 }
 
-void FlagsRegister::in() {
+void Core::FlagsRegister::in() {
     if (Utils::debugL2()) {
         std::cout << "FlagsRegister: in - will read from ALU on clock tick" << std::endl;
     }
@@ -38,7 +38,7 @@ void FlagsRegister::in() {
     readOnClock = true;
 }
 
-void FlagsRegister::readFromAlu() {
+void Core::FlagsRegister::readFromAlu() {
     bool aluCarry = arithmeticLogicUnit->isCarry();
     bool aluZero = arithmeticLogicUnit->isZero();
 
@@ -51,7 +51,7 @@ void FlagsRegister::readFromAlu() {
     zeroFlag = aluZero;
 }
 
-void FlagsRegister::clockTicked() {
+void Core::FlagsRegister::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << "FlagsRegister: clock ticked" << std::endl;
     }
@@ -62,10 +62,10 @@ void FlagsRegister::clockTicked() {
     }
 }
 
-bool FlagsRegister::isCarryFlag() const {
+bool Core::FlagsRegister::isCarryFlag() const {
     return carryFlag;
 }
 
-bool FlagsRegister::isZeroFlag() const {
+bool Core::FlagsRegister::isZeroFlag() const {
     return zeroFlag;
 }

@@ -5,7 +5,7 @@
 
 #include "ProgramCounter.h"
 
-ProgramCounter::ProgramCounter(const std::shared_ptr<Bus> &bus) {
+Core::ProgramCounter::ProgramCounter(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter construct" << std::endl;
     }
@@ -16,13 +16,13 @@ ProgramCounter::ProgramCounter(const std::shared_ptr<Bus> &bus) {
     this->readOnClock = false;
 }
 
-ProgramCounter::~ProgramCounter() {
+Core::ProgramCounter::~ProgramCounter() {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter destruct" << std::endl;
     }
 }
 
-void ProgramCounter::increment() {
+void Core::ProgramCounter::increment() {
     value = ++value % 16;
 
     if (Utils::debugL2()) {
@@ -30,7 +30,7 @@ void ProgramCounter::increment() {
     }
 }
 
-void ProgramCounter::readFromBus() {
+void Core::ProgramCounter::readFromBus() {
     uint8_t busValue = bus->read();
 
     if (Utils::debugL2()) {
@@ -41,7 +41,7 @@ void ProgramCounter::readFromBus() {
     value = busValue;
 }
 
-void ProgramCounter::writeToBus() {
+void Core::ProgramCounter::writeToBus() {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter: writing to bus " << (int) value << std::endl;
     }
@@ -49,15 +49,15 @@ void ProgramCounter::writeToBus() {
     bus->write(value);
 }
 
-void ProgramCounter::print() const {
+void Core::ProgramCounter::print() const {
     printf("ProgramCounter: %d / 0x%02X / " BIT_4_PATTERN " \n", value, value, BIT_4_TO_BINARY(value));
 }
 
-void ProgramCounter::reset() {
+void Core::ProgramCounter::reset() {
     value = 0;
 }
 
-void ProgramCounter::out() {
+void Core::ProgramCounter::out() {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter: out" << std::endl;
     }
@@ -65,7 +65,7 @@ void ProgramCounter::out() {
     writeToBus();
 }
 
-void ProgramCounter::enable() {
+void Core::ProgramCounter::enable() {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter: enable - will increment on clock tick" << std::endl;
     }
@@ -73,7 +73,7 @@ void ProgramCounter::enable() {
     incrementOnClock = true;
 }
 
-void ProgramCounter::jump() {
+void Core::ProgramCounter::jump() {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter: jump - will read from bus on clock tick" << std::endl;
     }
@@ -81,7 +81,7 @@ void ProgramCounter::jump() {
     readOnClock = true;
 }
 
-void ProgramCounter::clockTicked() {
+void Core::ProgramCounter::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter: clock ticked" << std::endl;
     }

@@ -2,6 +2,8 @@
 
 #include "core/Emulator.h"
 
+using namespace Core;
+
 TEST_SUITE("EmulatorIntegrationTest") {
     TEST_CASE("run() should throw exception if file does not exist") {
         Emulator emulator;

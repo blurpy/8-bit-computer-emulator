@@ -4,7 +4,7 @@
 
 #include "OutputRegister.h"
 
-OutputRegister::OutputRegister(const std::shared_ptr<Bus> &bus) {
+Core::OutputRegister::OutputRegister(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "OutputRegister construct" << std::endl;
     }
@@ -14,13 +14,13 @@ OutputRegister::OutputRegister(const std::shared_ptr<Bus> &bus) {
     this->readOnClock = false;
 }
 
-OutputRegister::~OutputRegister() {
+Core::OutputRegister::~OutputRegister() {
     if (Utils::debugL2()) {
         std::cout << "OutputRegister destruct" << std::endl;
     }
 }
 
-void OutputRegister::readFromBus() {
+void Core::OutputRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
     if (Utils::debugL2()) {
@@ -33,15 +33,15 @@ void OutputRegister::readFromBus() {
     std::cout << "*** Display: " << (int) value << std::endl;
 }
 
-void OutputRegister::print() const {
+void Core::OutputRegister::print() const {
     printf("OutputRegister: %d / 0x%02X / " BYTE_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
-void OutputRegister::reset() {
+void Core::OutputRegister::reset() {
     value = 0;
 }
 
-void OutputRegister::in() {
+void Core::OutputRegister::in() {
     if (Utils::debugL2()) {
         std::cout << "OutputRegister: in - will read from bus on clock tick" << std::endl;
     }
@@ -49,7 +49,7 @@ void OutputRegister::in() {
     readOnClock = true;
 }
 
-void OutputRegister::clockTicked() {
+void Core::OutputRegister::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << "OutputRegister: clock ticked" << std::endl;
     }

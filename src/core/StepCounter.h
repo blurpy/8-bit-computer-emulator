@@ -6,23 +6,26 @@
 #include "ClockListener.h"
 #include "StepListener.h"
 
-class StepCounter: public ClockListener {
+namespace Core {
 
-public:
-    explicit StepCounter(const std::shared_ptr<StepListener> &stepListener);
-    ~StepCounter();
+    class StepCounter: public ClockListener {
 
-    void reset();
-    void print() const;
+    public:
+        explicit StepCounter(const std::shared_ptr<StepListener> &stepListener);
+        ~StepCounter();
 
-private:
-    uint8_t counter;
-    bool init;
-    std::shared_ptr<StepListener> stepListener;
+        void reset();
+        void print() const;
 
-    void increment();
+    private:
+        uint8_t counter;
+        bool init;
+        std::shared_ptr<StepListener> stepListener;
 
-    void invertedClockTicked() override;
-};
+        void increment();
+
+        void invertedClockTicked() override;
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_STEPCOUNTER_H

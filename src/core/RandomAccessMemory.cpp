@@ -4,7 +4,7 @@
 
 #include "RandomAccessMemory.h"
 
-RandomAccessMemory::RandomAccessMemory(const std::shared_ptr<Bus> &bus) {
+Core::RandomAccessMemory::RandomAccessMemory(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory construct" << std::endl;
     }
@@ -14,13 +14,13 @@ RandomAccessMemory::RandomAccessMemory(const std::shared_ptr<Bus> &bus) {
     this->readOnClock = false;
 }
 
-RandomAccessMemory::~RandomAccessMemory() {
+Core::RandomAccessMemory::~RandomAccessMemory() {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory destruct" << std::endl;
     }
 }
 
-void RandomAccessMemory::readFromBus() {
+void Core::RandomAccessMemory::readFromBus() {
     uint8_t busValue = bus->read();
     uint8_t currentValue = memory[address];
 
@@ -32,7 +32,7 @@ void RandomAccessMemory::readFromBus() {
     memory[address] = busValue;
 }
 
-void RandomAccessMemory::writeToBus() {
+void Core::RandomAccessMemory::writeToBus() {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: writing to bus " << (int) memory[address] << std::endl;
     }
@@ -40,7 +40,7 @@ void RandomAccessMemory::writeToBus() {
     bus->write(memory[address]);
 }
 
-void RandomAccessMemory::print() {
+void Core::RandomAccessMemory::print() {
     printf("RandomAccessMemory: current address - %d / 0x%02X / " BIT_4_PATTERN " \n", address, address, BIT_4_TO_BINARY(address));
     printf("RandomAccessMemory: current value - %d / 0x%02X / " BYTE_PATTERN " \n", memory[address], memory[address], BYTE_TO_BINARY(memory[address]));
 
@@ -49,11 +49,11 @@ void RandomAccessMemory::print() {
     }
 }
 
-void RandomAccessMemory::reset() {
+void Core::RandomAccessMemory::reset() {
     address = 0;
 }
 
-void RandomAccessMemory::program(const std::bitset<4> &opcode, const std::bitset<4> &operand) {
+void Core::RandomAccessMemory::program(const std::bitset<4> &opcode, const std::bitset<4> &operand) {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: programming at address " << (int) address << " with opcode " << opcode
                   << " and operand " << operand << std::endl;
@@ -63,7 +63,7 @@ void RandomAccessMemory::program(const std::bitset<4> &opcode, const std::bitset
         memory[address] = newValue.to_ulong();
 }
 
-void RandomAccessMemory::in() {
+void Core::RandomAccessMemory::in() {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: in - will read from bus on clock tick" << std::endl;
     }
@@ -71,7 +71,7 @@ void RandomAccessMemory::in() {
     readOnClock = true;
 }
 
-void RandomAccessMemory::out() {
+void Core::RandomAccessMemory::out() {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: out" << std::endl;
     }
@@ -79,7 +79,7 @@ void RandomAccessMemory::out() {
     writeToBus();
 }
 
-void RandomAccessMemory::clockTicked() {
+void Core::RandomAccessMemory::clockTicked() {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: clock ticked" << std::endl;
     }
@@ -90,7 +90,7 @@ void RandomAccessMemory::clockTicked() {
     }
 }
 
-void RandomAccessMemory::registerValueChanged(const uint8_t newValue) {
+void Core::RandomAccessMemory::registerValueChanged(const uint8_t newValue) {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: registerValueChanged. "
                   << "changing address from " << (int) address << " to " << (int) newValue << std::endl;

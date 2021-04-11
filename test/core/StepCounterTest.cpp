@@ -3,6 +3,8 @@
 
 #include "core/StepCounter.h"
 
+using namespace Core;
+
 TEST_SUITE("StepCounterTest") {
     TEST_CASE("inverted clock ticks should notify listener of incrementing steps and wrap at 4") {
         fakeit::Mock<StepListener> stepListenerMock;

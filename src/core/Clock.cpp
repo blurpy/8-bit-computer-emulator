@@ -6,7 +6,7 @@
 
 #include "Clock.h"
 
-Clock::Clock() {
+Core::Clock::Clock() {
     if (Utils::debugL2()) {
         std::cout << "Clock construct" << std::endl;
     }
@@ -19,7 +19,7 @@ Clock::Clock() {
     this->remainingTicks = 0;
 }
 
-Clock::~Clock() {
+Core::Clock::~Clock() {
     if (Utils::debugL2()) {
         std::cout << "Clock destruct" << std::endl;
     }
@@ -28,7 +28,7 @@ Clock::~Clock() {
     listeners.clear();
 }
 
-void Clock::start() {
+void Core::Clock::start() {
     std::cout << "Clock: starting clock" << std::endl;
     assert(frequency > 0);
 
@@ -40,16 +40,16 @@ void Clock::start() {
     clockThread = std::thread(&Clock::mainLoop, this);
 }
 
-void Clock::stop() {
+void Core::Clock::stop() {
     running = false;
     std::cout << "Clock: stopped" << std::endl;
 }
 
-void Clock::join() {
+void Core::Clock::join() {
     clockThread.join();
 }
 
-void Clock::singleStep() {
+void Core::Clock::singleStep() {
     std::cout << "Clock: single stepping clock" << std::endl;
     assert(frequency > 0);
 
@@ -63,11 +63,11 @@ void Clock::singleStep() {
     clockThread.join();
 }
 
-void Clock::setFrequency(const double hz) {
+void Core::Clock::setFrequency(const double hz) {
     frequency = (1.0 / (hz * 2.0) * 1000.0 * 1000.0 * 1000.0);
 }
 
-void Clock::mainLoop() {
+void Core::Clock::mainLoop() {
     if (Utils::debugL1()) {
         std::cout << "Clock: starting main loop" << std::endl;
     }
@@ -101,7 +101,7 @@ void Clock::mainLoop() {
     }
 }
 
-bool Clock::tick() {
+bool Core::Clock::tick() {
     bool incremented = false;
 
     auto currentTick = std::chrono::steady_clock::now();
@@ -119,14 +119,14 @@ bool Clock::tick() {
     return incremented;
 }
 
-void Clock::sleep(const int microseconds) const {
+void Core::Clock::sleep(const int microseconds) const {
     std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
 }
 
-void Clock::addListener(const std::shared_ptr<ClockListener> &listener) {
+void Core::Clock::addListener(const std::shared_ptr<ClockListener> &listener) {
     listeners.push_back(listener);
 }
 
-void Clock::clearListeners() {
+void Core::Clock::clearListeners() {
     listeners.clear();
 }

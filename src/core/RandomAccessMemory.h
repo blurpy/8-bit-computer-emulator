@@ -9,29 +9,32 @@
 #include "ClockListener.h"
 #include "RegisterListener.h"
 
-class RandomAccessMemory: public ClockListener, public RegisterListener {
+namespace Core {
 
-public:
-    explicit RandomAccessMemory(const std::shared_ptr<Bus> &bus);
-    ~RandomAccessMemory();
+    class RandomAccessMemory: public ClockListener, public RegisterListener {
 
-    void print();
-    void reset();
-    void program(const std::bitset<4> &opcode, const std::bitset<4> &operand);
-    void in();
-    void out();
+    public:
+        explicit RandomAccessMemory(const std::shared_ptr<Bus> &bus);
+        ~RandomAccessMemory();
 
-private:
-    std::shared_ptr<Bus> bus;
-    std::array<uint8_t, 16> memory{};
-    uint8_t address;
-    bool readOnClock;
+        void print();
+        void reset();
+        void program(const std::bitset<4> &opcode, const std::bitset<4> &operand);
+        void in();
+        void out();
 
-    void readFromBus();
-    void writeToBus();
+    private:
+        std::shared_ptr<Bus> bus;
+        std::array<uint8_t, 16> memory{};
+        uint8_t address;
+        bool readOnClock;
 
-    void clockTicked() override;
-    void registerValueChanged(uint8_t newValue) override;
-};
+        void readFromBus();
+        void writeToBus();
+
+        void clockTicked() override;
+        void registerValueChanged(uint8_t newValue) override;
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_RANDOMACCESSMEMORY_H

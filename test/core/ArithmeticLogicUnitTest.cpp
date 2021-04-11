@@ -3,6 +3,8 @@
 
 #include "core/ArithmeticLogicUnit.h"
 
+using namespace Core;
+
 TEST_SUITE("ArithmeticLogicUnitTest") {
     TEST_CASE("only zero bit should be true on new instance") {
         const std::shared_ptr<Bus> &bus = std::make_shared<Bus>();

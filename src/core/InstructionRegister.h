@@ -6,27 +6,30 @@
 #include "Bus.h"
 #include "ClockListener.h"
 
-class InstructionRegister: public ClockListener {
+namespace Core {
 
-public:
-    explicit InstructionRegister(const std::shared_ptr<Bus> &bus);
-    ~InstructionRegister();
+    class InstructionRegister: public ClockListener {
 
-    void print() const;
-    void reset();
-    void in();
-    void out();
-    [[nodiscard]] uint8_t getOpcode() const;
+    public:
+        explicit InstructionRegister(const std::shared_ptr<Bus> &bus);
+        ~InstructionRegister();
 
-private:
-    std::shared_ptr<Bus> bus;
-    uint8_t value;
-    bool readOnClock;
+        void print() const;
+        void reset();
+        void in();
+        void out();
+        [[nodiscard]] uint8_t getOpcode() const;
 
-    void readFromBus();
-    void writeToBus();
+    private:
+        std::shared_ptr<Bus> bus;
+        uint8_t value;
+        bool readOnClock;
 
-    void clockTicked() override;
-};
+        void readFromBus();
+        void writeToBus();
+
+        void clockTicked() override;
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_INSTRUCTIONREGISTER_H

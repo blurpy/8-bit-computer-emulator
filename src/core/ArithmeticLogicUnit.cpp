@@ -4,9 +4,9 @@
 
 #include "ArithmeticLogicUnit.h"
 
-ArithmeticLogicUnit::ArithmeticLogicUnit(const std::shared_ptr<GenericRegister> &aRegister,
-                                         const std::shared_ptr<GenericRegister> &bRegister,
-                                         const std::shared_ptr<Bus> &bus) {
+Core::ArithmeticLogicUnit::ArithmeticLogicUnit(const std::shared_ptr<GenericRegister> &aRegister,
+                                               const std::shared_ptr<GenericRegister> &bRegister,
+                                               const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit construct" << std::endl;
     }
@@ -19,28 +19,28 @@ ArithmeticLogicUnit::ArithmeticLogicUnit(const std::shared_ptr<GenericRegister> 
     this->zero = true;
 }
 
-ArithmeticLogicUnit::~ArithmeticLogicUnit() {
+Core::ArithmeticLogicUnit::~ArithmeticLogicUnit() {
     if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit destruct" << std::endl;
     }
 }
 
-void ArithmeticLogicUnit::writeToBus() {
+void Core::ArithmeticLogicUnit::writeToBus() {
     this->bus->write(this->value);
 }
 
-void ArithmeticLogicUnit::print() const {
+void Core::ArithmeticLogicUnit::print() const {
     printf("ArithmeticLogicUnit: value - %d / 0x%02X / " BYTE_PATTERN " \n", this->value, this->value, BYTE_TO_BINARY(this->value));
     std::cout << "ArithmeticLogicUnit: bits - C=" << this->carry << ", Z=" << this->zero << std::endl;
 }
 
-void ArithmeticLogicUnit::reset() {
+void Core::ArithmeticLogicUnit::reset() {
     value = 0;
     carry = false;
     zero = true;
 }
 
-void ArithmeticLogicUnit::out() {
+void Core::ArithmeticLogicUnit::out() {
     if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit: out" << std::endl;
     }
@@ -48,11 +48,11 @@ void ArithmeticLogicUnit::out() {
     writeToBus();
 }
 
-void ArithmeticLogicUnit::registerValueChanged(const uint8_t registerValue) {
+void Core::ArithmeticLogicUnit::registerValueChanged(const uint8_t registerValue) {
     add();
 }
 
-void ArithmeticLogicUnit::add() {
+void Core::ArithmeticLogicUnit::add() {
     uint8_t aValue = aRegister->readValue();
     uint8_t bValue = bRegister->readValue();
     uint16_t result = aValue + bValue;
@@ -103,7 +103,7 @@ void ArithmeticLogicUnit::add() {
  *            = 255
  * 0 + 255 = 255 (no carry needed)
  */
-void ArithmeticLogicUnit::subtract() {
+void Core::ArithmeticLogicUnit::subtract() {
     uint8_t aValue = aRegister->readValue();
     uint8_t bValue = -(unsigned int) bRegister->readValue(); // Two's complement conversion
     uint16_t result = aValue + bValue;
@@ -123,10 +123,10 @@ void ArithmeticLogicUnit::subtract() {
     zero = newZero;
 }
 
-bool ArithmeticLogicUnit::isCarry() const {
+bool Core::ArithmeticLogicUnit::isCarry() const {
     return carry;
 }
 
-bool ArithmeticLogicUnit::isZero() const {
+bool Core::ArithmeticLogicUnit::isZero() const {
     return zero;
 }

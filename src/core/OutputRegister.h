@@ -6,24 +6,27 @@
 #include "Bus.h"
 #include "ClockListener.h"
 
-class OutputRegister: public ClockListener {
+namespace Core {
 
-public:
-    explicit OutputRegister(const std::shared_ptr<Bus> &bus);
-    ~OutputRegister();
+    class OutputRegister: public ClockListener {
 
-    void print() const;
-    void reset();
-    void in();
+    public:
+        explicit OutputRegister(const std::shared_ptr<Bus> &bus);
+        ~OutputRegister();
 
-private:
-    std::shared_ptr<Bus> bus;
-    uint8_t value;
-    bool readOnClock;
+        void print() const;
+        void reset();
+        void in();
 
-    void readFromBus();
+    private:
+        std::shared_ptr<Bus> bus;
+        uint8_t value;
+        bool readOnClock;
 
-    void clockTicked() override;
-};
+        void readFromBus();
+
+        void clockTicked() override;
+    };
+}
 
 #endif //INC_8_BIT_COMPUTER_EMULATOR_OUTPUTREGISTER_H

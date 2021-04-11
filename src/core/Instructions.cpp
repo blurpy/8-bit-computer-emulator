@@ -2,7 +2,7 @@
 
 #include "Instructions.h"
 
-Instructions::Instruction Instructions::find(const std::string& mnemonic) {
+Core::Instructions::Instruction Core::Instructions::find(const std::string& mnemonic) {
     for (Instruction candidate : Instructions::ALL) {
         if (mnemonic == candidate.mnemonic) {
             return candidate;
@@ -12,6 +12,6 @@ Instructions::Instruction Instructions::find(const std::string& mnemonic) {
     return UNKNOWN;
 }
 
-std::bitset<4> Instructions::noOperand() {
+std::bitset<4> Core::Instructions::noOperand() {
     return std::bitset<4>("0000");
 }

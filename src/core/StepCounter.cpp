@@ -4,7 +4,7 @@
 
 #include "StepCounter.h"
 
-StepCounter::StepCounter(const std::shared_ptr<StepListener> &stepListener) {
+Core::StepCounter::StepCounter(const std::shared_ptr<StepListener> &stepListener) {
     if (Utils::debugL2()) {
         std::cout << "StepCounter construct" << std::endl;
     }
@@ -14,22 +14,22 @@ StepCounter::StepCounter(const std::shared_ptr<StepListener> &stepListener) {
     this->init = true;
 }
 
-StepCounter::~StepCounter() {
+Core::StepCounter::~StepCounter() {
     if (Utils::debugL2()) {
         std::cout << "StepCounter destruct" << std::endl;
     }
 }
 
-void StepCounter::print() const {
+void Core::StepCounter::print() const {
     printf("StepCounter: %d / 0x%02X / " BIT_3_PATTERN " \n", counter, counter, BIT_3_TO_BINARY(counter));
 }
 
-void StepCounter::reset() {
+void Core::StepCounter::reset() {
     counter = 0;
     init = true;
 }
 
-void StepCounter::increment() {
+void Core::StepCounter::increment() {
     if (init) {
         init = false;
     } else {
@@ -41,7 +41,7 @@ void StepCounter::increment() {
     }
 }
 
-void StepCounter::invertedClockTicked() {
+void Core::StepCounter::invertedClockTicked() {
     if (Utils::debugL2()) {
         std::cout << "StepCounter: inverted clock ticked" << std::endl;
     }
