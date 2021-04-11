@@ -9,7 +9,7 @@
 class StepCounter: public ClockListener {
 
 public:
-    explicit StepCounter(std::shared_ptr<StepListener> stepListener);
+    explicit StepCounter(const std::shared_ptr<StepListener> &stepListener);
     ~StepCounter();
 
     void reset();

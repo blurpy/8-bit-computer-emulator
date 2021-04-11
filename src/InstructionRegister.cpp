@@ -4,12 +4,12 @@
 
 #include "InstructionRegister.h"
 
-InstructionRegister::InstructionRegister(std::shared_ptr<Bus> bus) {
+InstructionRegister::InstructionRegister(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "InstructionRegister construct" << std::endl;
     }
 
-    this->bus = std::move(bus);
+    this->bus = bus;
     this->value = 0;
     this->readOnClock = false;
 }

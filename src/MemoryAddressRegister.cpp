@@ -1,18 +1,18 @@
 #include <cassert>
 #include <iostream>
-#include <utility>
 
 #include "Utils.h"
 
 #include "MemoryAddressRegister.h"
 
-MemoryAddressRegister::MemoryAddressRegister(std::shared_ptr<RegisterListener> registerListener, std::shared_ptr<Bus> bus) {
+MemoryAddressRegister::MemoryAddressRegister(const std::shared_ptr<RegisterListener> &registerListener,
+                                             const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister construct" << std::endl;
     }
 
-    this->registerListener = std::move(registerListener);
-    this->bus = std::move(bus);
+    this->registerListener = registerListener;
+    this->bus = bus;
     this->value = 0;
     this->readOnClock = false;
 }

@@ -15,16 +15,16 @@
 class InstructionDecoder: public StepListener {
 
 public:
-    InstructionDecoder(std::shared_ptr<MemoryAddressRegister> memoryAddressRegister,
-                       std::shared_ptr<ProgramCounter> programCounter,
-                       std::shared_ptr<RandomAccessMemory> randomAccessMemory,
-                       std::shared_ptr<InstructionRegister> instructionRegister,
-                       std::shared_ptr<GenericRegister> aRegister,
-                       std::shared_ptr<GenericRegister> bRegister,
-                       std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit,
-                       std::shared_ptr<OutputRegister> outputRegister,
-                       std::shared_ptr<FlagsRegister> flagsRegister,
-                       std::shared_ptr<Clock> clock);
+    InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
+                       const std::shared_ptr<ProgramCounter> &programCounter,
+                       const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
+                       const std::shared_ptr<InstructionRegister> &instructionRegister,
+                       const std::shared_ptr<GenericRegister> &aRegister,
+                       const std::shared_ptr<GenericRegister> &bRegister,
+                       const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit,
+                       const std::shared_ptr<OutputRegister> &outputRegister,
+                       const std::shared_ptr<FlagsRegister> &flagsRegister,
+                       const std::shared_ptr<Clock> &clock);
     ~InstructionDecoder();
 
 private:

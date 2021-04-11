@@ -9,7 +9,7 @@
 class InstructionRegister: public ClockListener {
 
 public:
-    explicit InstructionRegister(std::shared_ptr<Bus> bus);
+    explicit InstructionRegister(const std::shared_ptr<Bus> &bus);
     ~InstructionRegister();
 
     void print() const;

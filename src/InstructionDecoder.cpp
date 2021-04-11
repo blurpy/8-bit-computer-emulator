@@ -1,36 +1,35 @@
 #include <cassert>
 #include <iostream>
-#include <utility>
 
 #include "Instructions.h"
 #include "Utils.h"
 
 #include "InstructionDecoder.h"
 
-InstructionDecoder::InstructionDecoder(std::shared_ptr<MemoryAddressRegister> memoryAddressRegister,
-                                       std::shared_ptr<ProgramCounter> programCounter,
-                                       std::shared_ptr<RandomAccessMemory> randomAccessMemory,
-                                       std::shared_ptr<InstructionRegister> instructionRegister,
-                                       std::shared_ptr<GenericRegister> aRegister,
-                                       std::shared_ptr<GenericRegister> bRegister,
-                                       std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit,
-                                       std::shared_ptr<OutputRegister> outputRegister,
-                                       std::shared_ptr<FlagsRegister> flagsRegister,
-                                       std::shared_ptr<Clock> clock) {
+InstructionDecoder::InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
+                                       const std::shared_ptr<ProgramCounter> &programCounter,
+                                       const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
+                                       const std::shared_ptr<InstructionRegister> &instructionRegister,
+                                       const std::shared_ptr<GenericRegister> &aRegister,
+                                       const std::shared_ptr<GenericRegister> &bRegister,
+                                       const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit,
+                                       const std::shared_ptr<OutputRegister> &outputRegister,
+                                       const std::shared_ptr<FlagsRegister> &flagsRegister,
+                                       const std::shared_ptr<Clock> &clock) {
     if (Utils::debugL2()) {
         std::cout << "InstructionDecoder construct" << std::endl;
     }
 
-    this->memoryAddressRegister = std::move(memoryAddressRegister);
-    this->programCounter = std::move(programCounter);
-    this->randomAccessMemory = std::move(randomAccessMemory);
-    this->instructionRegister = std::move(instructionRegister);
-    this->aRegister = std::move(aRegister);
-    this->bRegister = std::move(bRegister);
-    this->arithmeticLogicUnit = std::move(arithmeticLogicUnit);
-    this->outputRegister = std::move(outputRegister);
-    this->flagsRegister = std::move(flagsRegister);
-    this->clock = std::move(clock);
+    this->memoryAddressRegister = memoryAddressRegister;
+    this->programCounter = programCounter;
+    this->randomAccessMemory = randomAccessMemory;
+    this->instructionRegister = instructionRegister;
+    this->aRegister = aRegister;
+    this->bRegister = bRegister;
+    this->arithmeticLogicUnit = arithmeticLogicUnit;
+    this->outputRegister = outputRegister;
+    this->flagsRegister = flagsRegister;
+    this->clock = clock;
 }
 
 InstructionDecoder::~InstructionDecoder() {

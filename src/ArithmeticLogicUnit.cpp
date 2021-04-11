@@ -1,20 +1,19 @@
 #include <iostream>
-#include <utility>
 
 #include "Utils.h"
 
 #include "ArithmeticLogicUnit.h"
 
-ArithmeticLogicUnit::ArithmeticLogicUnit(std::shared_ptr<GenericRegister> aRegister,
-                                         std::shared_ptr<GenericRegister> bRegister,
-                                         std::shared_ptr<Bus> bus) {
+ArithmeticLogicUnit::ArithmeticLogicUnit(const std::shared_ptr<GenericRegister> &aRegister,
+                                         const std::shared_ptr<GenericRegister> &bRegister,
+                                         const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "ArithmeticLogicUnit construct" << std::endl;
     }
 
-    this->aRegister = std::move(aRegister);
-    this->bRegister = std::move(bRegister);
-    this->bus = std::move(bus);
+    this->aRegister = aRegister;
+    this->bRegister = bRegister;
+    this->bus = bus;
     this->value = 0;
     this->carry = false;
     this->zero = true;

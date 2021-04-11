@@ -14,7 +14,7 @@
 class FlagsRegister: public ClockListener {
 
 public:
-    explicit FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit);
+    explicit FlagsRegister(const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit);
     ~FlagsRegister();
 
     /** Print current flag values to standard out. */

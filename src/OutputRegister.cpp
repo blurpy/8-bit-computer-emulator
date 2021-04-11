@@ -1,16 +1,15 @@
 #include <iostream>
-#include <utility>
 
 #include "Utils.h"
 
 #include "OutputRegister.h"
 
-OutputRegister::OutputRegister(std::shared_ptr<Bus> bus) {
+OutputRegister::OutputRegister(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "OutputRegister construct" << std::endl;
     }
 
-    this->bus = std::move(bus);
+    this->bus = bus;
     this->value = 0;
     this->readOnClock = false;
 }

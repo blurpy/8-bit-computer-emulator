@@ -1,13 +1,12 @@
 #include <iostream>
-#include <utility>
 
 #include "Utils.h"
 
 #include "GenericRegister.h"
 
-GenericRegister::GenericRegister(const std::string& name, std::shared_ptr<Bus> bus) {
+GenericRegister::GenericRegister(const std::string& name, const std::shared_ptr<Bus> &bus) {
     this->name = name;
-    this->bus = std::move(bus);
+    this->bus = bus;
     this->value = 0;
     this->readOnClock = false;
 
@@ -79,6 +78,6 @@ void GenericRegister::clockTicked() {
     }
 }
 
-void GenericRegister::setRegisterListener(std::shared_ptr<RegisterListener> newRegisterListener) {
-    this->registerListener = std::move(newRegisterListener);
+void GenericRegister::setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener) {
+    this->registerListener = newRegisterListener;
 }

@@ -16,7 +16,7 @@
 class GenericRegister: public ClockListener {
 
 public:
-    GenericRegister(const std::string& name, std::shared_ptr<Bus> bus);
+    GenericRegister(const std::string& name, const std::shared_ptr<Bus> &bus);
     ~GenericRegister();
 
     /** Get the current value in the register. */
@@ -30,7 +30,7 @@ public:
     /** Output current value to the bus. */
     void out();
     /** Set a listener that will be notified when the value changes. */
-    void setRegisterListener(std::shared_ptr<RegisterListener> newRegisterListener);
+    void setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener);
 
 private:
     std::string name;

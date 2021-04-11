@@ -5,12 +5,12 @@
 
 #include "ProgramCounter.h"
 
-ProgramCounter::ProgramCounter(std::shared_ptr<Bus> bus) {
+ProgramCounter::ProgramCounter(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter construct" << std::endl;
     }
 
-    this->bus = std::move(bus);
+    this->bus = bus;
     this->value = 0;
     this->incrementOnClock = false;
     this->readOnClock = false;

@@ -1,16 +1,15 @@
 #include <iostream>
-#include <utility>
 
 #include "Utils.h"
 
 #include "FlagsRegister.h"
 
-FlagsRegister::FlagsRegister(std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit) {
+FlagsRegister::FlagsRegister(const std::shared_ptr<ArithmeticLogicUnit> &arithmeticLogicUnit) {
     if (Utils::debugL2()) {
         std::cout << "FlagsRegister construct" << std::endl;
     }
 
-    this->arithmeticLogicUnit = std::move(arithmeticLogicUnit);
+    this->arithmeticLogicUnit = arithmeticLogicUnit;
     this->readOnClock = false;
     this->carryFlag = false;
     this->zeroFlag = false;

@@ -1,16 +1,15 @@
 #include <iostream>
-#include <utility>
 
 #include "Utils.h"
 
 #include "StepCounter.h"
 
-StepCounter::StepCounter(std::shared_ptr<StepListener> stepListener) {
+StepCounter::StepCounter(const std::shared_ptr<StepListener> &stepListener) {
     if (Utils::debugL2()) {
         std::cout << "StepCounter construct" << std::endl;
     }
 
-    this->stepListener = std::move(stepListener);
+    this->stepListener = stepListener;
     this->counter = 0;
     this->init = true;
 }

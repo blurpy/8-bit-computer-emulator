@@ -28,9 +28,9 @@
 class ArithmeticLogicUnit: public RegisterListener {
 
 public:
-    ArithmeticLogicUnit(std::shared_ptr<GenericRegister> aRegister,
-                        std::shared_ptr<GenericRegister> bRegister,
-                        std::shared_ptr<Bus> bus);
+    ArithmeticLogicUnit(const std::shared_ptr<GenericRegister> &aRegister,
+                        const std::shared_ptr<GenericRegister> &bRegister,
+                        const std::shared_ptr<Bus> &bus);
     ~ArithmeticLogicUnit();
 
     /** Print current result to standard out. */

@@ -1,16 +1,15 @@
 #include <iostream>
-#include <utility>
 
 #include "Utils.h"
 
 #include "RandomAccessMemory.h"
 
-RandomAccessMemory::RandomAccessMemory(std::shared_ptr<Bus> bus) {
+RandomAccessMemory::RandomAccessMemory(const std::shared_ptr<Bus> &bus) {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory construct" << std::endl;
     }
 
-    this->bus = std::move(bus);
+    this->bus = bus;
     this->address = 0;
     this->readOnClock = false;
 }

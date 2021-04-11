@@ -15,7 +15,7 @@
 class ProgramCounter: public ClockListener {
 
 public:
-    explicit ProgramCounter(std::shared_ptr<Bus> bus);
+    explicit ProgramCounter(const std::shared_ptr<Bus> &bus);
     ~ProgramCounter();
 
     /** Print current value to standard out. */

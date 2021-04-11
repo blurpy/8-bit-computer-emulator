@@ -11,7 +11,8 @@
 class MemoryAddressRegister: public ClockListener {
 
 public:
-    MemoryAddressRegister(std::shared_ptr<RegisterListener> registerListener, std::shared_ptr<Bus> bus);
+    MemoryAddressRegister(const std::shared_ptr<RegisterListener> &registerListener,
+                          const std::shared_ptr<Bus> &bus);
     ~MemoryAddressRegister();
 
     void print() const;
