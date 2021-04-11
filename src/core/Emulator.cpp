@@ -72,7 +72,7 @@ void Emulator::run(const std::string &fileName) {
         std::cout << "Emulator: run clock" << std::endl;
     }
 
-    clock->setFrequency(20);
+    clock->setFrequency(1000);
     clock->start();
     clock->join();
 
