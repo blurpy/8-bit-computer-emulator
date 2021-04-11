@@ -18,7 +18,8 @@ public:
     void join();
     void singleStep();
     void setFrequency(double hz);
-    void addListener(ClockListener* listener);
+    void addListener(const std::shared_ptr<ClockListener> &listener);
+    void clearListeners();
 
 private:
     double frequency;
@@ -29,7 +30,7 @@ private:
     int remainingTicks;
     std::chrono::steady_clock::time_point lastTick;
     std::thread clockThread;
-    std::vector<ClockListener*> listeners;
+    std::vector<std::shared_ptr<ClockListener>> listeners;
 
     void mainLoop();
     bool tick();

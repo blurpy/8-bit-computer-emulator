@@ -26,7 +26,7 @@ Emulator::Emulator() {
                                                               randomAccessMemory, instructionRegister, aRegister,
                                                               bRegister, arithmeticLogicUnit, outputRegister,
                                                               flagsRegister, clock);
-    stepCounter = std::make_unique<StepCounter>(instructionDecoder);
+    stepCounter = std::make_shared<StepCounter>(instructionDecoder);
 
     // Cyclic dependency - also, setting it here to reuse the shared pointers
     aRegister->setRegisterListener(arithmeticLogicUnit);
@@ -34,15 +34,15 @@ Emulator::Emulator() {
 
     // This order is also the order the components receive ticks from the clock.
     // It's important that flags are read first since SUB and ADD change the value in registers on the same clock tick.
-    clock->addListener(flagsRegister.get());
-    clock->addListener(memoryAddressRegister.get());
-    clock->addListener(stepCounter.get());
-    clock->addListener(instructionRegister.get());
-    clock->addListener(programCounter.get());
-    clock->addListener(aRegister.get());
-    clock->addListener(bRegister.get());
-    clock->addListener(outputRegister.get());
-    clock->addListener(randomAccessMemory.get());
+    clock->addListener(flagsRegister);
+    clock->addListener(memoryAddressRegister);
+    clock->addListener(stepCounter);
+    clock->addListener(instructionRegister);
+    clock->addListener(programCounter);
+    clock->addListener(aRegister);
+    clock->addListener(bRegister);
+    clock->addListener(outputRegister);
+    clock->addListener(randomAccessMemory);
 }
 
 Emulator::~Emulator() {
@@ -53,6 +53,8 @@ Emulator::~Emulator() {
     // Fix memory not being freed automatically, probably due to cyclic reference
     aRegister->setRegisterListener(nullptr);
     bRegister->setRegisterListener(nullptr);
+
+    clock->clearListeners();
 }
 
 void Emulator::run(const std::string &fileName) {

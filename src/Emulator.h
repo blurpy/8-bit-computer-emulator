@@ -35,7 +35,7 @@ private:
     std::shared_ptr<RandomAccessMemory> randomAccessMemory;
     std::shared_ptr<InstructionRegister> instructionRegister;
     std::shared_ptr<OutputRegister> outputRegister;
-    std::unique_ptr<StepCounter> stepCounter;
+    std::shared_ptr<StepCounter> stepCounter;
     std::shared_ptr<InstructionDecoder> instructionDecoder;
     std::shared_ptr<FlagsRegister> flagsRegister;
 

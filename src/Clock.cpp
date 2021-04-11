@@ -123,6 +123,10 @@ void Clock::sleep(int microseconds) const {
     std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
 }
 
-void Clock::addListener(ClockListener* listener) {
+void Clock::addListener(const std::shared_ptr<ClockListener> &listener) {
     listeners.push_back(listener);
+}
+
+void Clock::clearListeners() {
+    listeners.clear();
 }
