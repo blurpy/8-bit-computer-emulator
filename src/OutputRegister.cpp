@@ -34,7 +34,7 @@ void OutputRegister::readFromBus() {
 }
 
 void OutputRegister::print() const {
-    printf("OutputRegister: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
+    printf("OutputRegister: %d / 0x%02X / " BYTE_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
 void OutputRegister::reset() {

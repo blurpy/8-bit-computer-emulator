@@ -31,7 +31,7 @@ void Bus::write(const uint8_t newValue) {
 }
 
 void Bus::print() const {
-    printf("Bus: %d / 0x%02X / " BINARY_PATTERN "\n", this->value, this->value, BYTE_TO_BINARY(this->value));
+    printf("Bus: %d / 0x%02X / " BYTE_PATTERN "\n", this->value, this->value, BYTE_TO_BINARY(this->value));
 }
 
 void Bus::reset() {

@@ -37,7 +37,7 @@ void InstructionRegister::writeToBus() {
 }
 
 void InstructionRegister::print() const {
-    printf("InstructionRegister: %d / 0x%02X / " BINARY_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
+    printf("InstructionRegister: %d / 0x%02X / " BYTE_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
 }
 
 void InstructionRegister::reset() {

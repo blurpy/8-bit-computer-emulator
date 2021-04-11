@@ -44,7 +44,7 @@ uint8_t GenericRegister::readValue() const {
 }
 
 void GenericRegister::print() {
-    printf("%s register: %d / 0x%02X / " BINARY_PATTERN " \n", this->name.c_str(), this->value, this->value, BYTE_TO_BINARY(this->value));
+    printf("%s register: %d / 0x%02X / " BYTE_PATTERN " \n", this->name.c_str(), this->value, this->value, BYTE_TO_BINARY(this->value));
 }
 
 void GenericRegister::reset() {

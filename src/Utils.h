@@ -19,7 +19,7 @@
   (byte & 0x01 ? '1' : '0')
 
 // Pattern for printf to display a byte in binary
-#define BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte) \
   (byte & 0x80 ? '1' : '0'), \
   (byte & 0x40 ? '1' : '0'), \

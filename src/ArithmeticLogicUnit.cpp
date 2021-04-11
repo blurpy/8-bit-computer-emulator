@@ -30,7 +30,7 @@ void ArithmeticLogicUnit::writeToBus() {
 }
 
 void ArithmeticLogicUnit::print() const {
-    printf("ArithmeticLogicUnit: value - %d / 0x%02X / " BINARY_PATTERN " \n", this->value, this->value, BYTE_TO_BINARY(this->value));
+    printf("ArithmeticLogicUnit: value - %d / 0x%02X / " BYTE_PATTERN " \n", this->value, this->value, BYTE_TO_BINARY(this->value));
     std::cout << "ArithmeticLogicUnit: bits - C=" << this->carry << ", Z=" << this->zero << std::endl;
 }
 
