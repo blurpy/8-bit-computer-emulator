@@ -1,7 +1,7 @@
-#include "include/doctest.h"
+#include <doctest.h>
 
-#include <Assembler.h>
-#include <Instructions.h>
+#include "core/Assembler.h"
+#include "core/Instructions.h"
 
 TEST_SUITE("AssemblerTest") {
     TEST_CASE("loadInstructions() should parse all instructions") {

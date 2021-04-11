@@ -1,6 +1,6 @@
-#include "include/doctest.h"
+#include <doctest.h>
 
-#include <Utils.h>
+#include "core/Utils.h"
 
 TEST_SUITE("UtilsTest") {
     TEST_CASE("startsWith() should only return true when parameter is exact and at the start") {

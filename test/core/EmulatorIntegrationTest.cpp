@@ -1,6 +1,6 @@
-#include "include/doctest.h"
+#include <doctest.h>
 
-#include "Emulator.h"
+#include "core/Emulator.h"
 
 TEST_SUITE("EmulatorIntegrationTest") {
     TEST_CASE("run() should throw exception if file does not exist") {

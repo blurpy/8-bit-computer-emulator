@@ -1,6 +1,6 @@
-#include "include/doctest.h"
+#include <doctest.h>
 
-#include "Bus.h"
+#include "core/Bus.h"
 
 TEST_SUITE("BusTest") {
     TEST_CASE("read() should return 0 on new instance") {

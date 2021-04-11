@@ -1,7 +1,7 @@
-#include "include/doctest.h"
-#include "include/fakeit.hpp"
+#include <doctest.h>
+#include <fakeit.hpp>
 
-#include "StepCounter.h"
+#include "core/StepCounter.h"
 
 TEST_SUITE("StepCounterTest") {
     TEST_CASE("inverted clock ticks should notify listener of incrementing steps and wrap at 4") {

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
 
-#include "Emulator.h"
+#include "core/Emulator.h"
 
 int main(int argc, char **argv) {
     std::cout << "Starting the 8-bit-computer emulator" << std::endl;

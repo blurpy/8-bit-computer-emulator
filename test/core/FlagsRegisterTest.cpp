@@ -1,7 +1,7 @@
-#include "include/doctest.h"
-#include "include/fakeit.hpp"
+#include <doctest.h>
+#include <fakeit.hpp>
 
-#include "FlagsRegister.h"
+#include "core/FlagsRegister.h"
 
 TEST_SUITE("FlagsRegisterTest") {
     TEST_CASE("flags should be false on new instance") {

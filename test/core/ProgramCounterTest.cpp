@@ -1,6 +1,6 @@
-#include "include/doctest.h"
+#include <doctest.h>
 
-#include "ProgramCounter.h"
+#include "core/ProgramCounter.h"
 
 TEST_SUITE("ProgramCounterTest") {
     TEST_CASE("out() should put 0 on the bus on new instance") {

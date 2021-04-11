@@ -1,7 +1,7 @@
-#include "include/doctest.h"
-#include "include/fakeit.hpp"
+#include <doctest.h>
+#include <fakeit.hpp>
 
-#include "ArithmeticLogicUnit.h"
+#include "core/ArithmeticLogicUnit.h"
 
 TEST_SUITE("ArithmeticLogicUnitTest") {
     TEST_CASE("only zero bit should be true on new instance") {
