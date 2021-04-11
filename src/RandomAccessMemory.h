@@ -16,7 +16,7 @@ public:
 
     void print();
     void reset();
-    void program(std::bitset<4> opcode, std::bitset<4> operand);
+    void program(const std::bitset<4> &opcode, const std::bitset<4> &operand);
     void in();
     void out();
 

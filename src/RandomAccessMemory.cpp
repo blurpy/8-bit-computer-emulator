@@ -53,7 +53,7 @@ void RandomAccessMemory::reset() {
     address = 0;
 }
 
-void RandomAccessMemory::program(std::bitset<4> opcode, std::bitset<4> operand) {
+void RandomAccessMemory::program(const std::bitset<4> &opcode, const std::bitset<4> &operand) {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: programming at address " << (int) address << " with opcode " << opcode
                   << " and operand " << operand << std::endl;
@@ -90,7 +90,7 @@ void RandomAccessMemory::clockTicked() {
     }
 }
 
-void RandomAccessMemory::registerValueChanged(uint8_t newValue) {
+void RandomAccessMemory::registerValueChanged(const uint8_t newValue) {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: registerValueChanged. "
                   << "changing address from " << (int) address << " to " << (int) newValue << std::endl;

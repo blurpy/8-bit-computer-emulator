@@ -13,7 +13,7 @@ bool Utils::debugL2() {
     return DEBUG >= 2;
 }
 
-std::bitset<4> Utils::to4bits(uint8_t value) {
+std::bitset<4> Utils::to4bits(const uint8_t value) {
     return std::bitset<4>(value);
 }
 

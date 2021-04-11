@@ -87,7 +87,7 @@ std::vector<Assembler::Instruction> Assembler::interpret(const std::vector<std::
     return instructions;
 }
 
-void Assembler::addData(std::vector<Instruction> &instructions, std::vector<std::string> &tokens) const {
+void Assembler::addData(std::vector<Instruction> &instructions, const std::vector<std::string> &tokens) const {
     if (tokens.size() != 2) {
         throw std::runtime_error("Assembler: wrong number of arguments to data");
     }
@@ -105,7 +105,7 @@ void Assembler::addData(std::vector<Instruction> &instructions, std::vector<std:
     }
 }
 
-void Assembler::addInstruction(std::vector<Instruction> &instructions, const std::string &mnemonic, std::vector<std::string> &tokens) {
+void Assembler::addInstruction(std::vector<Instruction> &instructions, const std::string &mnemonic, const std::vector<std::string> &tokens) {
     const std::bitset<4> &opcodeBitset = interpretMnemonic(mnemonic);
     const std::bitset<4> &operandBitset = interpretOperand(mnemonic, tokens);
 
@@ -128,7 +128,7 @@ std::bitset<4> Assembler::interpretMnemonic(const std::string &mnemonic) {
     return instruction.opcodeAsBitset();
 }
 
-std::bitset<4> Assembler::interpretOperand(const std::string &mnemonic, std::vector<std::string> &tokens) {
+std::bitset<4> Assembler::interpretOperand(const std::string &mnemonic, const std::vector<std::string> &tokens) {
     const Instructions::Instruction &instruction = Instructions::find(mnemonic);
 
     if (instruction == Instructions::UNKNOWN) {

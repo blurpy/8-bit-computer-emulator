@@ -63,7 +63,7 @@ void Clock::singleStep() {
     clockThread.join();
 }
 
-void Clock::setFrequency(double hz) {
+void Clock::setFrequency(const double hz) {
     frequency = (1.0 / (hz * 2.0) * 1000.0 * 1000.0 * 1000.0);
 }
 
@@ -119,7 +119,7 @@ bool Clock::tick() {
     return incremented;
 }
 
-void Clock::sleep(int microseconds) const {
+void Clock::sleep(const int microseconds) const {
     std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
 }
 

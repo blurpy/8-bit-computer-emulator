@@ -48,7 +48,7 @@ void ArithmeticLogicUnit::out() {
     writeToBus();
 }
 
-void ArithmeticLogicUnit::registerValueChanged(uint8_t registerValue) {
+void ArithmeticLogicUnit::registerValueChanged(const uint8_t registerValue) {
     add();
 }
 

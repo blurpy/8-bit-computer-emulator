@@ -17,7 +17,7 @@ public:
 
     void print() const;
     void reset();
-    void program(std::bitset<4> address);
+    void program(const std::bitset<4> &address);
     void in();
 
 private:

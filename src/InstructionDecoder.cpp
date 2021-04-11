@@ -38,7 +38,7 @@ InstructionDecoder::~InstructionDecoder() {
     }
 }
 
-void InstructionDecoder::stepReady(uint8_t step) {
+void InstructionDecoder::stepReady(const uint8_t step) {
     if (Utils::debugL2()) {
         std::cout << "InstructionDecoder step received: " << (int) step << std::endl;
     }

@@ -44,7 +44,7 @@ void MemoryAddressRegister::reset() {
     value = 0;
 }
 
-void MemoryAddressRegister::program(std::bitset<4> address) {
+void MemoryAddressRegister::program(const std::bitset<4> &address) {
     if (Utils::debugL2()) {
         std::cout << "MemoryAddressRegister: programming at address " << address << std::endl;
     }
