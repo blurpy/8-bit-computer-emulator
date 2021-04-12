@@ -65,11 +65,11 @@ void Core::InstructionDecoder::stepReady(const uint8_t step) {
 
 void Core::InstructionDecoder::handleStep0() const {
     if (Utils::debugL1()) {
-        std::cout << "InstructionDecoder step 0 FETCH: CO|MI" << std::endl;
+        std::cout << "InstructionDecoder step 0 FETCH: MI|CO" << std::endl;
     }
 
-    programCounter->out(); // CO
     memoryAddressRegister->in(); // MI
+    programCounter->out(); // CO
 }
 
 void Core::InstructionDecoder::handleStep1() const {
