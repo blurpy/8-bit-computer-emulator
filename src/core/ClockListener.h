@@ -6,8 +6,8 @@ namespace Core {
     class ClockListener {
 
     public:
-        virtual void clockTicked();
-        virtual void invertedClockTicked();
+        virtual void clockTicked() = 0;
+        virtual void invertedClockTicked() = 0;
     };
 }
 

@@ -24,6 +24,7 @@ namespace Core {
 
         void increment();
 
+        void clockTicked() override {}; // Not implemented
         void invertedClockTicked() override;
     };
 }

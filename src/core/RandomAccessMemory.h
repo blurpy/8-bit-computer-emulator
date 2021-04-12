@@ -33,6 +33,7 @@ namespace Core {
         void writeToBus();
 
         void clockTicked() override;
+        void invertedClockTicked() override {}; // Not implemented
         void registerValueChanged(uint8_t newValue) override;
     };
 }

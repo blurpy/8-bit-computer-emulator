@@ -45,6 +45,7 @@ namespace Core {
         void writeToBus();
 
         void clockTicked() override;
+        void invertedClockTicked() override {}; // Not implemented
     };
 }
 

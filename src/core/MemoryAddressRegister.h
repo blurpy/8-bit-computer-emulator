@@ -31,6 +31,7 @@ namespace Core {
         void readFromBus();
 
         void clockTicked() override;
+        void invertedClockTicked() override {}; // Not implemented
     };
 }
 

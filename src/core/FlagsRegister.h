@@ -39,6 +39,7 @@ namespace Core {
         void readFromAlu();
 
         void clockTicked() override;
+        void invertedClockTicked() override {}; // Not implemented
     };
 }
 
