@@ -42,7 +42,7 @@ namespace Core {
         /** Output result to the bus. */
         virtual void out();
         /** Overwrite current result with a subtraction instead. */
-        void subtract();
+        virtual void subtract();
         /** Is the carry bit set. */
         [[nodiscard]] virtual bool isCarry() const;
         /** Is the zero bit set. */

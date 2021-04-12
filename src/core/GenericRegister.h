@@ -30,7 +30,7 @@ namespace Core {
         /** Take value from the bus on next clock tick. */
         virtual void in();
         /** Output current value to the bus. */
-        void out();
+        virtual void out();
         /** Set a listener that will be notified when the value changes. */
         void setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener);
 

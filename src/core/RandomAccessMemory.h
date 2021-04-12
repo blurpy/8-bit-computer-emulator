@@ -20,7 +20,7 @@ namespace Core {
         void print();
         void reset();
         void program(const std::bitset<4> &opcode, const std::bitset<4> &operand);
-        void in();
+        virtual void in();
         virtual void out();
 
     private:

@@ -31,12 +31,15 @@ TEST_SUITE("InstructionDecoderTest") {
         fakeit::When(Method(marMock, in)).Return();
         fakeit::When(Method(pcMock, out)).Return();
         fakeit::When(Method(pcMock, enable)).Return();
+        fakeit::When(Method(ramMock, in)).Return();
         fakeit::When(Method(ramMock, out)).Return();
         fakeit::When(Method(irMock, in)).Return();
         fakeit::When(Method(irMock, out)).Return();
         fakeit::When(Method(aRegisterMock, in)).Return();
+        fakeit::When(Method(aRegisterMock, out)).Return();
         fakeit::When(Method(bRegisterMock, in)).Return();
         fakeit::When(Method(aluMock, out)).Return();
+        fakeit::When(Method(aluMock, subtract)).Return();
         fakeit::When(Method(flagsMock, in)).Return();
 
         auto &stepCounter = dynamic_cast<StepListener &>(instructionDecoder);
@@ -157,6 +160,110 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(aRegisterMock, in)).Once();
                 fakeit::Verify(Method(aluMock, out)).Once();
                 fakeit::Verify(Method(flagsMock, in)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+        }
+
+        SUBCASE("SUB instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::SUB.opcode);
+
+            SUBCASE("SUB step 2 should run MI|IO") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(marMock, in)).Once();
+                fakeit::Verify(Method(irMock, out)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("SUB step 3 should run RO|BI") {
+                stepCounter.stepReady(3);
+
+                fakeit::Verify(Method(ramMock, out)).Once();
+                fakeit::Verify(Method(bRegisterMock, in)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("SUB step 4 should run AI|S-|SO|FI") {
+                stepCounter.stepReady(4);
+
+                fakeit::Verify(Method(aRegisterMock, in)).Once();
+                fakeit::Verify(Method(aluMock, subtract)).Once();
+                fakeit::Verify(Method(aluMock, out)).Once();
+                fakeit::Verify(Method(flagsMock, in)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+        }
+
+        SUBCASE("STA instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::STA.opcode);
+
+            SUBCASE("STA step 2 should run MI|IO") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(marMock, in)).Once();
+                fakeit::Verify(Method(irMock, out)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("STA step 3 should run RI|AO") {
+                stepCounter.stepReady(3);
+
+                fakeit::Verify(Method(ramMock, in)).Once();
+                fakeit::Verify(Method(aRegisterMock, out)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("STA step 4 should run nothing") {
+                stepCounter.stepReady(4);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+        }
+
+        SUBCASE("LDI instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::LDI.opcode);
+
+            SUBCASE("LDI step 2 should run IO|AI") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(irMock, out)).Once();
+                fakeit::Verify(Method(aRegisterMock, in)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("LDI step 3 should run nothing") {
+                stepCounter.stepReady(3);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("LDI step 4 should run nothing") {
+                stepCounter.stepReady(4);
 
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
