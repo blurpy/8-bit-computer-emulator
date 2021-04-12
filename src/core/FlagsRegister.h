@@ -26,9 +26,9 @@ namespace Core {
         /** Use carry and zero bits from ALU as new flag values on next clock tick. */
         virtual void in();
         /** Is the carry flag set. */
-        [[nodiscard]] bool isCarryFlag() const;
+        [[nodiscard]] virtual bool isCarryFlag() const;
         /** Is the zero flag set. */
-        [[nodiscard]] bool isZeroFlag() const;
+        [[nodiscard]] virtual bool isZeroFlag() const;
 
     private:
         std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;

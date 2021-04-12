@@ -29,7 +29,7 @@ namespace Core {
         /** Increment counter value by 1 on next clock tick. */
         virtual void enable();
         /** Use value from bus as new counter value on next clock tick. */
-        void jump();
+        virtual void jump();
 
     private:
         std::shared_ptr<Bus> bus;

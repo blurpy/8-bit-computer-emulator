@@ -11,6 +11,10 @@ std::shared_ptr<T> ptr(fakeit::Mock<T> &mock) {
     return std::shared_ptr<T>(&mock(), [](...) {});
 }
 
+/*
+ * Note: fakeit is modified in order to support mocking RandomAccessMemory which use multiple inheritance.
+ */
+
 TEST_SUITE("InstructionDecoderTest") {
     TEST_CASE("should call the correct control lines for the different instruction steps") {
         fakeit::Mock<MemoryAddressRegister> marMock;
@@ -31,6 +35,7 @@ TEST_SUITE("InstructionDecoderTest") {
         fakeit::When(Method(marMock, in)).Return();
         fakeit::When(Method(pcMock, out)).Return();
         fakeit::When(Method(pcMock, enable)).Return();
+        fakeit::When(Method(pcMock, jump)).Return();
         fakeit::When(Method(ramMock, in)).Return();
         fakeit::When(Method(ramMock, out)).Return();
         fakeit::When(Method(irMock, in)).Return();
@@ -41,6 +46,8 @@ TEST_SUITE("InstructionDecoderTest") {
         fakeit::When(Method(aluMock, out)).Return();
         fakeit::When(Method(aluMock, subtract)).Return();
         fakeit::When(Method(flagsMock, in)).Return();
+        fakeit::When(Method(flagsMock, isCarryFlag)).Return(false);
+        fakeit::When(Method(flagsMock, isZeroFlag)).Return(false);
 
         auto &stepCounter = dynamic_cast<StepListener &>(instructionDecoder);
 
@@ -263,6 +270,125 @@ TEST_SUITE("InstructionDecoderTest") {
             }
 
             SUBCASE("LDI step 4 should run nothing") {
+                stepCounter.stepReady(4);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+        }
+
+        SUBCASE("JMP instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::JMP.opcode);
+
+            SUBCASE("JMP step 2 should run IO|CJ") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(irMock, out)).Once();
+                fakeit::Verify(Method(pcMock, jump)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JMP step 3 should run nothing") {
+                stepCounter.stepReady(3);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JMP step 4 should run nothing") {
+                stepCounter.stepReady(4);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+        }
+
+        SUBCASE("JC instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::JC.opcode);
+
+            SUBCASE("JC step 2 should run nothing if carry flag not set") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(flagsMock, isCarryFlag)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JC step 2 should run IO|CJ if carry flag set") {
+                fakeit::When(Method(flagsMock, isCarryFlag)).Return(true);
+
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(flagsMock, isCarryFlag)).Once();
+                fakeit::Verify(Method(irMock, out)).Once();
+                fakeit::Verify(Method(pcMock, jump)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JC step 3 should run nothing") {
+                stepCounter.stepReady(3);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JC step 4 should run nothing") {
+                stepCounter.stepReady(4);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+        }
+
+        SUBCASE("JZ instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::JZ.opcode);
+
+            SUBCASE("JZ step 2 should run nothing if zero flag not set") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(flagsMock, isZeroFlag)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JZ step 2 should run IO|CJ if zero flag set") {
+                fakeit::When(Method(flagsMock, isZeroFlag)).Return(true);
+
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(flagsMock, isZeroFlag)).Once();
+                fakeit::Verify(Method(irMock, out)).Once();
+                fakeit::Verify(Method(pcMock, jump)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JZ step 3 should run nothing") {
+                stepCounter.stepReady(3);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("JZ step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
