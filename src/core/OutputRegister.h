@@ -16,7 +16,7 @@ namespace Core {
 
         void print() const;
         void reset();
-        void in();
+        virtual void in();
 
     private:
         std::shared_ptr<Bus> bus;

@@ -48,6 +48,8 @@ TEST_SUITE("InstructionDecoderTest") {
         fakeit::When(Method(flagsMock, in)).Return();
         fakeit::When(Method(flagsMock, isCarryFlag)).Return(false);
         fakeit::When(Method(flagsMock, isZeroFlag)).Return(false);
+        fakeit::When(Method(outMock, in)).Return();
+        fakeit::When(Method(clockMock, stop)).Return();
 
         auto &stepCounter = dynamic_cast<StepListener &>(instructionDecoder);
 
@@ -395,6 +397,67 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
                                                  aluMock, outMock, flagsMock, clockMock);
             }
+        }
+
+        SUBCASE("OUT instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::OUT.opcode);
+
+            SUBCASE("OUT step 2 should run AO|OI") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(aRegisterMock, out)).Once();
+                fakeit::Verify(Method(outMock, in)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("OUT step 3 should run nothing") {
+                stepCounter.stepReady(3);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+            SUBCASE("OUT step 4 should run nothing") {
+                stepCounter.stepReady(4);
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+        }
+
+        SUBCASE("HLT instruction") {
+            fakeit::When(Method(irMock, getOpcode)).Return(Instructions::HLT.opcode);
+
+            SUBCASE("HLT step 2 should run HLT") {
+                stepCounter.stepReady(2);
+
+                fakeit::Verify(Method(clockMock, stop)).Once();
+
+                fakeit::Verify(Method(irMock, getOpcode)).Once();
+                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+                                                 aluMock, outMock, flagsMock, clockMock);
+            }
+
+//            SUBCASE("HLT step 3 should run nothing") {
+//                stepCounter.stepReady(3); // TODO
+//
+//                fakeit::Verify(Method(irMock, getOpcode)).Once();
+//                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+//                                                 aluMock, outMock, flagsMock, clockMock);
+//            }
+//
+//            SUBCASE("HLT step 4 should run nothing") {
+//                stepCounter.stepReady(4); // TODO
+//
+//                fakeit::Verify(Method(irMock, getOpcode)).Once();
+//                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
+//                                                 aluMock, outMock, flagsMock, clockMock);
+//            }
         }
     }
 }
