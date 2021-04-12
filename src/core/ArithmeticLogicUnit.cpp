@@ -26,12 +26,12 @@ Core::ArithmeticLogicUnit::~ArithmeticLogicUnit() {
 }
 
 void Core::ArithmeticLogicUnit::writeToBus() {
-    this->bus->write(this->value);
+    bus->write(value);
 }
 
 void Core::ArithmeticLogicUnit::print() const {
-    printf("ArithmeticLogicUnit: value - %d / 0x%02X / " BYTE_PATTERN " \n", this->value, this->value, BYTE_TO_BINARY(this->value));
-    std::cout << "ArithmeticLogicUnit: bits - C=" << this->carry << ", Z=" << this->zero << std::endl;
+    printf("ArithmeticLogicUnit: value - %d / 0x%02X / " BYTE_PATTERN " \n", value, value, BYTE_TO_BINARY(value));
+    std::cout << "ArithmeticLogicUnit: bits - C=" << carry << ", Z=" << zero << std::endl;
 }
 
 void Core::ArithmeticLogicUnit::reset() {

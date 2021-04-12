@@ -19,19 +19,19 @@ Core::Bus::~Bus() {
 }
 
 uint8_t Core::Bus::read() const {
-    return this->value;
+    return value;
 }
 
 void Core::Bus::write(const uint8_t newValue) {
     if (Utils::debugL2()) {
-        std::cout << "Bus: changing value from " << (int) this->value << " to " << (int) newValue << std::endl;
+        std::cout << "Bus: changing value from " << (int) value << " to " << (int) newValue << std::endl;
     }
 
-    this->value = newValue;
+    value = newValue;
 }
 
 void Core::Bus::print() const {
-    printf("Bus: %d / 0x%02X / " BYTE_PATTERN "\n", this->value, this->value, BYTE_TO_BINARY(this->value));
+    printf("Bus: %d / 0x%02X / " BYTE_PATTERN "\n", value, value, BYTE_TO_BINARY(value));
 }
 
 void Core::Bus::reset() {

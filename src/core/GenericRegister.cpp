@@ -11,13 +11,13 @@ Core::GenericRegister::GenericRegister(const std::string& name, const std::share
     this->readOnClock = false;
 
     if (Utils::debugL2()) {
-        std::cout << this->name << " register construct" << std::endl;
+        std::cout << name << " register construct" << std::endl;
     }
 }
 
 Core::GenericRegister::~GenericRegister() {
     if (Utils::debugL2()) {
-        std::cout << this->name << " register destruct" << std::endl;
+        std::cout << name << " register destruct" << std::endl;
     }
 }
 
@@ -25,10 +25,10 @@ void Core::GenericRegister::readFromBus() {
     uint8_t busValue = bus->read();
 
     if (Utils::debugL2()) {
-        std::cout << this->name << " register: changing value from " << (int) this->value << " to " << (int) busValue << std::endl;
+        std::cout << name << " register: changing value from " << (int) value << " to " << (int) busValue << std::endl;
     }
 
-    this->value = busValue;
+    value = busValue;
 
     if (registerListener != nullptr) {
         registerListener->registerValueChanged(value);
@@ -36,15 +36,15 @@ void Core::GenericRegister::readFromBus() {
 }
 
 void Core::GenericRegister::writeToBus() {
-    this->bus->write(this->value);
+    bus->write(value);
 }
 
 uint8_t Core::GenericRegister::readValue() const {
-    return this->value;
+    return value;
 }
 
 void Core::GenericRegister::print() {
-    printf("%s register: %d / 0x%02X / " BYTE_PATTERN " \n", this->name.c_str(), this->value, this->value, BYTE_TO_BINARY(this->value));
+    printf("%s register: %d / 0x%02X / " BYTE_PATTERN " \n", name.c_str(), value, value, BYTE_TO_BINARY(value));
 }
 
 void Core::GenericRegister::reset() {
@@ -53,7 +53,7 @@ void Core::GenericRegister::reset() {
 
 void Core::GenericRegister::in() {
     if (Utils::debugL2()) {
-        std::cout << this->name << " register: in - will read from bus on clock tick" << std::endl;
+        std::cout << name << " register: in - will read from bus on clock tick" << std::endl;
     }
 
     readOnClock = true;
@@ -61,7 +61,7 @@ void Core::GenericRegister::in() {
 
 void Core::GenericRegister::out() {
     if (Utils::debugL2()) {
-        std::cout << this->name << " register: out" << std::endl;
+        std::cout << name << " register: out" << std::endl;
     }
 
     writeToBus();
@@ -69,7 +69,7 @@ void Core::GenericRegister::out() {
 
 void Core::GenericRegister::clockTicked() {
     if (Utils::debugL2()) {
-        std::cout << this->name << " register: clock ticked" << std::endl;
+        std::cout << name << " register: clock ticked" << std::endl;
     }
 
     if (readOnClock) {
@@ -79,5 +79,5 @@ void Core::GenericRegister::clockTicked() {
 }
 
 void Core::GenericRegister::setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener) {
-    this->registerListener = newRegisterListener;
+    registerListener = newRegisterListener;
 }
