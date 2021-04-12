@@ -40,7 +40,7 @@ namespace Core {
         /** Reset result to 0. */
         void reset();
         /** Output result to the bus. */
-        void out();
+        virtual void out();
         /** Overwrite current result with a subtraction instead. */
         void subtract();
         /** Is the carry bit set. */

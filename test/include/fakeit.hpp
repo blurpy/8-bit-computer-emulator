@@ -5688,7 +5688,8 @@ namespace fakeit {
     struct VirtualTable : public VirtualTableBase {
 
 #ifndef __clang__
-        static_assert(is_simple_inheritance_layout<C>::value, "Can't mock a type with multiple inheritance");
+// TODO disabled by blurpy
+//        static_assert(is_simple_inheritance_layout<C>::value, "Can't mock a type with multiple inheritance");
 #endif
 
         class Handle {
@@ -9361,4 +9362,3 @@ namespace fakeit {
 
 #define When(call) \
     When(call)
-

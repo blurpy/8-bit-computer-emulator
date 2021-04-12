@@ -25,9 +25,9 @@ namespace Core {
         /** Reset counter to 0. */
         void reset();
         /** Output counter value to the bus. */
-        void out();
+        virtual void out();
         /** Increment counter value by 1 on next clock tick. */
-        void enable();
+        virtual void enable();
         /** Use value from bus as new counter value on next clock tick. */
         void jump();
 

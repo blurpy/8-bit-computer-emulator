@@ -21,7 +21,7 @@ namespace Core {
         void reset();
         void program(const std::bitset<4> &opcode, const std::bitset<4> &operand);
         void in();
-        void out();
+        virtual void out();
 
     private:
         std::shared_ptr<Bus> bus;

@@ -16,7 +16,7 @@ namespace Core {
         ~Clock();
 
         void start();
-        void stop();
+        virtual void stop();
         void join();
         void singleStep();
         void setFrequency(double hz);

@@ -16,9 +16,9 @@ namespace Core {
 
         void print() const;
         void reset();
-        void in();
-        void out();
-        [[nodiscard]] uint8_t getOpcode() const;
+        virtual void in();
+        virtual void out();
+        [[nodiscard]] virtual uint8_t getOpcode() const;
 
     private:
         std::shared_ptr<Bus> bus;

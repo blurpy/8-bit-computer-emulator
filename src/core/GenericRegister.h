@@ -28,7 +28,7 @@ namespace Core {
         /** Reset the register value to 0. */
         void reset();
         /** Take value from the bus on next clock tick. */
-        void in();
+        virtual void in();
         /** Output current value to the bus. */
         void out();
         /** Set a listener that will be notified when the value changes. */

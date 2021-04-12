@@ -24,7 +24,7 @@ namespace Core {
         /** Reset flags to false. */
         void reset();
         /** Use carry and zero bits from ALU as new flag values on next clock tick. */
-        void in();
+        virtual void in();
         /** Is the carry flag set. */
         [[nodiscard]] bool isCarryFlag() const;
         /** Is the zero flag set. */

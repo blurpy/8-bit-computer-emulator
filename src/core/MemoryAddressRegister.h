@@ -20,7 +20,7 @@ namespace Core {
         void print() const;
         void reset();
         void program(const std::bitset<4> &address);
-        void in();
+        virtual void in();
 
     private:
         std::shared_ptr<RegisterListener> registerListener;
