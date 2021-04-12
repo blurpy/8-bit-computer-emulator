@@ -1,4 +1,3 @@
-#include <cassert>
 #include <iostream>
 
 #include "Instructions.h"
@@ -60,8 +59,7 @@ void Core::InstructionDecoder::stepReady(const uint8_t step) {
             handleStep4();
             break;
         default:
-            std::cerr << "InstructionDecoder step is unknown: " << (int) step << std::endl;
-            assert(false);
+            throw std::runtime_error("InstructionDecoder step is unknown: " + std::to_string(step));
     }
 }
 
@@ -179,8 +177,7 @@ void Core::InstructionDecoder::handleStep2() const {
             clock->stop(); // HLT
             break;
         default:
-            std::cerr << "InstructionDecoder step 2: unknown opcode " << opcodeBits << std::endl;
-            assert(false);
+            throw std::runtime_error("InstructionDecoder step 2: unknown opcode " + opcodeBits.to_string());
     }
 }
 
@@ -254,8 +251,7 @@ void Core::InstructionDecoder::handleStep3() const {
             // Done
             break;
         default:
-            std::cerr << "InstructionDecoder step 3: unknown opcode " << opcodeBits << std::endl;
-            assert(false);
+            throw std::runtime_error("InstructionDecoder step 3: unknown opcode " + opcodeBits.to_string());
     }
 }
 
@@ -330,7 +326,6 @@ void Core::InstructionDecoder::handleStep4() const {
             // Done
             break;
         default:
-            std::cerr << "InstructionDecoder step 4: unknown opcode " << opcodeBits << std::endl;
-            assert(false);
+            throw std::runtime_error("InstructionDecoder step 4: unknown opcode " + opcodeBits.to_string());
     }
 }

@@ -443,21 +443,27 @@ TEST_SUITE("InstructionDecoderTest") {
                                                  aluMock, outMock, flagsMock, clockMock);
             }
 
-//            SUBCASE("HLT step 3 should run nothing") {
-//                stepCounter.stepReady(3); // TODO
-//
-//                fakeit::Verify(Method(irMock, getOpcode)).Once();
-//                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-//                                                 aluMock, outMock, flagsMock, clockMock);
-//            }
-//
-//            SUBCASE("HLT step 4 should run nothing") {
-//                stepCounter.stepReady(4); // TODO
-//
-//                fakeit::Verify(Method(irMock, getOpcode)).Once();
-//                fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-//                                                 aluMock, outMock, flagsMock, clockMock);
-//            }
+            SUBCASE("HLT step 3 should throw exception") {
+                CHECK_THROWS_WITH(stepCounter.stepReady(3),
+                                  "InstructionDecoder step 3: unknown opcode 1111");
+            }
+
+            SUBCASE("HLT step 4 should throw exception") {
+                CHECK_THROWS_WITH(stepCounter.stepReady(4),
+                                  "InstructionDecoder step 4: unknown opcode 1111");
+            }
+        }
+
+        SUBCASE("Unknown instruction step 2 should throw exception") {
+            fakeit::When(Method(irMock, getOpcode)).Return(13);
+
+            CHECK_THROWS_WITH(stepCounter.stepReady(2),
+                              "InstructionDecoder step 2: unknown opcode 1101");
+        }
+
+        SUBCASE("Unknown step should throw exception") {
+            CHECK_THROWS_WITH(stepCounter.stepReady(5),
+                              "InstructionDecoder step is unknown: 5");
         }
     }
 }
