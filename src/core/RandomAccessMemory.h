@@ -14,6 +14,8 @@ namespace Core {
     class RandomAccessMemory: public ClockListener, public RegisterListener {
 
     public:
+        static const int MEMORY_SIZE = 16;
+
         explicit RandomAccessMemory(const std::shared_ptr<Bus> &bus);
         ~RandomAccessMemory();
 
@@ -25,7 +27,7 @@ namespace Core {
 
     private:
         std::shared_ptr<Bus> bus;
-        std::array<uint8_t, 16> memory{};
+        std::array<uint8_t, MEMORY_SIZE> memory{};
         uint8_t address;
         bool readOnClock;
 

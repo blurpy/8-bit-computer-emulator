@@ -44,7 +44,7 @@ void Core::RandomAccessMemory::print() {
     printf("RandomAccessMemory: current address - %d / 0x%02X / " BIT_4_PATTERN " \n", address, address, BIT_4_TO_BINARY(address));
     printf("RandomAccessMemory: current value - %d / 0x%02X / " BYTE_PATTERN " \n", memory[address], memory[address], BYTE_TO_BINARY(memory[address]));
 
-    for (int i = 0; i < sizeof(memory); i++) {
+    for (int i = 0; i < MEMORY_SIZE; i++) {
         printf("RandomAccessMemory: value at %d - %d / 0x%02X / " BYTE_PATTERN " \n", i, memory[i], memory[i], BYTE_TO_BINARY(memory[i]));
     }
 }
@@ -60,7 +60,7 @@ void Core::RandomAccessMemory::program(const std::bitset<4> &opcode, const std::
     }
 
     std::bitset<8> newValue(opcode.to_string() + operand.to_string());
-        memory[address] = newValue.to_ulong();
+    memory[address] = newValue.to_ulong();
 }
 
 void Core::RandomAccessMemory::in() {
@@ -94,6 +94,10 @@ void Core::RandomAccessMemory::registerValueChanged(const uint8_t newValue) {
     if (Utils::debugL2()) {
         std::cout << "RandomAccessMemory: registerValueChanged. "
                   << "changing address from " << (int) address << " to " << (int) newValue << std::endl;
+    }
+
+    if (newValue >= MEMORY_SIZE) {
+        throw std::runtime_error("RandomAccessMemory: address out of bounds " + std::to_string(newValue));
     }
 
     address = newValue;
