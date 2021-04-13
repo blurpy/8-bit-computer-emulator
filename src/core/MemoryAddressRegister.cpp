@@ -1,4 +1,3 @@
-#include <cassert>
 #include <iostream>
 
 #include "Utils.h"
@@ -31,7 +30,6 @@ void Core::MemoryAddressRegister::readFromBus() {
                   << (int) busValue << std::endl;
     }
 
-    assert(busValue <= 15); // 4 bits only
     value = busValue;
     registerListener->registerValueChanged(value);
 }
