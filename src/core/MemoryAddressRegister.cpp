@@ -30,6 +30,10 @@ void Core::MemoryAddressRegister::readFromBus() {
                   << (int) busValue << std::endl;
     }
 
+    if (busValue > Utils::FOUR_BITS_MAX) {
+        throw std::runtime_error("MemoryAddressRegister: address out of bounds " + std::to_string(busValue));
+    }
+
     value = busValue;
     registerListener->registerValueChanged(value);
 }

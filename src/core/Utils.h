@@ -36,6 +36,7 @@ namespace Core {
 
     public:
         static const int DEBUG = 0; // or 1 or 2
+        static const int FOUR_BITS_MAX = 15; // 1111
 
         /** Display the most important debug logs. */
         static bool debugL1();

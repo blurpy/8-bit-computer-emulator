@@ -107,19 +107,30 @@ TEST_SUITE("ProgramCounterTest") {
         ProgramCounter programCounter(busSharedPtr);
         auto &clock = dynamic_cast<ClockListener &>(programCounter);
 
-        busSharedPtr->write(8);
+        busSharedPtr->write(15);
 
         programCounter.jump();
         clock.clockTicked();
 
         programCounter.out();
-        CHECK_EQ(busSharedPtr->read(), 8);
+        CHECK_EQ(busSharedPtr->read(), 15);
 
         busSharedPtr->write(6);
         clock.clockTicked();
 
         programCounter.out();
-        CHECK_EQ(busSharedPtr->read(), 8); // No change
+        CHECK_EQ(busSharedPtr->read(), 15); // No change
+    }
+
+    TEST_CASE("jump() should throw exception on clock tick if value more than 4 bits") {
+        const std::shared_ptr<Bus> &busSharedPtr = std::make_shared<Bus>();
+        ProgramCounter programCounter(busSharedPtr);
+        auto &clock = dynamic_cast<ClockListener &>(programCounter);
+
+        busSharedPtr->write(16);
+        programCounter.jump();
+
+        CHECK_THROWS_WITH(clock.clockTicked(), "ProgramCounter: address out of bounds 16");
     }
 
     TEST_CASE("reset() should start counting at 0 again") {

@@ -1,4 +1,3 @@
-#include <cassert>
 #include <iostream>
 
 #include "Utils.h"
@@ -37,7 +36,10 @@ void Core::ProgramCounter::readFromBus() {
         std::cout << "ProgramCounter: changing value from " << (int) value << " to " << (int) busValue << std::endl;
     }
 
-    assert(busValue <= 15); // 4 bits only
+    if (busValue > Utils::FOUR_BITS_MAX) {
+        throw std::runtime_error("ProgramCounter: address out of bounds " + std::to_string(busValue));
+    }
+
     value = busValue;
 }
 

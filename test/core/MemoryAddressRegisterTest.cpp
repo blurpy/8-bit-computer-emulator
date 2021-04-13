@@ -55,6 +55,13 @@ TEST_SUITE("MemoryAddressRegisterTest") {
             fakeit::VerifyNoOtherInvocations(listenerMock); // No change
         }
 
+        SUBCASE("clockTicked() should throw exception on clock tick if value more than 4 bits") {
+            bus->write(16);
+            mar.in();
+
+            CHECK_THROWS_WITH(clock.clockTicked(), "MemoryAddressRegister: address out of bounds 16");
+        }
+
         SUBCASE("reset() should reset address") {
             mar.reset();
 
