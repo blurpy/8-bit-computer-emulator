@@ -57,4 +57,12 @@ TEST_SUITE("StepCounterTest") {
         clock.invertedClockTicked();
         fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Twice();
     }
+
+    TEST_CASE("print() should not fail") {
+        fakeit::Mock<StepListener> stepListenerMock;
+        auto stepListenerMockSharedPtr = std::shared_ptr<StepListener>(&stepListenerMock(), [](...) {});
+        StepCounter stepCounter(stepListenerMockSharedPtr);
+
+        stepCounter.print();
+    }
 }

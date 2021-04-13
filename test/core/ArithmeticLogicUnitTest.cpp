@@ -143,5 +143,9 @@ TEST_SUITE("ArithmeticLogicUnitTest") {
             alu.out();
             CHECK_EQ(bus->read(), 0);
         }
+
+        SUBCASE("print() should not fail") {
+            alu.print();
+        }
     }
 }

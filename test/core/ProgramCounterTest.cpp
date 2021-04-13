@@ -140,4 +140,11 @@ TEST_SUITE("ProgramCounterTest") {
         programCounter.out();
         CHECK_EQ(busSharedPtr->read(), 0);
     }
+
+    TEST_CASE("print() should not fail") {
+        const std::shared_ptr<Bus> &busSharedPtr = std::make_shared<Bus>();
+        ProgramCounter programCounter(busSharedPtr);
+
+        programCounter.print();
+    }
 }

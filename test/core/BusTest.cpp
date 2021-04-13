@@ -27,4 +27,10 @@ TEST_SUITE("BusTest") {
         bus.reset();
         CHECK(bus.read() == 0);
     }
+
+    TEST_CASE("print() should not fail") {
+        Bus bus = Bus();
+
+        bus.print();
+    }
 }

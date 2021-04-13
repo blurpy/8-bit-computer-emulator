@@ -148,6 +148,13 @@ TEST_SUITE("AssemblerTest") {
         CHECK_EQ(instructions.size(), 0);
     }
 
+    TEST_CASE("loadInstructions() should throw exception for missing file") {
+        Assembler assembler;
+
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/does_not_exist.asm"),
+                          "Assembler: failed to open file: ../../programs/does_not_exist.asm");
+    }
+
     TEST_CASE("loadInstructions() should throw exception for invalid instruction") {
         Assembler assembler;
 

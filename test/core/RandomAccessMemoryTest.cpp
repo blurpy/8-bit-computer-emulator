@@ -118,5 +118,9 @@ TEST_SUITE("RandomAccessMemoryTest") {
                               "RandomAccessMemory: address out of bounds 16");
 
         }
+
+        SUBCASE("print() should not fail") {
+            ram.print();
+        }
     }
 }

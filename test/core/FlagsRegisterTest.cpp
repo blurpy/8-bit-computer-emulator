@@ -59,4 +59,12 @@ TEST_SUITE("FlagsRegisterTest") {
             CHECK_FALSE(flagsRegister.isZeroFlag());
         }
     }
+
+    TEST_CASE("print() should not fail") {
+        fakeit::Mock<ArithmeticLogicUnit> aluMock;
+        auto aluMockSharedPtr = std::shared_ptr<ArithmeticLogicUnit>(&aluMock(), [](...) {});
+        FlagsRegister flagsRegister(aluMockSharedPtr);
+
+        flagsRegister.print();
+    }
 }
