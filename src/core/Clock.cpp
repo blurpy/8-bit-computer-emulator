@@ -1,4 +1,3 @@
-#include "cassert"
 #include <cmath>
 #include <iostream>
 
@@ -31,7 +30,10 @@ Core::Clock::~Clock() {
 
 void Core::Clock::start() {
     std::cout << "Clock: starting clock" << std::endl;
-    assert(frequency > 0);
+
+    if (frequency <= 0) {
+        throw std::runtime_error("Clock: frequency must be set before start");
+    }
 
     counter = 0;
     running = true;
@@ -52,7 +54,10 @@ void Core::Clock::join() {
 
 void Core::Clock::singleStep() {
     std::cout << "Clock: single stepping clock" << std::endl;
-    assert(frequency > 0);
+
+    if (frequency <= 0) {
+        throw std::runtime_error("Clock: frequency must be set before start");
+    }
 
     counter = 0;
     running = true;
