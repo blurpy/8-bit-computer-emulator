@@ -6,11 +6,12 @@
 
 #include "Clock.h"
 
-Core::Clock::Clock() {
+Core::Clock::Clock(const std::shared_ptr<TimeSource> &timeSource) {
     if (Utils::debugL2()) {
         std::cout << "Clock construct" << std::endl;
     }
 
+    this->timeSource = timeSource;
     this->counter = 0;
     this->frequency = 0;
     this->running = false;
@@ -36,7 +37,7 @@ void Core::Clock::start() {
     running = true;
     rising = true;
     singleStepping = false;
-    lastTick = std::chrono::steady_clock::now();
+    timeSource->reset();
     clockThread = std::thread(&Clock::mainLoop, this);
 }
 
@@ -58,7 +59,7 @@ void Core::Clock::singleStep() {
     rising = true;
     singleStepping = true;
     remainingTicks = 2;
-    lastTick = std::chrono::steady_clock::now();
+    timeSource->reset();
     clockThread = std::thread(&Clock::mainLoop, this);
     clockThread.join();
 }
@@ -75,14 +76,14 @@ void Core::Clock::mainLoop() {
     while (running) {
         if (tick()) {
             if (rising) {
-                for (auto & listener : listeners) {
+                for (auto &listener : listeners) {
                     listener->clockTicked();
                 }
                 rising = false;
             }
 
             else {
-                for (auto & listener : listeners) {
+                for (auto &listener : listeners) {
                     listener->invertedClockTicked();
                 }
                 rising = true;
@@ -93,7 +94,7 @@ void Core::Clock::mainLoop() {
             }
         }
 
-        sleep(100);
+        timeSource->sleep(100);
     }
 
     if (Utils::debugL1()) {
@@ -104,23 +105,14 @@ void Core::Clock::mainLoop() {
 bool Core::Clock::tick() {
     bool incremented = false;
 
-    auto currentTick = std::chrono::steady_clock::now();
-    auto timeSinceLastTick = currentTick - lastTick;
-    auto timeSinceLastTickNano = std::chrono::duration_cast<std::chrono::nanoseconds>(timeSinceLastTick);
+    counter += timeSource->delta();
 
-    lastTick = currentTick;
-    counter += timeSinceLastTickNano.count();
-
-    if (counter > frequency) {
+    if (counter >= frequency) {
         incremented = true;
         counter = std::fmod(counter, frequency);
     }
 
     return incremented;
-}
-
-void Core::Clock::sleep(const int microseconds) const {
-    std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
 }
 
 void Core::Clock::addListener(const std::shared_ptr<ClockListener> &listener) {

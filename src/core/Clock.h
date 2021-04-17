@@ -1,18 +1,18 @@
 #ifndef INC_8_BIT_COMPUTER_CLOCK_H
 #define INC_8_BIT_COMPUTER_CLOCK_H
 
-#include <chrono>
 #include <thread>
 #include <vector>
 
 #include "ClockListener.h"
+#include "TimeSource.h"
 
 namespace Core {
 
     class Clock {
 
     public:
-        Clock();
+        explicit Clock(const std::shared_ptr<TimeSource> &timeSource);
         ~Clock();
 
         void start();
@@ -24,19 +24,18 @@ namespace Core {
         void clearListeners();
 
     private:
+        std::shared_ptr<TimeSource> timeSource;
         double frequency;
         double counter;
         bool running;
         bool rising;
         bool singleStepping;
         int remainingTicks;
-        std::chrono::steady_clock::time_point lastTick;
         std::thread clockThread;
         std::vector<std::shared_ptr<ClockListener>> listeners;
 
         void mainLoop();
         bool tick();
-        void sleep(int microseconds) const;
     };
 }
 

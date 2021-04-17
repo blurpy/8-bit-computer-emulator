@@ -27,6 +27,7 @@ namespace Core {
         void run(const std::string &fileName);
 
     private:
+        std::shared_ptr<TimeSource> timeSource;
         std::shared_ptr<Clock> clock;
         std::shared_ptr<Bus> bus;
         std::shared_ptr<GenericRegister> aRegister;

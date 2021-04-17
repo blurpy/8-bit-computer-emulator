@@ -11,7 +11,8 @@ Core::Emulator::Emulator() {
         std::cout << "Emulator construct" << std::endl;
     }
 
-    clock = std::make_shared<Clock>();
+    timeSource = std::make_shared<TimeSource>();
+    clock = std::make_shared<Clock>(timeSource);
     bus = std::make_shared<Bus>();
     aRegister = std::make_shared<GenericRegister>("A", bus);
     bRegister = std::make_shared<GenericRegister>("B", bus);
