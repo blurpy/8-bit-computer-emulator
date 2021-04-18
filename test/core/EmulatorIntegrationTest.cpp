@@ -8,14 +8,14 @@ TEST_SUITE("EmulatorIntegrationTest") {
     TEST_CASE("run() should throw exception if file does not exist") {
         Emulator emulator;
 
-        CHECK_THROWS_WITH(emulator.run("../../programs/does_not_exist.asm"),
-                          "Assembler: failed to open file: ../../programs/does_not_exist.asm");
+        CHECK_THROWS_WITH(emulator.run("../../programs/test/does_not_exist.asm"),
+                          "Assembler: failed to open file: ../../programs/test/does_not_exist.asm");
     }
 
     TEST_CASE("run() should throw exception if file is empty") {
         Emulator emulator;
 
-        CHECK_THROWS_WITH(emulator.run("../../programs/empty_test.asm"),
+        CHECK_THROWS_WITH(emulator.run("../../programs/test/empty_test.asm"),
                           "Emulator: no instructions loaded. Aborting");
     }
 

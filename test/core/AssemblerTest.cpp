@@ -9,7 +9,7 @@ TEST_SUITE("AssemblerTest") {
     TEST_CASE("loadInstructions() should parse all instructions") {
         Assembler assembler;
         const std::vector<Assembler::Instruction> &instructions = assembler.loadInstructions(
-                "../../programs/all_instructions.asm");
+                "../../programs/test/all_instructions.asm");
 
         CHECK_EQ(instructions.size(), 13);
 
@@ -143,7 +143,7 @@ TEST_SUITE("AssemblerTest") {
         Assembler assembler;
 
         const std::vector<Assembler::Instruction> &instructions = assembler.loadInstructions(
-                "../../programs/empty_test.asm");
+                "../../programs/test/empty_test.asm");
 
         CHECK_EQ(instructions.size(), 0);
     }
@@ -151,35 +151,35 @@ TEST_SUITE("AssemblerTest") {
     TEST_CASE("loadInstructions() should throw exception for missing file") {
         Assembler assembler;
 
-        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/does_not_exist.asm"),
-                          "Assembler: failed to open file: ../../programs/does_not_exist.asm");
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/does_not_exist.asm"),
+                          "Assembler: failed to open file: ../../programs/test/does_not_exist.asm");
     }
 
     TEST_CASE("loadInstructions() should throw exception for invalid instruction") {
         Assembler assembler;
 
-        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/invalid_instruction_test.asm"),
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/invalid_instruction_test.asm"),
                           "Assembler: interpret mnemonic - unknown mnemonic monkey");
     }
 
     TEST_CASE("loadInstructions() should throw exception if wrong number of arguments to data definition") {
         Assembler assembler;
 
-        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/invalid_data_test.asm"),
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/invalid_data_test.asm"),
                           "Assembler: wrong number of arguments to data");
     }
 
     TEST_CASE("loadInstructions() should throw exception if too many instructions") {
         Assembler assembler;
 
-        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/too_many_instructions_test.asm"),
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/too_many_instructions_test.asm"),
                           "Assembler: address out of bounds 16");
     }
 
     TEST_CASE("loadInstructions() should throw exception if origin jumps too far") {
         Assembler assembler;
 
-        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/invalid_origin_test.asm"),
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/invalid_origin_test.asm"),
                           "Assembler: address out of bounds 16");
     }
 }
