@@ -27,7 +27,7 @@ namespace Core {
         std::vector<Instruction> loadInstructions(const std::string &fileName);
 
     private:
-        int currentMemoryLocation;
+        uint8_t currentMemoryLocation;
 
         std::vector<std::string> loadFile(const std::string &fileName);
         std::vector<Instruction> interpret(const std::vector<std::string> &lines);

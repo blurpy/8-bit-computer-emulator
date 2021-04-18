@@ -168,4 +168,18 @@ TEST_SUITE("AssemblerTest") {
         CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/invalid_data_test.asm"),
                           "Assembler: wrong number of arguments to data");
     }
+
+    TEST_CASE("loadInstructions() should throw exception if too many instructions") {
+        Assembler assembler;
+
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/too_many_instructions_test.asm"),
+                          "Assembler: address out of bounds 16");
+    }
+
+    TEST_CASE("loadInstructions() should throw exception if origin jumps too far") {
+        Assembler assembler;
+
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/invalid_origin_test.asm"),
+                          "Assembler: address out of bounds 16");
+    }
 }

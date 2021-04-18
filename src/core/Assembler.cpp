@@ -60,6 +60,10 @@ std::vector<Core::Assembler::Instruction> Core::Assembler::interpret(const std::
             std::cout << "Assembler: " << line << std::endl;
         }
 
+        if (currentMemoryLocation > Utils::FOUR_BITS_MAX) {
+            throw std::runtime_error("Assembler: address out of bounds " + std::to_string(currentMemoryLocation));
+        }
+
         std::vector<std::string> tokens = tokenize(line);
 
         if (tokens.empty()) {
