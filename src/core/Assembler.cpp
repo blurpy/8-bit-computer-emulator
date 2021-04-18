@@ -140,7 +140,17 @@ std::bitset<4> Core::Assembler::interpretOperand(const std::string &mnemonic, co
     }
 
     if (instruction.hasOperand) {
-        return std::bitset<4>(std::stoi(tokens[1]));
+        if (tokens.size() != 2) {
+            throw std::runtime_error("Assembler: interpret operand - wrong number of arguments to " + mnemonic);
+        }
+
+        uint8_t operand = std::stoi(tokens[1]);
+
+        if (operand > Utils::FOUR_BITS_MAX) {
+            throw std::runtime_error("Assembler: interpret operand - out of bounds " + std::to_string(operand));
+        }
+
+        return std::bitset<4>(operand);
     } else {
         return Instructions::noOperand();
     }

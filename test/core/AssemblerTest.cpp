@@ -182,4 +182,18 @@ TEST_SUITE("AssemblerTest") {
         CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/invalid_origin_test.asm"),
                           "Assembler: address out of bounds 16");
     }
+
+    TEST_CASE("loadInstructions() should throw exception if instruction operand is too large") {
+        Assembler assembler;
+
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/invalid_operand_test.asm"),
+                          "Assembler: interpret operand - out of bounds 16");
+    }
+
+    TEST_CASE("loadInstructions() should throw exception if instruction operand is missing") {
+        Assembler assembler;
+
+        CHECK_THROWS_WITH(assembler.loadInstructions("../../programs/test/missing_operand_test.asm"),
+                          "Assembler: interpret operand - wrong number of arguments to JMP");
+    }
 }
