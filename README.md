@@ -12,10 +12,7 @@ Please see the link above for documentation on how the computer works. Since the
 The emulation is done, and the programs that run on the real hardware will run unmodified on the emulator with the same result.
 
 TODO:
-* Some kind of user interface to visualize state
-* Controls to allow modifying state and single step through programs
-* Some more documentation in the code
-* Unit tests
+* Some kind of user interface
 
 
 ## Requirements
@@ -36,4 +33,23 @@ $ make
 $ ./src/8bit <program.asm>
 ```
 
-Different programs are available in the programs directory.
+
+## Programs
+
+Pre-made programs are available in the [programs](programs) directory. Programs are in assembly-format, and the emulator will assemble them into machine code at runtime.
+
+The assembly-format is the same as the real hardware, with a couple of additions to handle the case where you would input data directly into the memory using the DIP-switches.
+
+|Name|Full name|Operand|Description|
+|----|---------|-------|-----------|
+|ORG|Origin|4-bit memory reference|Changes memory location to the address in the parameter| 
+|DB|Define byte|8-bit value|Sets the parameter as a byte in memory at the current memory location|
+
+Example of how to put the value 202 at memory location 15:
+
+```asm
+ORG 15
+DB  202
+```
+
+This is useful to prepare the memory before the program runs, and also the only way to prepare larger numbers since `LDI` only takes a 4-bit value. 
