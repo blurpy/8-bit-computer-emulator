@@ -18,12 +18,16 @@
 
 namespace Core {
 
+    /**
+     * This class brings all the different components together to make the computer work.
+     */
     class Emulator {
 
     public:
         Emulator();
         ~Emulator();
 
+        /** Start the emulator, load the program from the specified file, and run it. */
         void run(const std::string &fileName);
 
     private:

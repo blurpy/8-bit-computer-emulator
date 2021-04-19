@@ -9,6 +9,8 @@ namespace Core {
     /**
      * Register to store flags.
      *
+     * Flags are 1 bit values (0 or 1 / false or true) that can be stored and used for making decisions in the computer.
+     *
      * The flags are:
      * - Carry: whether the ALU calculation results in a number larger than 8 bit (255) and has wrapped around.
      * - Zero: whether the ALU calculation results in 0.
@@ -21,12 +23,16 @@ namespace Core {
 
         /** Print current flag values to standard out. */
         void print() const;
+
         /** Reset flags to false. */
         void reset();
+
         /** Use carry and zero bits from ALU as new flag values on next clock tick. */
         virtual void in();
+
         /** Is the carry flag set. */
         [[nodiscard]] virtual bool isCarryFlag() const;
+
         /** Is the zero flag set. */
         [[nodiscard]] virtual bool isZeroFlag() const;
 

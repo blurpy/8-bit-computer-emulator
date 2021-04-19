@@ -14,6 +14,33 @@
 
 namespace Core {
 
+    /**
+     * The instruction decoder is responsible for orchestrating the control lines of the computer
+     * to make it do something useful.
+     *
+     * The control lines are the switches to the supported operations of the different parts,
+     * like RAM In and Instruction Register Out. Typically an operation either reads (in) from the bus
+     * or writes (out) to the bus.
+     *
+     * Every instruction takes 5 steps to complete, called the instruction cycle, split into 2 phases.
+     *
+     * The first phase is the fetch phase. It consists of 2 steps that are the same every time:
+     *   step 0: Put the current value of the program counter into the memory address register.
+     *   step 1: Put the value of the RAM at the current address into the instruction register and
+     *           increment the program counter.
+     *
+     * At this point the execution phase begins, and the last 3 steps will differ for each instruction.
+     * An example could be to load some data from a specified location in RAM into the B-register, and
+     * store the sum of the A-register and B-register into the A-register. This is the ADD instruction.
+     *
+     * To make this work, the instruction decoder is notified by the step counter of which step to execute
+     * on the falling edge of the clock cycle. It will then prepare the control lines for a particular
+     * step of a particular instruction. Output operations are executed right away, while input operations
+     * are executed on the next rising edge of the clock cycle. Although that is the responsibility of
+     * the part itself and not the instruction decoder.
+     *
+     * Some instructions also use flags to make decisions.
+     */
     class InstructionDecoder: public StepListener {
 
     public:
