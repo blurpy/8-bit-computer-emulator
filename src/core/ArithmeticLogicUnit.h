@@ -37,14 +37,19 @@ namespace Core {
 
         /** Print current result to standard out. */
         void print() const;
+
         /** Reset result to 0. */
         void reset();
+
         /** Output result to the bus. */
         virtual void out();
-        /** Overwrite current result with a subtraction instead. */
+
+        /** Overwrite current result with a subtraction instead. See implementation for more detailed docs. */
         virtual void subtract();
+
         /** Is the carry bit set. */
         [[nodiscard]] virtual bool isCarry() const;
+
         /** Is the zero bit set. */
         [[nodiscard]] virtual bool isZero() const;
 

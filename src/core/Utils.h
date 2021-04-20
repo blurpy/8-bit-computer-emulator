@@ -32,18 +32,27 @@
 
 namespace Core {
 
+    /**
+     * Just misc utilities and constants.
+     */
     class Utils {
 
     public:
-        static const int DEBUG = 0; // or 1 or 2
-        static const int FOUR_BITS_MAX = 15; // 1111
+        /** Enable debug logs? 0 = none, 1 = important, 2 = all */
+        static const int DEBUG = 0;
+
+        /** 15, or 1111 in binary, is the max value that 4 bits can represent. */
+        static const int FOUR_BITS_MAX = 15;
 
         /** Display the most important debug logs. */
         static bool debugL1();
+
         /** Display all debug logs. */
         static bool debugL2();
+
         /** Returns the value as a 4-bit bitset. */
         static std::bitset<4> to4bits(uint8_t value);
+
         /** Checks if the first string starts with the value of the second string. Comes in C++20 */
         static bool startsWith(const std::string &stringToCheck, const std::string &valueToLookFor);
     };

@@ -7,6 +7,9 @@
 
 namespace Core {
 
+    /**
+     * Enum-like structure with details about the supported instructions.
+     */
     class Instructions {
 
     public:
