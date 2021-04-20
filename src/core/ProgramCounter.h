@@ -22,12 +22,16 @@ namespace Core {
 
         /** Print current value to standard out. */
         void print() const;
+
         /** Reset counter to 0. */
         void reset();
+
         /** Output counter value to the bus. */
         virtual void out();
+
         /** Increment counter value by 1 on next clock tick. */
         virtual void enable();
+
         /** Use value from bus as new counter value on next clock tick. */
         virtual void jump();
 

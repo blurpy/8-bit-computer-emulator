@@ -23,14 +23,19 @@ namespace Core {
 
         /** Get the current value in the register. */
         [[nodiscard]] virtual uint8_t readValue() const;
+
         /** Print current value to standard out. */
         void print();
+
         /** Reset the register value to 0. */
         void reset();
+
         /** Take value from the bus on next clock tick. */
         virtual void in();
+
         /** Output current value to the bus. */
         virtual void out();
+
         /** Set a listener that will be notified when the value changes. */
         void setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener);
 

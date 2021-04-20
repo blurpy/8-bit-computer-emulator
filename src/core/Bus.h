@@ -16,10 +16,13 @@ namespace Core {
 
         /** Get current value on the bus. */
         [[nodiscard]] uint8_t read() const;
+
         /** Write a new value to the bus. */
         void write(uint8_t newValue);
+
         /** Print current value to standard out. */
         void print() const;
+
         /** Reset the bus to 0. */
         void reset();
 
