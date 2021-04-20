@@ -11,18 +11,38 @@
 
 namespace Core {
 
+    /**
+     * 16 bytes of static RAM.
+     *
+     * Any of the 16 bytes can be read and written to, but it behaves like a regular 8-bit register in
+     * that it only works with 1 byte at a time.
+     *
+     * To select which byte to read or write, the 4-bit memory address register must be used.
+     * A 4-bit value can represent all the locations in memory from byte at address 0 to byte at address 15.
+     *
+     * Supports manual control like the DIP-switches using the program function.
+     */
     class RandomAccessMemory: public ClockListener, public RegisterListener {
 
     public:
-        static const int MEMORY_SIZE = 16;
+        static const int MEMORY_SIZE = 16; // 16 bytes / 16 x 8 bits
 
         explicit RandomAccessMemory(const std::shared_ptr<Bus> &bus);
         ~RandomAccessMemory();
 
+        /** Print current address and all 16 values of memory to standard out. */
         void print();
+
+        /** Reset the current address to 0. */
         void reset();
+
+        /** Puts the specified opcode and operand into memory at the current address in manual mode. */
         void program(const std::bitset<4> &opcode, const std::bitset<4> &operand);
+
+        /** Take the value from the bus on next clock tick and insert into the current address in memory. */
         virtual void in();
+
+        /** Output the value at the current address in memory to the bus. */
         virtual void out();
 
     private:
