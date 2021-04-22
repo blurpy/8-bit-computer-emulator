@@ -29,7 +29,7 @@ TEST_SUITE("FlagsRegisterTest") {
             CHECK_FALSE(flagsRegister.isZeroFlag());
         }
 
-        SUBCASE("clockTicked() should update flags after in()") {
+        SUBCASE("in() should update flags on clock tick") {
             fakeit::When(Method(aluMock, isCarry)).Return(true);
             fakeit::When(Method(aluMock, isZero)).Return(true);
 
@@ -49,6 +49,30 @@ TEST_SUITE("FlagsRegisterTest") {
                 CHECK_FALSE(flagsRegister.isCarryFlag());
                 CHECK_FALSE(flagsRegister.isZeroFlag());
             }
+        }
+
+        SUBCASE("in() should only update flags on first clock tick") {
+            fakeit::When(Method(aluMock, isCarry)).Return(true);
+            fakeit::When(Method(aluMock, isZero)).Return(true);
+
+            flagsRegister.in();
+
+            CHECK_FALSE(flagsRegister.isCarryFlag());
+            CHECK_FALSE(flagsRegister.isZeroFlag());
+
+            clock.clockTicked();
+
+            CHECK(flagsRegister.isCarryFlag());
+            CHECK(flagsRegister.isZeroFlag());
+
+            fakeit::When(Method(aluMock, isCarry)).Return(false);
+            fakeit::When(Method(aluMock, isZero)).Return(false);
+
+            clock.clockTicked();
+
+            // Nothing happened
+            CHECK(flagsRegister.isCarryFlag());
+            CHECK(flagsRegister.isZeroFlag());
         }
 
         SUBCASE("print() should not fail") {
