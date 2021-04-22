@@ -25,6 +25,15 @@ TEST_SUITE("TimeSourceTest") {
         CHECK(stopCount < (startCount + microToNano(200)));
     }
 
+    TEST_CASE("delta() should not increase but return difference since last time") {
+        TimeSource timeSource;
+
+        // Not sure if this is reliable, but works atm
+        for (int i = 0; i < 10; i++) {
+            CHECK(timeSource.delta() < 1000);
+        }
+    }
+
     TEST_CASE("reset() should reset delta") {
         TimeSource timeSource;
 
