@@ -41,6 +41,15 @@ TEST_SUITE("RandomAccessMemoryTest") {
             }
         }
 
+        SUBCASE("memory should be programmable manually 2") {
+            // Add a test where opcode and operand are different
+            mar.registerValueChanged(1);
+            ram.program(std::bitset<4>("1010"), std::bitset<4>("0011"));
+            ram.out();
+
+            CHECK_EQ(bus->read(), std::bitset<8>("10100011").to_ulong());
+        }
+
         SUBCASE("reset() should reset address but not memory content") {
             // Set a value of 10 at memory location 0
             ram.program(Utils::to4bits(0), Utils::to4bits(10));
