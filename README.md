@@ -30,6 +30,7 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
+$ make test (optional step)
 $ ./src/8bit <program.asm>
 ```
 
