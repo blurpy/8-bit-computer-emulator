@@ -5604,9 +5604,8 @@ namespace fakeit {
         class SimpleType {
         };
 
-// TODO disabled by blurpy
-//        static_assert(sizeof(unsigned int (SimpleType::*)()) == sizeof(unsigned int (C::*)()),
-//            "Can't mock a type with multiple inheritance or with non-polymorphic base class");
+        static_assert(sizeof(unsigned int (SimpleType::*)()) == sizeof(unsigned int (C::*)()),
+            "Can't mock a type with multiple inheritance or with non-polymorphic base class");
         static const unsigned int numOfCookies = 3;
 
         static void **buildVTArray() {
