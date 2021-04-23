@@ -1,7 +1,7 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(include)
 
-add_executable(8bit-tests test_main.cpp core/BusTest.cpp core/FlagsRegisterTest.cpp core/StepCounterTest.cpp core/ProgramCounterTest.cpp core/ArithmeticLogicUnitTest.cpp core/EmulatorIntegrationTest.cpp core/AssemblerTest.cpp core/UtilsTest.cpp core/InstructionDecoderTest.cpp core/RandomAccessMemoryTest.cpp core/MemoryAddressRegisterTest.cpp core/TimeSourceTest.cpp core/ClockTest.cpp core/OutputRegisterTest.cpp core/InstructionRegisterTest.cpp core/GenericRegisterTest.cpp)
+add_executable(8bit-tests test_main.cpp core/BusTest.cpp core/FlagsRegisterTest.cpp core/StepCounterTest.cpp core/ProgramCounterTest.cpp core/ArithmeticLogicUnitTest.cpp core/EmulatorIntegrationTest.cpp core/AssemblerTest.cpp core/UtilsTest.cpp core/RandomAccessMemoryTest.cpp core/MemoryAddressRegisterTest.cpp core/TimeSourceTest.cpp core/ClockTest.cpp core/OutputRegisterTest.cpp core/InstructionRegisterTest.cpp core/GenericRegisterTest.cpp)
 target_link_libraries(8bit-tests 8bit-core)
 
 enable_testing()
@@ -13,7 +13,7 @@ add_test(ClockTest 8bit-tests --source-file=*ClockTest.cpp)
 add_test(EmulatorIntegrationTest 8bit-tests --source-file=*EmulatorIntegrationTest.cpp)
 add_test(FlagsRegisterTest 8bit-tests --source-file=*FlagsRegisterTest.cpp)
 add_test(GenericRegisterTest 8bit-tests --source-file=*GenericRegisterTest.cpp)
-add_test(InstructionDecoderTest 8bit-tests --source-file=*InstructionDecoderTest.cpp)
+#add_test(InstructionDecoderTest 8bit-tests --source-file=*InstructionDecoderTest.cpp)
 add_test(InstructionRegisterTest 8bit-tests --source-file=*InstructionRegisterTest.cpp)
 add_test(MemoryAddressRegisterTest 8bit-tests --source-file=*MemoryAddressRegisterTest.cpp)
 add_test(OutputRegisterTest 8bit-tests --source-file=*OutputRegisterTest.cpp)
