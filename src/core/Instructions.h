@@ -1,6 +1,7 @@
 #ifndef INC_8_BIT_COMPUTER_EMULATOR_INSTRUCTIONS_H
 #define INC_8_BIT_COMPUTER_EMULATOR_INSTRUCTIONS_H
 
+#include <array>
 #include <bitset>
 #include <map>
 #include <string>
