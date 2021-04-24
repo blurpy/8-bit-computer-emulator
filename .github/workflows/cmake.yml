@@ -17,7 +17,7 @@ jobs:
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ${{ matrix.platform }}
+    runs-on: ${{matrix.platform}}
 
     steps:
     - uses: actions/checkout@v2
@@ -53,5 +53,5 @@ jobs:
     - name: Archive binaries
       uses: actions/upload-artifact@v2
       with:
-        name: 8-bit ${{ matrix.platform }}
-        path: ${{ github.workspace }}/build/src/Release/8bit*
+        name: 8-bit ${{matrix.platform}}
+        path: ${{github.workspace}}/build/src/**/8bit*
