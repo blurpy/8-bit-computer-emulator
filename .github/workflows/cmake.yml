@@ -54,4 +54,6 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: 8-bit ${{matrix.platform}}
-        path: ${{github.workspace}}/build/src/**/8bit*
+        path: |
+          ${{github.workspace}}/build/src/8bit
+          ${{github.workspace}}/build/src/Release/8bit.exe
