@@ -1,4 +1,5 @@
 #include <doctest.h>
+#include <iostream> // Due to bug with doctest on macOS in release mode: https://github.com/onqtam/doctest/issues/126
 
 #include "core/Assembler.h"
 #include "core/Instructions.h"
