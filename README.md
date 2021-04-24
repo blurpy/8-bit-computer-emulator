@@ -23,14 +23,14 @@ TODO:
 
 ## Build and run
 
-Clone the repo first with git or download a zip of the repo.
+Clone the repo first with git or download a zip of the repo. Run the following inside the folder with the code:
 
 ```
 $ mkdir build
 $ cd build
 $ cmake ..
-$ make
-$ make test (optional step)
+$ cmake --build .
+$ ctest (optional step)
 $ ./src/8bit <program.asm>
 ```
 
