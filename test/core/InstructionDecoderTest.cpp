@@ -17,7 +17,7 @@ std::shared_ptr<T> ptr(fakeit::Mock<T> &mock) {
 
 TEST_SUITE("InstructionDecoderTest") {
 
-#ifndef _WIN32
+#ifndef _MSC_VER
     TEST_CASE("should call the correct control lines for the different instruction steps") {
         fakeit::Mock<MemoryAddressRegister> marMock;
         fakeit::Mock<ProgramCounter> pcMock;
@@ -471,7 +471,7 @@ TEST_SUITE("InstructionDecoderTest") {
 
 #else
     TEST_CASE("windows no op") {
-        // This test does not work on Windows due to multiple inheritance issues
+        // This test does not work with Microsoft C/C++ compiler due to multiple inheritance issues
     }
 #endif
 }
