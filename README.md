@@ -17,8 +17,10 @@ TODO:
 
 ## Requirements
 
+The emulator builds on Linux, macOS and Windows. It is primarily tested on Linux.
+
 * cmake
-* g++
+* gcc/clang/msvc
 
 
 ## Build and run
