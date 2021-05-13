@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "core/Emulator.h"
+#include "ui/UserInterface.h"
 
 int main(int argc, char **argv) {
     std::cout << "Starting the 8-bit-computer emulator" << std::endl;
@@ -15,6 +16,9 @@ int main(int argc, char **argv) {
 
     const auto emulator = std::make_unique<Core::Emulator>();
     emulator->setFrequency(100);
+
+    const auto ui = std::make_unique<UI::UserInterface>();
+    ui->start();
 
     try {
         emulator->run(fileName);

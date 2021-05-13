@@ -12,7 +12,7 @@ Please see the link above for documentation on how the computer works. Since the
 The emulation is done, and the programs that run on the real hardware will run unmodified on the emulator with the same result.
 
 TODO:
-* Some kind of user interface
+* Some kind of user interface (work in progress)
 
 
 ## Requirements
@@ -21,6 +21,7 @@ The emulator builds on Linux, macOS and Windows. It is primarily tested on Linux
 
 * cmake
 * gcc/clang/msvc
+* sdl2
 
 
 ## Build and run
