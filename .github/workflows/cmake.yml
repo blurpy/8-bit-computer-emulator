@@ -5,7 +5,7 @@ on: [push]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  SDL2_PATH: ${{github.workspace}}/sdl2-src
+  SDL2_PATH: ${{github.workspace}}\sdl2-src
 
 jobs:
   build:
@@ -32,8 +32,8 @@ jobs:
       if: matrix.platform == 'macos-latest'
 
     - name: Make directories on Windows
-      run: mkdir ${{github.workspace}}/sdl2-src ${{github.workspace}}/sdl2-bin
-      shell: bash
+      run: mkdir ${{github.workspace}}\sdl2-src ${{github.workspace}}\sdl2-bin
+      shell: cmd
       if: matrix.platform == 'windows-latest'
 
     - name: Install SDL2 on Windows
