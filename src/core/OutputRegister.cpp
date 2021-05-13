@@ -10,6 +10,7 @@ Core::OutputRegister::OutputRegister(const std::shared_ptr<Bus> &bus) {
     }
 
     this->bus = bus;
+    this->observer = nullptr;
     this->value = 0;
     this->readOnClock = false;
 }
@@ -31,6 +32,8 @@ void Core::OutputRegister::readFromBus() {
     value = busValue;
 
     std::cout << "*** Display: " << (int) value << std::endl;
+
+    notifyObserver();
 }
 
 void Core::OutputRegister::print() const {
@@ -39,6 +42,8 @@ void Core::OutputRegister::print() const {
 
 void Core::OutputRegister::reset() {
     value = 0;
+
+    notifyObserver();
 }
 
 void Core::OutputRegister::in() {
@@ -58,4 +63,14 @@ void Core::OutputRegister::clockTicked() {
         readFromBus();
         readOnClock = false;
     }
+}
+
+void Core::OutputRegister::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(value);
+    }
+}
+
+void Core::OutputRegister::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

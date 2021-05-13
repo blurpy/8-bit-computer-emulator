@@ -5,6 +5,7 @@
 
 #include "Bus.h"
 #include "ClockListener.h"
+#include "ValueObserver.h"
 
 namespace Core {
 
@@ -42,12 +43,17 @@ namespace Core {
         /** Take value from the bus on next clock tick. */
         virtual void in();
 
+        /** Set an optional external observer of this register. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
         std::shared_ptr<Bus> bus;
+        std::shared_ptr<ValueObserver> observer;
         uint8_t value;
         bool readOnClock;
 
         void readFromBus();
+        void notifyObserver() const;
 
         void clockTicked() override;
         void invertedClockTicked() override {}; // Not implemented
