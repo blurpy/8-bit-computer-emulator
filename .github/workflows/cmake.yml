@@ -29,6 +29,19 @@ jobs:
     - name: Install dependencies on macOS
       run: brew install sdl2
       if: matrix.platform == 'macos-latest'
+      
+    - name: Make directories on Windows
+      run: mkdir bin
+      shell: cmd
+      if: matrix.platform == 'windows-latest'
+      
+    - name: Install SDL2 on Windows
+      uses: albin-johansson/download-sdl2@v1
+      if: matrix.platform == 'windows-latest'
+      with:
+        version: 2.0.14
+        sources_destination: .
+        binaries_destination: bin
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
