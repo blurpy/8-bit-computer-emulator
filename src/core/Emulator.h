@@ -30,7 +30,7 @@ namespace Core {
         /** Start the emulator, load the program from the specified file, and run it. */
         void run(const std::string &fileName);
 
-        /** Set the speed to run the clock, in hertz. Must be set before running a program. */
+        /** Set the speed to run the clock, in hertz. Must be set before running a program, and at least 0.1. */
         void setFrequency(double hz);
 
     private:

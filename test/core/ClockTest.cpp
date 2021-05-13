@@ -120,5 +120,17 @@ TEST_SUITE("ClockTest") {
             fakeit::Verify(Method(timeSourceMock, sleep)).AtLeast(100);
             fakeit::Verify(Method(timeSourceMock, reset)).Exactly(1);
         }
+
+        SUBCASE("setFrequency() should throw exception if frequency is set to 0") {
+            CHECK_THROWS_WITH(clock.setFrequency(0), "Clock: frequency too low 0.000000");
+        }
+
+        SUBCASE("setFrequency() should throw exception if frequency is set negative") {
+            CHECK_THROWS_WITH(clock.setFrequency(-1), "Clock: frequency too low -1.000000");
+        }
+
+        SUBCASE("setFrequency() should accept frequency of 0.1") {
+            clock.setFrequency(0.1);
+        }
     }
 }

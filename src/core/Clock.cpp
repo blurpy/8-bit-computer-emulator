@@ -70,6 +70,10 @@ void Core::Clock::singleStep() {
 }
 
 void Core::Clock::setFrequency(const double hz) {
+    if (hz < 0.1) {
+        throw std::runtime_error("Clock: frequency too low " + std::to_string(hz));
+    }
+
     frequency = (1.0 / (hz * 2.0) * 1000.0 * 1000.0 * 1000.0);
 }
 

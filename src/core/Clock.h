@@ -41,7 +41,7 @@ namespace Core {
         /** Run one clock cycle synchronously and then stop. */
         void singleStep();
 
-        /** Set the speed to run the clock, in hertz. */
+        /** Set the speed to run the clock, in hertz. Must be at least 0.1. */
         void setFrequency(double hz);
 
         /** Add a listener for clock events. */
