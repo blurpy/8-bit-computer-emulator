@@ -5,7 +5,7 @@ on: [push]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  SDL2DIR: ${{github.workspace}}\sdl2-src\SDL2-2.0.14
+  SDL2DIR: ${{github.workspace}}\SDL2-2.0.14
 
 jobs:
   build:
@@ -31,23 +31,12 @@ jobs:
       run: brew install sdl2
       if: matrix.platform == 'macos-latest'
 
-    - name: Make directories on Windows
-      run: mkdir ${{github.workspace}}\sdl2-src ${{github.workspace}}\sdl2-bin
-      shell: cmd
-      if: matrix.platform == 'windows-latest'
-
     - name: Install SDL2 on Windows
       uses: ./.github/actions/download-sdl2
       if: matrix.platform == 'windows-latest'
       with:
         version: 2.0.14
-        sources_destination: ${{github.workspace}}\sdl2-src
-        binaries_destination: ${{github.workspace}}\sdl2-bin
-
-    - name: See contents of new directories on Windows
-      run: dir ${{github.workspace}}\sdl2-src
-      shell: cmd
-      if: matrix.platform == 'windows-latest'
+        destination: ${{github.workspace}}
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
