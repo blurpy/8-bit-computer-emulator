@@ -36,7 +36,7 @@ jobs:
       if: matrix.platform == 'windows-latest'
       
     - name: Install SDL2 on Windows
-      uses: albin-johansson/download-sdl2@v1
+      uses: ./.github/actions/download-sdl2
       if: matrix.platform == 'windows-latest'
       with:
         version: 2.0.14
