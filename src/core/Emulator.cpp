@@ -136,3 +136,7 @@ void Core::Emulator::reset() {
     stepCounter->reset();
     flagsRegister->reset();
 }
+
+void Core::Emulator::setOutputRegisterObserver(const std::shared_ptr<ValueObserver> &observer) {
+    outputRegister->setObserver(observer);
+}
