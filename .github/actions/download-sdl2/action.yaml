@@ -1,5 +1,5 @@
 name: "Download SDL2"
-description: "Download SDL2 sources and binaries for Windows, using MINGW."
+description: "Download SDL2 sources and binaries for Windows, using MSVC."
 
 branding:
   icon: "download"
@@ -23,14 +23,14 @@ runs:
   using: "composite"
   steps:
     - name: Download sources
-      run: Invoke-WebRequest -Uri "https://libsdl.org/release/SDL2-devel-${{inputs.version}}-mingw.tar.gz" -OutFile ${{inputs.sources_destination}}/SDL2-devel-${{inputs.version}}-mingw.tar.gz
+      run: Invoke-WebRequest -Uri "https://libsdl.org/release/SDL2-devel-${{inputs.version}}-VC.zip" -OutFile ${{inputs.sources_destination}}/SDL2-devel-${{inputs.version}}-VC.zip
       shell: powershell
 
     - name: Unzip sources
       run: |
         cd ${{inputs.sources_destination}}
-        7z x -y SDL2-devel-${{inputs.version}}-mingw.tar.gz
-        del SDL2-devel-${{inputs.version}}-mingw.tar.gz
+        7z x -y SDL2-devel-${{inputs.version}}-VC.zip
+        del SDL2-devel-${{inputs.version}}-VC.zip
       shell: cmd
 
     - name: Download runtime binaries
