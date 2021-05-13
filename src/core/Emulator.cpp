@@ -73,7 +73,6 @@ void Core::Emulator::run(const std::string &fileName) {
         std::cout << "Emulator: run clock" << std::endl;
     }
 
-    clock->setFrequency(1000);
     clock->start();
     clock->join();
 
@@ -82,6 +81,10 @@ void Core::Emulator::run(const std::string &fileName) {
     if (Utils::debugL1()) {
         std::cout << "Emulator: run stop" << std::endl;
     }
+}
+
+void Core::Emulator::setFrequency(double hz) {
+    clock->setFrequency(hz);
 }
 
 bool Core::Emulator::programMemory(const std::string &fileName) {
