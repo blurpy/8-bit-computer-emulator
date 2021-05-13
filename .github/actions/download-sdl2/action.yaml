@@ -23,14 +23,14 @@ runs:
   using: "composite"
   steps:
     - name: Download sources
-      run: Invoke-WebRequest -Uri "https://libsdl.org/release/SDL2-devel-${{inputs.version}}-mingw.zip" -OutFile ${{inputs.sources_destination}}/SDL2-devel-${{inputs.version}}-mingw.zip
+      run: Invoke-WebRequest -Uri "https://libsdl.org/release/SDL2-devel-${{inputs.version}}-mingw.tar.gz" -OutFile ${{inputs.sources_destination}}/SDL2-devel-${{inputs.version}}-mingw.tar.gz
       shell: powershell
 
     - name: Unzip sources
       run: |
         cd ${{inputs.sources_destination}}
-        7z x -y SDL2-devel-${{inputs.version}}-mingw.zip
-        del SDL2-devel-${{inputs.version}}-mingw.zip
+        7z x -y SDL2-devel-${{inputs.version}}-mingw.tar.gz
+        del SDL2-devel-${{inputs.version}}-mingw.tar.gz
       shell: cmd
 
     - name: Download runtime binaries
