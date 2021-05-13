@@ -5,7 +5,7 @@ on: [push]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  SDL2DIR: ${{github.workspace}}\sdl2-src
+  SDL2DIR: ${{github.workspace}}\sdl2-src\SDL2-2.0.14
 
 jobs:
   build:
