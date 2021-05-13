@@ -5,7 +5,6 @@ on: [push]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  SDL2DIR: ${{github.workspace}}\SDL2-2.0.14
 
 jobs:
   build:
@@ -52,6 +51,8 @@ jobs:
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      env:
+        SDL2DIR: ${{github.workspace}}\SDL2-2.0.14
 
     - name: Build
       working-directory: ${{github.workspace}}/build
