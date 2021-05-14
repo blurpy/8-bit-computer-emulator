@@ -1,6 +1,8 @@
 #ifndef INC_8_BIT_COMPUTER_EMULATOR_ARITHMETICLOGICUNITMODEL_H
 #define INC_8_BIT_COMPUTER_EMULATOR_ARITHMETICLOGICUNITMODEL_H
 
+#include <string>
+
 #include "../core/ArithmeticLogicUnitObserver.h"
 
 namespace UI {
