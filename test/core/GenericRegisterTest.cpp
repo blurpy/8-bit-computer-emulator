@@ -9,7 +9,7 @@ TEST_SUITE("GenericRegisterTest") {
     TEST_CASE("generic register should work correctly") {
         const std::shared_ptr<Bus> &bus = std::make_shared<Bus>();
         GenericRegister genericRegister("some", bus);
-        auto &clock = dynamic_cast<ClockListener &>(genericRegister);
+        auto &clock = dynamic_cast<ClockListener&>(genericRegister);
 
         CHECK_EQ(bus->read(), 0);
 
@@ -79,6 +79,26 @@ TEST_SUITE("GenericRegisterTest") {
             bus->write(4); // Change the bus after storing the last value, otherwise it's difficult to know
 
             fakeit::Verify(Method(listenerMock, registerValueChanged).Using(6)).Once();
+        }
+
+        SUBCASE("observer should be notified when reading from the bus") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            genericRegister.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).Return();
+
+            bus->write(8);
+
+            genericRegister.in(); // Prepare to read from bus
+
+            fakeit::VerifyNoOtherInvocations(observerMock); // Nothing read from the bus yet
+
+            bus->write(6); // This should be stored
+            clock.clockTicked();
+
+            bus->write(4); // Change the bus after storing the last value, otherwise it's difficult to know
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(6)).Once();
         }
 
         SUBCASE("reset() should set value to 0 again") {

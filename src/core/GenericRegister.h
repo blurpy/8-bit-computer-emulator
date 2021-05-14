@@ -7,6 +7,7 @@
 #include "Bus.h"
 #include "ClockListener.h"
 #include "RegisterListener.h"
+#include "ValueObserver.h"
 
 namespace Core {
 
@@ -39,15 +40,21 @@ namespace Core {
         /** Set a listener that will be notified when the value changes. */
         void setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener);
 
+        /** Set an optional external observer of this register. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
         std::string name;
         std::shared_ptr<RegisterListener> registerListener;
+        std::shared_ptr<ValueObserver> observer;
         std::shared_ptr<Bus> bus;
         uint8_t value;
         bool readOnClock;
 
         void readFromBus();
         void writeToBus();
+        void notifyObserver() const;
+        void notifyListener() const;
 
         void clockTicked() override;
         void invertedClockTicked() override {}; // Not implemented

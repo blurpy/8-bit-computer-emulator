@@ -9,15 +9,16 @@ Core::GenericRegister::GenericRegister(const std::string& name, const std::share
     this->bus = bus;
     this->value = 0;
     this->readOnClock = false;
+    this->observer = nullptr;
 
     if (Utils::debugL2()) {
-        std::cout << name << " register construct" << std::endl;
+        std::cout << this->name << " register construct" << std::endl;
     }
 }
 
 Core::GenericRegister::~GenericRegister() {
     if (Utils::debugL2()) {
-        std::cout << name << " register destruct" << std::endl;
+        std::cout << this->name << " register destruct" << std::endl;
     }
 }
 
@@ -30,9 +31,8 @@ void Core::GenericRegister::readFromBus() {
 
     value = busValue;
 
-    if (registerListener != nullptr) {
-        registerListener->registerValueChanged(value);
-    }
+    notifyObserver();
+    notifyListener();
 }
 
 void Core::GenericRegister::writeToBus() {
@@ -78,6 +78,22 @@ void Core::GenericRegister::clockTicked() {
     }
 }
 
+void Core::GenericRegister::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(value);
+    }
+}
+
+void Core::GenericRegister::notifyListener() const {
+    if (registerListener != nullptr) {
+        registerListener->registerValueChanged(value);
+    }
+}
+
 void Core::GenericRegister::setRegisterListener(const std::shared_ptr<RegisterListener> &newRegisterListener) {
     registerListener = newRegisterListener;
+}
+
+void Core::GenericRegister::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

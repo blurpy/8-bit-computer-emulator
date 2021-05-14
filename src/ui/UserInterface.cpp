@@ -18,8 +18,12 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->emulator = std::make_shared<Core::Emulator>();
     this->window = std::make_unique<Window>("8bit");
 
+    this->aRegister = std::make_shared<ValueModel>("A Register");
+    this->bRegister = std::make_shared<ValueModel>("B Register");
     this->outputRegister = std::make_shared<ValueModel>("Output Register");
 
+    this->emulator->setARegisterObserver(this->aRegister);
+    this->emulator->setBRegisterObserver(this->bRegister);
     this->emulator->setOutputRegisterObserver(this->outputRegister);
 }
 
@@ -48,12 +52,16 @@ void UI::UserInterface::start() {
 void UI::UserInterface::mainLoop() {
     std::cout << std::endl << "UserInterface: starting main loop" << std::endl << std::endl;
 
-    emulator->setFrequency(10);
+    emulator->setFrequency(5);
     emulator->run(fileName);
 
     while (running) {
         window->clearScreen();
-        window->drawText(outputRegister->getRenderText(), 5, 0);
+
+        window->drawText(aRegister->getRenderText(), 5, 0);
+        window->drawText(bRegister->getRenderText(), 5, 24);
+        window->drawText(outputRegister->getRenderText(), 5, 48);
+
         window->redraw();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));

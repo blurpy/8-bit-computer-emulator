@@ -39,6 +39,12 @@ namespace Core {
         /** Set the speed to run the clock, in hertz. Must be set before running a program, and at least 0.1. */
         void setFrequency(double hz);
 
+        /** Set an optional external observer of the A register. */
+        void setARegisterObserver(const std::shared_ptr<ValueObserver> &observer);
+
+        /** Set an optional external observer of the B register. */
+        void setBRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
+
         /** Set an optional external observer of the output register. */
         void setOutputRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 
