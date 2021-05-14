@@ -26,6 +26,17 @@ TEST_SUITE("MemoryAddressRegisterTest") {
             fakeit::Verify(Method(listenerMock, registerValueChanged).Using(13)).Once();
         }
 
+        SUBCASE("program should notify observer of programmed value") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            mar.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).Return();
+
+            mar.program(Utils::to4bits(14));
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(14)).Once();
+        }
+
         SUBCASE("clockTicked() should store value from bus on clock tick") {
             bus->write(8);
 
@@ -60,6 +71,27 @@ TEST_SUITE("MemoryAddressRegisterTest") {
             mar.in();
 
             CHECK_THROWS_WITH(clock.clockTicked(), "MemoryAddressRegister: address out of bounds 16");
+        }
+
+        SUBCASE("observer should be notified when reading from the bus") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            mar.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).Return();
+
+            bus->write(8);
+
+            mar.in(); // Prepare to read from bus
+
+            fakeit::VerifyNoOtherInvocations(observerMock); // Nothing read from the bus yet
+
+            bus->write(6); // This should be stored
+            clock.clockTicked();
+
+            bus->write(4); // Change the bus after storing the last value, otherwise it's difficult to know
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(6)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
         SUBCASE("reset() should reset address") {

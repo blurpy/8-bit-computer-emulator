@@ -10,14 +10,17 @@ namespace UI {
     class ValueModel: public Core::ValueObserver {
 
     public:
-        explicit ValueModel(const std::string &name);
+        ValueModel(const std::string &name, size_t bits);
         ~ValueModel();
 
         [[nodiscard]] std::string getRenderText() const;
 
     private:
         std::string name;
+        size_t bits;
         uint8_t value;
+
+        [[nodiscard]] std::string valueAsBinary() const;
 
         void valueUpdated(uint8_t newValue) override;
     };

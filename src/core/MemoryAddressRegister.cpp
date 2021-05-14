@@ -36,7 +36,9 @@ void Core::MemoryAddressRegister::readFromBus() {
     }
 
     value = busValue;
-    registerListener->registerValueChanged(value);
+
+    notifyObserver();
+    notifyListener();
 }
 
 void Core::MemoryAddressRegister::print() const {
@@ -53,7 +55,9 @@ void Core::MemoryAddressRegister::program(const std::bitset<4> &address) {
     }
 
     value = address.to_ulong();
-    registerListener->registerValueChanged(value);
+
+    notifyObserver();
+    notifyListener();
 }
 
 void Core::MemoryAddressRegister::in() {
@@ -73,4 +77,18 @@ void Core::MemoryAddressRegister::clockTicked() {
         readFromBus();
         readOnClock = false;
     }
+}
+
+void Core::MemoryAddressRegister::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(value);
+    }
+}
+
+void Core::MemoryAddressRegister::notifyListener() const {
+    registerListener->registerValueChanged(value);
+}
+
+void Core::MemoryAddressRegister::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

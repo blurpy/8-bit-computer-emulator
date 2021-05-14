@@ -36,13 +36,19 @@ namespace Core {
         /** Take a 4-bit value from the bus on next clock tick. */
         virtual void in();
 
+        /** Set an optional external observer of this register. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
         std::shared_ptr<RegisterListener> registerListener;
         std::shared_ptr<Bus> bus;
+        std::shared_ptr<ValueObserver> observer;
         uint8_t value;
         bool readOnClock;
 
         void readFromBus();
+        void notifyObserver() const;
+        void notifyListener() const;
 
         void clockTicked() override;
         void invertedClockTicked() override {}; // Not implemented

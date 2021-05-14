@@ -5,8 +5,9 @@
 
 #include "ValueModel.h"
 
-UI::ValueModel::ValueModel(const std::string &name) {
+UI::ValueModel::ValueModel(const std::string &name, const size_t bits) {
     this->name = name;
+    this->bits = bits;
     this->value = 0;
 
     if (Core::Utils::debugL2()) {
@@ -25,5 +26,13 @@ void UI::ValueModel::valueUpdated(const uint8_t newValue) {
 }
 
 std::string UI::ValueModel::getRenderText() const {
-    return name + ": " + std::bitset<8>(value).to_string() + " / " + std::to_string(value);
+    return name + ": " + valueAsBinary() + " / " + std::to_string(value);
+}
+
+std::string UI::ValueModel::valueAsBinary() const {
+    switch (bits) {
+        case 4: return std::bitset<4>(value).to_string();
+        case 8: return std::bitset<8>(value).to_string();
+        default: return "Unhandled";
+    }
 }
