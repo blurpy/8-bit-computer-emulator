@@ -17,6 +17,10 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
 
     this->emulator = std::make_shared<Core::Emulator>();
     this->window = std::make_unique<Window>("8bit");
+
+    this->outputRegister = std::make_shared<ValueModel>("Output Register");
+
+    this->emulator->setOutputRegisterObserver(this->outputRegister);
 }
 
 UI::UserInterface::~UserInterface() {
@@ -49,7 +53,7 @@ void UI::UserInterface::mainLoop() {
 
     while (running) {
         window->clearScreen();
-        window->drawText("Hello 8-bit!", 5, 0);
+        window->drawText(outputRegister->getRenderText(), 5, 0);
         window->redraw();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));

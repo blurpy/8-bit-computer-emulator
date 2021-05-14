@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "ValueModel.h"
 #include "Window.h"
 
 #include "../core/Emulator.h"
@@ -20,6 +21,8 @@ namespace UI {
     private:
         std::unique_ptr<Window> window;
         std::shared_ptr<Core::Emulator> emulator;
+        std::shared_ptr<ValueModel> outputRegister;
+
         std::string fileName;
         bool running;
 
