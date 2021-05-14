@@ -19,6 +19,9 @@ namespace UI {
         void start();
 
     private:
+        static const int LINE_HEIGHT = 24;
+        static const int LEFT_POSITION = 5;
+
         std::unique_ptr<Window> window;
         std::shared_ptr<Core::Emulator> emulator;
 
@@ -32,6 +35,7 @@ namespace UI {
         bool running;
 
         void mainLoop();
+        void drawText(const std::string &text, int currentLine);
     };
 }
 

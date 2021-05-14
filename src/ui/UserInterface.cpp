@@ -60,13 +60,15 @@ void UI::UserInterface::mainLoop() {
     emulator->run(fileName);
 
     while (running) {
+        int currentLine = 0;
+
         window->clearScreen();
 
-        window->drawText(bus->getRenderText(), 5, 0);
-        window->drawText(aRegister->getRenderText(), 5, 24);
-        window->drawText(bRegister->getRenderText(), 5, 48);
-        window->drawText(instructionRegister->getRenderText(), 5, 72);
-        window->drawText(outputRegister->getRenderText(), 5, 96);
+        drawText(bus->getRenderText(), currentLine++);
+        drawText(aRegister->getRenderText(), currentLine++);
+        drawText(bRegister->getRenderText(), currentLine++);
+        drawText(instructionRegister->getRenderText(), currentLine++);
+        drawText(outputRegister->getRenderText(), currentLine);
 
         window->redraw();
 
@@ -75,4 +77,8 @@ void UI::UserInterface::mainLoop() {
 
     emulator->stop();
     emulator->waitUntilFinished();
+}
+
+void UI::UserInterface::drawText(const std::string &text, const int currentLine) {
+    window->drawText(text, LEFT_POSITION, currentLine * LINE_HEIGHT);
 }
