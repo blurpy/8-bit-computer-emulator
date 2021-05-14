@@ -60,6 +60,9 @@ namespace Core {
         /** Set an optional external observer of the program counter. */
         void setProgramCounterObserver(const std::shared_ptr<ValueObserver> &observer);
 
+        /** Set an optional external observer of the random access memory. */
+        void setRandomAccessMemoryObserver(const std::shared_ptr<ValueObserver> &observer);
+
         /** Set an optional external observer of the instruction register. */
         void setInstructionRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 

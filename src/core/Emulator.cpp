@@ -172,6 +172,10 @@ void Core::Emulator::setProgramCounterObserver(const std::shared_ptr<ValueObserv
     programCounter->setObserver(observer);
 }
 
+void Core::Emulator::setRandomAccessMemoryObserver(const std::shared_ptr<ValueObserver> &observer) {
+    randomAccessMemory->setObserver(observer);
+}
+
 void Core::Emulator::setInstructionRegisterObserver(const std::shared_ptr<ValueObserver> &observer) {
     instructionRegister->setObserver(observer);
 }

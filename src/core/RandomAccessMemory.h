@@ -45,14 +45,19 @@ namespace Core {
         /** Output the value at the current address in memory to the bus. */
         virtual void out();
 
+        /** Set an optional external observer of this random access memory. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
         std::shared_ptr<Bus> bus;
+        std::shared_ptr<ValueObserver> observer;
         std::array<uint8_t, MEMORY_SIZE> memory{};
         uint8_t address;
         bool readOnClock;
 
         void readFromBus();
         void writeToBus();
+        void notifyObserver() const;
 
         void clockTicked() override;
         void invertedClockTicked() override {}; // Not implemented

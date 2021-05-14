@@ -1,4 +1,5 @@
 #include <doctest.h>
+#include <fakeit.hpp>
 
 #include "core/Utils.h"
 #include "core/RandomAccessMemory.h"
@@ -48,6 +49,29 @@ TEST_SUITE("RandomAccessMemoryTest") {
             ram.out();
 
             CHECK_EQ(bus->read(), std::bitset<8>("10100011").to_ulong());
+        }
+
+        SUBCASE("program should notify observer of programmed value") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            ram.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
+
+            ram.program(std::bitset<4>("1111"), std::bitset<4>("1110"));
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(254)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
+        SUBCASE("changing address should notify observer of value at new address") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            ram.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
+
+            mar.registerValueChanged(1);
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
         SUBCASE("reset() should reset address but not memory content") {
@@ -126,6 +150,27 @@ TEST_SUITE("RandomAccessMemoryTest") {
             CHECK_THROWS_WITH(mar.registerValueChanged(16),
                               "RandomAccessMemory: address out of bounds 16");
 
+        }
+
+        SUBCASE("observer should be notified when reading from the bus") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            ram.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).Return();
+
+            bus->write(8);
+
+            ram.in(); // Prepare to read from bus
+
+            fakeit::VerifyNoOtherInvocations(observerMock); // Nothing happened yet
+
+            bus->write(6); // This should be stored
+            clock.clockTicked();
+
+            bus->write(4); // Change the bus after storing the last value, otherwise it's difficult to know
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(6)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
         SUBCASE("print() should not fail") {

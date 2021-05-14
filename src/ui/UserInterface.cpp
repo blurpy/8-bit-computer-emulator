@@ -25,6 +25,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->arithmeticLogicUnit = std::make_shared<ArithmeticLogicUnitModel>();
     this->memoryAddressRegister = std::make_shared<ValueModel>("Memory Address Register", 4);
     this->programCounter = std::make_shared<ValueModel>("Program Counter", 4);
+    this->randomAccessMemory = std::make_shared<ValueModel>("Random Access Memory", 8);
     this->instructionRegister = std::make_shared<ValueModel>("Instruction Register", 8);
     this->outputRegister = std::make_shared<ValueModel>("Output Register", 8);
     this->stepCounter = std::make_shared<ValueModel>("Step Counter", 3);
@@ -36,6 +37,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->emulator->setArithmeticLogicUnitObserver(this->arithmeticLogicUnit);
     this->emulator->setMemoryAddressRegisterObserver(this->memoryAddressRegister);
     this->emulator->setProgramCounterObserver(this->programCounter);
+    this->emulator->setRandomAccessMemoryObserver(this->randomAccessMemory);
     this->emulator->setInstructionRegisterObserver(this->instructionRegister);
     this->emulator->setOutputRegisterObserver(this->outputRegister);
     this->emulator->setStepCounterObserver(this->stepCounter);
@@ -81,6 +83,7 @@ void UI::UserInterface::mainLoop() {
         drawText(bRegister->getRenderText(), currentLine++);
         drawText(arithmeticLogicUnit->getRenderText(), currentLine++);
         drawText(memoryAddressRegister->getRenderText(), currentLine++);
+        drawText(randomAccessMemory->getRenderText(), currentLine++);
         drawText(stepCounter->getRenderText(), currentLine++);
         drawText(instructionRegister->getRenderText(), currentLine++);
         drawText(outputRegister->getRenderText(), currentLine);

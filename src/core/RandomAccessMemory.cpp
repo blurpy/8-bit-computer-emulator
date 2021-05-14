@@ -31,6 +31,8 @@ void Core::RandomAccessMemory::readFromBus() {
     }
 
     memory[address] = busValue;
+
+    notifyObserver();
 }
 
 void Core::RandomAccessMemory::writeToBus() {
@@ -62,6 +64,8 @@ void Core::RandomAccessMemory::program(const std::bitset<4> &opcode, const std::
 
     std::bitset<8> newValue(opcode.to_string() + operand.to_string());
     memory[address] = newValue.to_ulong();
+
+    notifyObserver();
 }
 
 void Core::RandomAccessMemory::in() {
@@ -102,4 +106,16 @@ void Core::RandomAccessMemory::registerValueChanged(const uint8_t newValue) {
     }
 
     address = newValue;
+
+    notifyObserver();
+}
+
+void Core::RandomAccessMemory::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(memory[address]);
+    }
+}
+
+void Core::RandomAccessMemory::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

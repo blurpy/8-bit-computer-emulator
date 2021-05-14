@@ -34,6 +34,7 @@ namespace UI {
         std::shared_ptr<ArithmeticLogicUnitModel> arithmeticLogicUnit;
         std::shared_ptr<ValueModel> memoryAddressRegister;
         std::shared_ptr<ValueModel> programCounter;
+        std::shared_ptr<ValueModel> randomAccessMemory;
         std::shared_ptr<ValueModel> instructionRegister;
         std::shared_ptr<ValueModel> outputRegister;
         std::shared_ptr<ValueModel> stepCounter;
