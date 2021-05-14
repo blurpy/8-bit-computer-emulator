@@ -22,6 +22,7 @@ The emulator builds on Linux, macOS and Windows. It is primarily tested on Linux
 * cmake
 * gcc/clang/msvc
 * sdl2
+* sdl2_ttf
 
 
 ## Build and run

@@ -43,7 +43,9 @@ void UI::UserInterface::mainLoop() {
 
     while (running) {
         window->clearScreen();
+        window->drawText("Hello 8-bit!", 5, 0);
         window->redraw();
+
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }

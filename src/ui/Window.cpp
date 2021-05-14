@@ -13,12 +13,16 @@ UI::Window::Window(const std::string &windowTitle) {
     this->closed = true;
     this->window = nullptr;
     this->renderer = nullptr;
+    this->font = nullptr;
 }
 
 UI::Window::~Window() {
     if (Core::Utils::debugL2()) {
         std::cout << "Window destruct" << std::endl;
     }
+
+    TTF_CloseFont(font);
+    TTF_Quit();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -40,6 +44,11 @@ bool UI::Window::init() {
         return false;
     }
 
+    if (TTF_Init() != 0) {
+        std::cerr << "Window: SDL TTF failed: " << TTF_GetError() << std::endl;
+        return false;
+    }
+
     window = SDL_CreateWindow(
             windowTitle.c_str(),
             SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,
@@ -56,6 +65,13 @@ bool UI::Window::init() {
 
     if (renderer == nullptr) {
         std::cerr << "Window: SDL Renderer failed: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    font = TTF_OpenFont("fonts/Hack-Regular.ttf", FONT_SIZE);
+
+    if (!font) {
+        std::cerr << "Window: SDL TTF load font failed: " << TTF_GetError() << std::endl;
         return false;
     }
 
@@ -83,4 +99,15 @@ void UI::Window::pollEvents() {
 
 bool UI::Window::isClosed() const {
     return closed;
+}
+
+void UI::Window::drawText(const std::string &text, const int xPosition, const int yPosition) {
+    SDL_Surface *surface = TTF_RenderText_Shaded(font, text.c_str(), TEXT_COLOR, BACKGROUND_COLOR);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_Rect destination{xPosition, yPosition, surface->w, surface->h};
+
+    SDL_FreeSurface(surface);
+    SDL_RenderCopy(renderer, texture, nullptr, &destination);
+    SDL_DestroyTexture(texture);
 }
