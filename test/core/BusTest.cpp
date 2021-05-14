@@ -1,4 +1,5 @@
 #include <doctest.h>
+#include <fakeit.hpp>
 
 #include "core/Bus.h"
 
@@ -16,6 +17,20 @@ TEST_SUITE("BusTest") {
         bus.write(10);
 
         CHECK(bus.read() == 10);
+    }
+
+    TEST_CASE("observer should be notified when writing to the bus") {
+        Bus bus = Bus();
+
+        fakeit::Mock<ValueObserver> observerMock;
+        auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+        bus.setObserver(observerPtr);
+        fakeit::When(Method(observerMock, valueUpdated)).Return();
+
+        bus.write(8);
+
+        fakeit::Verify(Method(observerMock, valueUpdated).Using(8)).Once();
+        fakeit::VerifyNoOtherInvocations(observerMock);
     }
 
     TEST_CASE("reset() should set value to 0") {

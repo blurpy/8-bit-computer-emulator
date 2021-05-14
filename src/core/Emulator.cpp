@@ -144,6 +144,10 @@ void Core::Emulator::reset() {
     flagsRegister->reset();
 }
 
+void Core::Emulator::setBusObserver(const std::shared_ptr<ValueObserver> &observer) {
+    bus->setObserver(observer);
+}
+
 void Core::Emulator::setARegisterObserver(const std::shared_ptr<ValueObserver> &observer) {
     aRegister->setObserver(observer);
 }

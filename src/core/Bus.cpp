@@ -28,6 +28,8 @@ void Core::Bus::write(const uint8_t newValue) {
     }
 
     value = newValue;
+
+    notifyObserver();
 }
 
 void Core::Bus::print() const {
@@ -36,4 +38,14 @@ void Core::Bus::print() const {
 
 void Core::Bus::reset() {
     value = 0;
+}
+
+void Core::Bus::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(value);
+    }
+}
+
+void Core::Bus::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

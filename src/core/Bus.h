@@ -2,6 +2,9 @@
 #define INC_8_BIT_COMPUTER_BUS_H
 
 #include <cstdint>
+#include <memory>
+
+#include "ValueObserver.h"
 
 namespace Core {
 
@@ -26,8 +29,14 @@ namespace Core {
         /** Reset the bus to 0. */
         void reset();
 
+        /** Set an optional external observer of this bus. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
+        std::shared_ptr<ValueObserver> observer;
         uint8_t value;
+
+        void notifyObserver() const;
     };
 }
 

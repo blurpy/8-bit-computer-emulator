@@ -18,11 +18,13 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->emulator = std::make_shared<Core::Emulator>();
     this->window = std::make_unique<Window>("8bit");
 
+    this->bus = std::make_shared<ValueModel>("Bus");
     this->aRegister = std::make_shared<ValueModel>("A Register");
     this->bRegister = std::make_shared<ValueModel>("B Register");
     this->instructionRegister = std::make_shared<ValueModel>("Instruction Register");
     this->outputRegister = std::make_shared<ValueModel>("Output Register");
 
+    this->emulator->setBusObserver(this->bus);
     this->emulator->setARegisterObserver(this->aRegister);
     this->emulator->setBRegisterObserver(this->bRegister);
     this->emulator->setInstructionRegisterObserver(this->instructionRegister);
@@ -60,10 +62,11 @@ void UI::UserInterface::mainLoop() {
     while (running) {
         window->clearScreen();
 
-        window->drawText(aRegister->getRenderText(), 5, 0);
-        window->drawText(bRegister->getRenderText(), 5, 24);
-        window->drawText(instructionRegister->getRenderText(), 5, 48);
-        window->drawText(outputRegister->getRenderText(), 5, 72);
+        window->drawText(bus->getRenderText(), 5, 0);
+        window->drawText(aRegister->getRenderText(), 5, 24);
+        window->drawText(bRegister->getRenderText(), 5, 48);
+        window->drawText(instructionRegister->getRenderText(), 5, 72);
+        window->drawText(outputRegister->getRenderText(), 5, 96);
 
         window->redraw();
 

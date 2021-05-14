@@ -21,6 +21,8 @@ namespace UI {
     private:
         std::unique_ptr<Window> window;
         std::shared_ptr<Core::Emulator> emulator;
+
+        std::shared_ptr<ValueModel> bus;
         std::shared_ptr<ValueModel> aRegister;
         std::shared_ptr<ValueModel> bRegister;
         std::shared_ptr<ValueModel> instructionRegister;
