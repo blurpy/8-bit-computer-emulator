@@ -17,7 +17,7 @@ TEST_SUITE("ArithmeticLogicUnitTest") {
         fakeit::When(Method(bRegisterMock, readValue)).Return(0);
 
         ArithmeticLogicUnit alu(aRegisterMockPtr, bRegisterMockPtr, bus);
-        auto &theRegister = dynamic_cast<RegisterListener &>(alu);
+        auto &theRegister = dynamic_cast<RegisterListener&>(alu);
 
         CHECK_FALSE(alu.isCarry());
         CHECK(alu.isZero());
@@ -95,6 +95,23 @@ TEST_SUITE("ArithmeticLogicUnitTest") {
             }
         }
 
+        SUBCASE("addition should notify observer") {
+            fakeit::Mock<ArithmeticLogicUnitObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ArithmeticLogicUnitObserver>(&observerMock(), [](...) {});
+            alu.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, resultUpdated)).Return();
+
+            fakeit::When(Method(aRegisterMock, readValue)).Return(250);
+            fakeit::When(Method(bRegisterMock, readValue)).Return(10);
+
+            theRegister.registerValueChanged(0);
+
+            CHECK(alu.isCarry());
+            CHECK_FALSE(alu.isZero());
+
+            fakeit::Verify(Method(observerMock, resultUpdated).Using(4, true, false)).Once();
+        }
+
         SUBCASE("subtract() should trigger subtraction from a and b registers") {
             fakeit::When(Method(aRegisterMock, readValue)).Return(8);
             fakeit::When(Method(bRegisterMock, readValue)).Return(6);
@@ -142,6 +159,23 @@ TEST_SUITE("ArithmeticLogicUnitTest") {
 
             alu.out();
             CHECK_EQ(bus->read(), 0);
+        }
+
+        SUBCASE("subtract() should notify observer") {
+            fakeit::Mock<ArithmeticLogicUnitObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ArithmeticLogicUnitObserver>(&observerMock(), [](...) {});
+            alu.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, resultUpdated)).Return();
+
+            fakeit::When(Method(aRegisterMock, readValue)).Return(1);
+            fakeit::When(Method(bRegisterMock, readValue)).Return(1);
+
+            alu.subtract();
+
+            CHECK(alu.isCarry());
+            CHECK(alu.isZero());
+
+            fakeit::Verify(Method(observerMock, resultUpdated).Using(0, true, true)).Once();
         }
 
         SUBCASE("print() should not fail") {

@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "ArithmeticLogicUnitObserver.h"
 #include "GenericRegister.h"
 #include "RegisterListener.h"
 
@@ -53,16 +54,21 @@ namespace Core {
         /** Is the zero bit set. */
         [[nodiscard]] virtual bool isZero() const;
 
+        /** Set an optional external observer of this arithmetic logic unit. */
+        void setObserver(const std::shared_ptr<ArithmeticLogicUnitObserver> &newObserver);
+
     private:
         std::shared_ptr<GenericRegister> aRegister;
         std::shared_ptr<GenericRegister> bRegister;
         std::shared_ptr<Bus> bus;
+        std::shared_ptr<ArithmeticLogicUnitObserver> observer;
         uint8_t value;
         bool carry;
         bool zero;
 
         void writeToBus();
         void add();
+        void notifyObserver() const;
 
         void registerValueChanged(uint8_t newValue) override;
     };

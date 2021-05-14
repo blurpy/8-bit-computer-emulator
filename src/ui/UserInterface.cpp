@@ -22,6 +22,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->bus = std::make_shared<ValueModel>("Bus", 8);
     this->aRegister = std::make_shared<ValueModel>("A Register", 8);
     this->bRegister = std::make_shared<ValueModel>("B Register", 8);
+    this->arithmeticLogicUnit = std::make_shared<ArithmeticLogicUnitModel>();
     this->memoryAddressRegister = std::make_shared<ValueModel>("Memory Address Register", 4);
     this->programCounter = std::make_shared<ValueModel>("Program Counter", 4);
     this->instructionRegister = std::make_shared<ValueModel>("Instruction Register", 8);
@@ -32,6 +33,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->emulator->setBusObserver(this->bus);
     this->emulator->setARegisterObserver(this->aRegister);
     this->emulator->setBRegisterObserver(this->bRegister);
+    this->emulator->setArithmeticLogicUnitObserver(this->arithmeticLogicUnit);
     this->emulator->setMemoryAddressRegisterObserver(this->memoryAddressRegister);
     this->emulator->setProgramCounterObserver(this->programCounter);
     this->emulator->setInstructionRegisterObserver(this->instructionRegister);
@@ -77,6 +79,7 @@ void UI::UserInterface::mainLoop() {
         drawText(bus->getRenderText(), currentLine++);
         drawText(aRegister->getRenderText(), currentLine++);
         drawText(bRegister->getRenderText(), currentLine++);
+        drawText(arithmeticLogicUnit->getRenderText(), currentLine++);
         drawText(memoryAddressRegister->getRenderText(), currentLine++);
         drawText(stepCounter->getRenderText(), currentLine++);
         drawText(instructionRegister->getRenderText(), currentLine++);

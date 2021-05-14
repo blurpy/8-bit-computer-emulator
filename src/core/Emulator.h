@@ -51,6 +51,9 @@ namespace Core {
         /** Set an optional external observer of the B register. */
         void setBRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 
+        /** Set an optional external observer of the arithmetic logic unit. */
+        void setArithmeticLogicUnitObserver(const std::shared_ptr<ArithmeticLogicUnitObserver> &observer);
+
         /** Set an optional external observer of the memory address register. */
         void setMemoryAddressRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 

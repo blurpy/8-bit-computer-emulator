@@ -70,6 +70,8 @@ void Core::ArithmeticLogicUnit::add() {
     value = newValue;
     carry = newCarry;
     zero = newZero;
+
+    notifyObserver();
 }
 
 /**
@@ -121,6 +123,8 @@ void Core::ArithmeticLogicUnit::subtract() {
     value = newValue;
     carry = newCarry;
     zero = newZero;
+
+    notifyObserver();
 }
 
 bool Core::ArithmeticLogicUnit::isCarry() const {
@@ -129,4 +133,14 @@ bool Core::ArithmeticLogicUnit::isCarry() const {
 
 bool Core::ArithmeticLogicUnit::isZero() const {
     return zero;
+}
+
+void Core::ArithmeticLogicUnit::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->resultUpdated(value, carry, zero);
+    }
+}
+
+void Core::ArithmeticLogicUnit::setObserver(const std::shared_ptr<ArithmeticLogicUnitObserver> &newObserver) {
+    observer = newObserver;
 }

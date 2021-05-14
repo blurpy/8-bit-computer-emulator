@@ -160,6 +160,10 @@ void Core::Emulator::setBRegisterObserver(const std::shared_ptr<ValueObserver> &
     bRegister->setObserver(observer);
 }
 
+void Core::Emulator::setArithmeticLogicUnitObserver(const std::shared_ptr<ArithmeticLogicUnitObserver> &observer) {
+    arithmeticLogicUnit->setObserver(observer);
+}
+
 void Core::Emulator::setMemoryAddressRegisterObserver(const std::shared_ptr<ValueObserver> &observer) {
     memoryAddressRegister->setObserver(observer);
 }
