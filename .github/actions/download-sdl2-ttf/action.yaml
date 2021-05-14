@@ -1,0 +1,29 @@
+name: "Download SDL2_ttf"
+description: "Download SDL2_ttf sources for Windows, using MSVC."
+
+branding:
+  icon: "download"
+  color: "green"
+
+inputs:
+  version:
+    description: "The version of SDL2_ttf that will be downloaded"
+    required: true
+
+  destination:
+    description: "Where the SDL2_ttf sources will be saved"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download sources
+      run: Invoke-WebRequest -Uri "https://libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-${{inputs.version}}-VC.zip" -OutFile ${{inputs.destination}}/SDL2_ttf-devel-${{inputs.version}}-VC.zip
+      shell: powershell
+
+    - name: Unzip sources
+      run: |
+        cd ${{inputs.destination}}
+        7z x -y SDL2_ttf-devel-${{inputs.version}}-VC.zip
+        del SDL2_ttf-devel-${{inputs.version}}-VC.zip
+      shell: cmd
