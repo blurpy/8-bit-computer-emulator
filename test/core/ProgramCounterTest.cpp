@@ -1,4 +1,5 @@
 #include <doctest.h>
+#include <fakeit.hpp>
 
 #include "core/ProgramCounter.h"
 
@@ -65,6 +66,21 @@ TEST_SUITE("ProgramCounterTest") {
             CHECK_EQ(bus->read(), 0);
         }
 
+        SUBCASE("observer should be notified when incrementing") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            programCounter.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).Return();
+
+            programCounter.enable();
+
+            fakeit::VerifyNoOtherInvocations(observerMock); // Nothing happened yet
+
+            clock.clockTicked();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(1)).Once();
+        }
+
         SUBCASE("jump() should change counter to value from bus on clock tick") {
             bus->write(8);
 
@@ -103,6 +119,26 @@ TEST_SUITE("ProgramCounterTest") {
             programCounter.jump();
 
             CHECK_THROWS_WITH(clock.clockTicked(), "ProgramCounter: address out of bounds 16");
+        }
+
+        SUBCASE("observer should be notified when jumping") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            programCounter.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).Return();
+
+            bus->write(8);
+
+            programCounter.jump();
+
+            fakeit::VerifyNoOtherInvocations(observerMock); // Nothing read from the bus yet
+
+            bus->write(6); // This should be stored
+            clock.clockTicked();
+
+            bus->write(4); // Change the bus after storing the last value, otherwise it's difficult to know
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(6)).Once();
         }
 
         SUBCASE("reset() should start counting at 0 again") {

@@ -28,6 +28,8 @@ void Core::ProgramCounter::increment() {
     if (Utils::debugL2()) {
         std::cout << "ProgramCounter: incremented to " << (int) value << std::endl;
     }
+
+    notifyObserver();
 }
 
 void Core::ProgramCounter::readFromBus() {
@@ -42,6 +44,8 @@ void Core::ProgramCounter::readFromBus() {
     }
 
     value = busValue;
+
+    notifyObserver();
 }
 
 void Core::ProgramCounter::writeToBus() {
@@ -98,4 +102,14 @@ void Core::ProgramCounter::clockTicked() {
         readFromBus();
         readOnClock = false;
     }
+}
+
+void Core::ProgramCounter::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(value);
+    }
+}
+
+void Core::ProgramCounter::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

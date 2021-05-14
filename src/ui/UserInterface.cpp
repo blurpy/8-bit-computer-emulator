@@ -24,6 +24,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->memoryAddressRegister = std::make_shared<ValueModel>("Memory Address Register", 4);
     this->instructionRegister = std::make_shared<ValueModel>("Instruction Register", 8);
     this->outputRegister = std::make_shared<ValueModel>("Output Register", 8);
+    this->programCounter = std::make_shared<ValueModel>("Program Counter", 4);
 
     this->emulator->setBusObserver(this->bus);
     this->emulator->setARegisterObserver(this->aRegister);
@@ -31,6 +32,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->emulator->setMemoryAddressRegisterObserver(this->memoryAddressRegister);
     this->emulator->setInstructionRegisterObserver(this->instructionRegister);
     this->emulator->setOutputRegisterObserver(this->outputRegister);
+    this->emulator->setProgramCounterObserver(this->programCounter);
 }
 
 UI::UserInterface::~UserInterface() {
@@ -66,6 +68,7 @@ void UI::UserInterface::mainLoop() {
 
         window->clearScreen();
 
+        drawText(programCounter->getRenderText(), currentLine++);
         drawText(bus->getRenderText(), currentLine++);
         drawText(aRegister->getRenderText(), currentLine++);
         drawText(bRegister->getRenderText(), currentLine++);

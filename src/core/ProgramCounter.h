@@ -35,8 +35,12 @@ namespace Core {
         /** Use value from bus as new counter value on next clock tick. */
         virtual void jump();
 
+        /** Set an optional external observer of this program counter. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
         std::shared_ptr<Bus> bus;
+        std::shared_ptr<ValueObserver> observer;
         uint8_t value;
         bool incrementOnClock;
         bool readOnClock;
@@ -44,6 +48,7 @@ namespace Core {
         void increment();
         void readFromBus();
         void writeToBus();
+        void notifyObserver() const;
 
         void clockTicked() override;
         void invertedClockTicked() override {}; // Not implemented

@@ -167,3 +167,7 @@ void Core::Emulator::setInstructionRegisterObserver(const std::shared_ptr<ValueO
 void Core::Emulator::setOutputRegisterObserver(const std::shared_ptr<ValueObserver> &observer) {
     outputRegister->setObserver(observer);
 }
+
+void Core::Emulator::setProgramCounterObserver(const std::shared_ptr<ValueObserver> &observer) {
+    programCounter->setObserver(observer);
+}
