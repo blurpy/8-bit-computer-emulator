@@ -29,9 +29,9 @@ namespace UI {
         std::shared_ptr<ValueModel> aRegister;
         std::shared_ptr<ValueModel> bRegister;
         std::shared_ptr<ValueModel> memoryAddressRegister;
+        std::shared_ptr<ValueModel> programCounter;
         std::shared_ptr<ValueModel> instructionRegister;
         std::shared_ptr<ValueModel> outputRegister;
-        std::shared_ptr<ValueModel> programCounter;
         std::shared_ptr<ValueModel> stepCounter;
 
         std::string fileName;

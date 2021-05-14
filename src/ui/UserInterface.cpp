@@ -22,18 +22,18 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->aRegister = std::make_shared<ValueModel>("A Register", 8);
     this->bRegister = std::make_shared<ValueModel>("B Register", 8);
     this->memoryAddressRegister = std::make_shared<ValueModel>("Memory Address Register", 4);
+    this->programCounter = std::make_shared<ValueModel>("Program Counter", 4);
     this->instructionRegister = std::make_shared<ValueModel>("Instruction Register", 8);
     this->outputRegister = std::make_shared<ValueModel>("Output Register", 8);
-    this->programCounter = std::make_shared<ValueModel>("Program Counter", 4);
     this->stepCounter = std::make_shared<ValueModel>("Step Counter", 3);
 
     this->emulator->setBusObserver(this->bus);
     this->emulator->setARegisterObserver(this->aRegister);
     this->emulator->setBRegisterObserver(this->bRegister);
     this->emulator->setMemoryAddressRegisterObserver(this->memoryAddressRegister);
+    this->emulator->setProgramCounterObserver(this->programCounter);
     this->emulator->setInstructionRegisterObserver(this->instructionRegister);
     this->emulator->setOutputRegisterObserver(this->outputRegister);
-    this->emulator->setProgramCounterObserver(this->programCounter);
     this->emulator->setStepCounterObserver(this->stepCounter);
 }
 

@@ -51,14 +51,14 @@ namespace Core {
         /** Set an optional external observer of the memory address register. */
         void setMemoryAddressRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 
+        /** Set an optional external observer of the program counter. */
+        void setProgramCounterObserver(const std::shared_ptr<ValueObserver> &observer);
+
         /** Set an optional external observer of the instruction register. */
         void setInstructionRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 
         /** Set an optional external observer of the output register. */
         void setOutputRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
-
-        /** Set an optional external observer of the program counter. */
-        void setProgramCounterObserver(const std::shared_ptr<ValueObserver> &observer);
 
         /** Set an optional external observer of the step counter. */
         void setStepCounterObserver(const std::shared_ptr<ValueObserver> &observer);
