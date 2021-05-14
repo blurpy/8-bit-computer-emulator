@@ -58,3 +58,19 @@ DB  202
 ```
 
 This is useful to prepare the memory before the program runs, and also the only way to prepare larger numbers since `LDI` only takes a 4-bit value. 
+
+
+## Included files
+
+These are the external files included in this project:
+
+* [Hack font](https://github.com/source-foundry/Hack)
+* [doctest test framework](https://github.com/onqtam/doctest/)
+* [FakeIt mock framework](https://github.com/eranpeer/FakeIt)
+* [sdl2-cmake-modules](https://github.com/aminosbh/sdl2-cmake-modules)
+* [download-sdl2 GitHub Action](https://github.com/albin-johansson/download-sdl2)
+
+
+## License
+
+This code is licensed under the MIT license. See [LICENSE](LICENSE) for details.
