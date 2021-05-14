@@ -152,6 +152,10 @@ void Core::Emulator::setBRegisterObserver(const std::shared_ptr<ValueObserver> &
     bRegister->setObserver(observer);
 }
 
+void Core::Emulator::setInstructionRegisterObserver(const std::shared_ptr<ValueObserver> &observer) {
+    instructionRegister->setObserver(observer);
+}
+
 void Core::Emulator::setOutputRegisterObserver(const std::shared_ptr<ValueObserver> &observer) {
     outputRegister->setObserver(observer);
 }

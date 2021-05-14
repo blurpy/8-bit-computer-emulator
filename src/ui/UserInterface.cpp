@@ -20,10 +20,12 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
 
     this->aRegister = std::make_shared<ValueModel>("A Register");
     this->bRegister = std::make_shared<ValueModel>("B Register");
+    this->instructionRegister = std::make_shared<ValueModel>("Instruction Register");
     this->outputRegister = std::make_shared<ValueModel>("Output Register");
 
     this->emulator->setARegisterObserver(this->aRegister);
     this->emulator->setBRegisterObserver(this->bRegister);
+    this->emulator->setInstructionRegisterObserver(this->instructionRegister);
     this->emulator->setOutputRegisterObserver(this->outputRegister);
 }
 
@@ -60,7 +62,8 @@ void UI::UserInterface::mainLoop() {
 
         window->drawText(aRegister->getRenderText(), 5, 0);
         window->drawText(bRegister->getRenderText(), 5, 24);
-        window->drawText(outputRegister->getRenderText(), 5, 48);
+        window->drawText(instructionRegister->getRenderText(), 5, 48);
+        window->drawText(outputRegister->getRenderText(), 5, 72);
 
         window->redraw();
 

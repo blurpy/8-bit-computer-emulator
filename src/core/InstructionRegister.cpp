@@ -29,6 +29,8 @@ void Core::InstructionRegister::readFromBus() {
     }
 
     value = busValue;
+
+    notifyObserver();
 }
 
 void Core::InstructionRegister::writeToBus() {
@@ -73,4 +75,14 @@ void Core::InstructionRegister::clockTicked() {
 
 uint8_t Core::InstructionRegister::getOpcode() const {
     return value >> 4; // Extract the first 4 bits;
+}
+
+void Core::InstructionRegister::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(value);
+    }
+}
+
+void Core::InstructionRegister::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

@@ -5,6 +5,7 @@
 
 #include "Bus.h"
 #include "ClockListener.h"
+#include "ValueObserver.h"
 
 namespace Core {
 
@@ -37,13 +38,18 @@ namespace Core {
         /** Get the 4-bit opcode from the instruction.  */
         [[nodiscard]] virtual uint8_t getOpcode() const;
 
+        /** Set an optional external observer of this register. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
         std::shared_ptr<Bus> bus;
+        std::shared_ptr<ValueObserver> observer;
         uint8_t value;
         bool readOnClock;
 
         void readFromBus();
         void writeToBus();
+        void notifyObserver() const;
 
         void clockTicked() override;
         void invertedClockTicked() override {}; // Not implemented

@@ -45,6 +45,9 @@ namespace Core {
         /** Set an optional external observer of the B register. */
         void setBRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 
+        /** Set an optional external observer of the instruction register. */
+        void setInstructionRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
+
         /** Set an optional external observer of the output register. */
         void setOutputRegisterObserver(const std::shared_ptr<ValueObserver> &observer);
 
