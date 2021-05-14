@@ -18,6 +18,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->emulator = std::make_shared<Core::Emulator>();
     this->window = std::make_unique<Window>("8bit");
 
+    this->clock = std::make_shared<ClockModel>();
     this->bus = std::make_shared<ValueModel>("Bus", 8);
     this->aRegister = std::make_shared<ValueModel>("A Register", 8);
     this->bRegister = std::make_shared<ValueModel>("B Register", 8);
@@ -27,6 +28,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->outputRegister = std::make_shared<ValueModel>("Output Register", 8);
     this->stepCounter = std::make_shared<ValueModel>("Step Counter", 3);
 
+    this->emulator->setClockObserver(this->clock);
     this->emulator->setBusObserver(this->bus);
     this->emulator->setARegisterObserver(this->aRegister);
     this->emulator->setBRegisterObserver(this->bRegister);
@@ -70,6 +72,7 @@ void UI::UserInterface::mainLoop() {
 
         window->clearScreen();
 
+        drawText(clock->getRenderText(), currentLine++);
         drawText(programCounter->getRenderText(), currentLine++);
         drawText(bus->getRenderText(), currentLine++);
         drawText(aRegister->getRenderText(), currentLine++);

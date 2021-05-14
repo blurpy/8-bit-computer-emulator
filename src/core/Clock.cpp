@@ -85,16 +85,12 @@ void Core::Clock::mainLoop() {
     while (running) {
         if (tick()) {
             if (rising) {
-                for (auto &listener : listeners) {
-                    listener->clockTicked();
-                }
+                notifyTick();
                 rising = false;
             }
 
             else {
-                for (auto &listener : listeners) {
-                    listener->invertedClockTicked();
-                }
+                notifyInvertedTick();
                 rising = true;
             }
 
@@ -130,4 +126,28 @@ void Core::Clock::addListener(const std::shared_ptr<ClockListener> &listener) {
 
 void Core::Clock::clearListeners() {
     listeners.clear();
+}
+
+void Core::Clock::notifyTick() const {
+    if (observer != nullptr) {
+        observer->clockTicked(true);
+    }
+
+    for (auto &listener : listeners) {
+        listener->clockTicked();
+    }
+}
+
+void Core::Clock::notifyInvertedTick() const {
+    if (observer != nullptr) {
+        observer->clockTicked(false);
+    }
+
+    for (auto &listener : listeners) {
+        listener->invertedClockTicked();
+    }
+}
+
+void Core::Clock::setObserver(const std::shared_ptr<ClockObserver> &newObserver) {
+    observer = newObserver;
 }

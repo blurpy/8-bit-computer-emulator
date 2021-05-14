@@ -89,6 +89,22 @@ TEST_SUITE("ClockTest") {
             fakeit::Verify(Method(timeSourceMock, reset)).Exactly(3);
         }
 
+        SUBCASE("singleStep() should notify observer") {
+            fakeit::Mock<ClockObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});
+            clock.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, clockTicked)).AlwaysReturn();
+
+            clock.setFrequency(5000);
+
+            clock.singleStep();
+            clock.singleStep();
+
+            // First on, then off - two times
+            fakeit::Verify(Method(observerMock, clockTicked).Using(true),
+                           Method(observerMock, clockTicked).Using(false)).Twice();
+        }
+
         SUBCASE("clearListeners() should remove all listeners") {
             clock.setFrequency(5000);
             clock.clearListeners();

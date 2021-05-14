@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "ClockModel.h"
 #include "ValueModel.h"
 #include "Window.h"
 
@@ -25,6 +26,7 @@ namespace UI {
         std::unique_ptr<Window> window;
         std::shared_ptr<Core::Emulator> emulator;
 
+        std::shared_ptr<ClockModel> clock;
         std::shared_ptr<ValueModel> bus;
         std::shared_ptr<ValueModel> aRegister;
         std::shared_ptr<ValueModel> bRegister;

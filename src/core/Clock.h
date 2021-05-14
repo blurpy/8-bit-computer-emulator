@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "ClockListener.h"
+#include "ClockObserver.h"
 #include "TimeSource.h"
 
 namespace Core {
@@ -50,6 +51,9 @@ namespace Core {
         /** Clear all the listeners. */
         void clearListeners();
 
+        /** Set an optional external observer of this clock. */
+        void setObserver(const std::shared_ptr<ClockObserver> &newObserver);
+
     private:
         std::shared_ptr<TimeSource> timeSource;
         double frequency;
@@ -60,9 +64,12 @@ namespace Core {
         int remainingTicks;
         std::thread clockThread;
         std::vector<std::shared_ptr<ClockListener>> listeners;
+        std::shared_ptr<ClockObserver> observer;
 
         void mainLoop();
         bool tick();
+        void notifyTick() const;
+        void notifyInvertedTick() const;
     };
 }
 

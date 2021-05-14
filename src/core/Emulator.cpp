@@ -144,6 +144,10 @@ void Core::Emulator::reset() {
     flagsRegister->reset();
 }
 
+void Core::Emulator::setClockObserver(const std::shared_ptr<ClockObserver> &observer) {
+    clock->setObserver(observer);
+}
+
 void Core::Emulator::setBusObserver(const std::shared_ptr<ValueObserver> &observer) {
     bus->setObserver(observer);
 }

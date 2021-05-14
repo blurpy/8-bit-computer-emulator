@@ -39,6 +39,9 @@ namespace Core {
         /** Set the speed to run the clock, in hertz. Must be set before running a program, and at least 0.1. */
         void setFrequency(double hz);
 
+        /** Set an optional external observer of the clock. */
+        void setClockObserver(const std::shared_ptr<ClockObserver> &observer);
+
         /** Set an optional external observer of the bus. */
         void setBusObserver(const std::shared_ptr<ValueObserver> &observer);
 
