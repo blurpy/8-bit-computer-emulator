@@ -74,13 +74,20 @@ void Core::Emulator::run(const std::string &fileName) {
     }
 
     clock->start();
-    clock->join();
 
     printValues();
 
     if (Utils::debugL1()) {
         std::cout << "Emulator: run stop" << std::endl;
     }
+}
+
+void Core::Emulator::waitUntilFinished() {
+    clock->join();
+}
+
+void Core::Emulator::stop() {
+    clock->stop();
 }
 
 void Core::Emulator::setFrequency(double hz) {

@@ -30,6 +30,8 @@ TEST_SUITE("EmulatorIntegrationTest") {
         SUBCASE("run() should complete nop_test.asm") {
             emulator.run("../../programs/nop_test.asm");
 
+            emulator.waitUntilFinished();
+
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(10)).Once();
             fakeit::VerifyNoOtherInvocations(observerMock);
@@ -37,6 +39,8 @@ TEST_SUITE("EmulatorIntegrationTest") {
 
         SUBCASE("run() should complete add_two_numbers.asm") {
             emulator.run("../../programs/add_two_numbers.asm");
+
+            emulator.waitUntilFinished();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(42)).Once(); // 28+14
@@ -46,6 +50,8 @@ TEST_SUITE("EmulatorIntegrationTest") {
         SUBCASE("run() should complete subtract_two_numbers.asm") {
             emulator.run("../../programs/subtract_two_numbers.asm");
 
+            emulator.waitUntilFinished();
+
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(18)).Once(); // 30-12
             fakeit::VerifyNoOtherInvocations(observerMock);
@@ -54,6 +60,8 @@ TEST_SUITE("EmulatorIntegrationTest") {
         SUBCASE("run() should complete multiply_two_numbers.asm") {
             emulator.run("../../programs/multiply_two_numbers.asm");
 
+            emulator.waitUntilFinished();
+
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(56)).Once(); // 7*8
             fakeit::VerifyNoOtherInvocations(observerMock);
@@ -61,6 +69,8 @@ TEST_SUITE("EmulatorIntegrationTest") {
 
         SUBCASE("run() should complete count_0_255_stop.asm") {
             emulator.run("../../programs/count_0_255_stop.asm");
+
+            emulator.waitUntilFinished();
 
             // Once for reset, and once when counting
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Twice();
@@ -74,6 +84,8 @@ TEST_SUITE("EmulatorIntegrationTest") {
 
         SUBCASE("run() should complete count_255_0_stop.asm") {
             emulator.run("../../programs/count_255_0_stop.asm");
+
+            emulator.waitUntilFinished();
 
             // Once for reset, and once when counting
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Twice();

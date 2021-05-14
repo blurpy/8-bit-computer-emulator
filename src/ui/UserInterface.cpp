@@ -7,12 +7,15 @@
 
 #include "UserInterface.h"
 
-UI::UserInterface::UserInterface() {
+UI::UserInterface::UserInterface(const std::string &fileName) {
     if (Core::Utils::debugL2()) {
         std::cout << "UserInterface construct" << std::endl;
     }
 
+    this->fileName = fileName;
     this->running = false;
+
+    this->emulator = std::make_shared<Core::Emulator>();
     this->window = std::make_unique<Window>("8bit");
 }
 
@@ -41,6 +44,9 @@ void UI::UserInterface::start() {
 void UI::UserInterface::mainLoop() {
     std::cout << std::endl << "UserInterface: starting main loop" << std::endl << std::endl;
 
+    emulator->setFrequency(10);
+    emulator->run(fileName);
+
     while (running) {
         window->clearScreen();
         window->drawText("Hello 8-bit!", 5, 0);
@@ -48,4 +54,7 @@ void UI::UserInterface::mainLoop() {
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+
+    emulator->stop();
+    emulator->waitUntilFinished();
 }

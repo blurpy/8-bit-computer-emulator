@@ -5,18 +5,22 @@
 
 #include "Window.h"
 
+#include "../core/Emulator.h"
+
 namespace UI {
 
     class UserInterface {
 
     public:
-        UserInterface();
+        explicit UserInterface(const std::string &fileName);
         ~UserInterface();
 
         void start();
 
     private:
         std::unique_ptr<Window> window;
+        std::shared_ptr<Core::Emulator> emulator;
+        std::string fileName;
         bool running;
 
         void mainLoop();
