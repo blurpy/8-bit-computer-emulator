@@ -5,6 +5,7 @@
 
 #include "ClockListener.h"
 #include "StepListener.h"
+#include "ValueObserver.h"
 
 namespace Core {
 
@@ -26,12 +27,18 @@ namespace Core {
         /** Print the current counter value to standard out. */
         void print() const;
 
+        /** Set an optional external observer of this step counter. */
+        void setObserver(const std::shared_ptr<ValueObserver> &newObserver);
+
     private:
         uint8_t counter;
         bool init;
         std::shared_ptr<StepListener> stepListener;
+        std::shared_ptr<ValueObserver> observer;
 
         void increment();
+        void notifyObserver() const;
+        void notifyListener() const;
 
         void clockTicked() override {}; // Not implemented
         void invertedClockTicked() override;

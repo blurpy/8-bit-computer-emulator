@@ -60,6 +60,9 @@ namespace Core {
         /** Set an optional external observer of the program counter. */
         void setProgramCounterObserver(const std::shared_ptr<ValueObserver> &observer);
 
+        /** Set an optional external observer of the step counter. */
+        void setStepCounterObserver(const std::shared_ptr<ValueObserver> &observer);
+
     private:
         std::shared_ptr<TimeSource> timeSource;
         std::shared_ptr<Clock> clock;

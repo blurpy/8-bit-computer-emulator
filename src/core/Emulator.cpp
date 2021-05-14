@@ -171,3 +171,7 @@ void Core::Emulator::setOutputRegisterObserver(const std::shared_ptr<ValueObserv
 void Core::Emulator::setProgramCounterObserver(const std::shared_ptr<ValueObserver> &observer) {
     programCounter->setObserver(observer);
 }
+
+void Core::Emulator::setStepCounterObserver(const std::shared_ptr<ValueObserver> &observer) {
+    stepCounter->setObserver(observer);
+}

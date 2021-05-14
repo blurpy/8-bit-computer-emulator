@@ -39,6 +39,9 @@ void Core::StepCounter::increment() {
     if (Utils::debugL2()) {
         std::cout << "StepCounter: incremented to " << (int) counter << std::endl;
     }
+
+    notifyObserver();
+    notifyListener();
 }
 
 void Core::StepCounter::invertedClockTicked() {
@@ -47,5 +50,18 @@ void Core::StepCounter::invertedClockTicked() {
     }
 
     increment();
+}
+
+void Core::StepCounter::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->valueUpdated(counter);
+    }
+}
+
+void Core::StepCounter::notifyListener() const {
     stepListener->stepReady(counter);
+}
+
+void Core::StepCounter::setObserver(const std::shared_ptr<ValueObserver> &newObserver) {
+    observer = newObserver;
 }

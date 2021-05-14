@@ -38,6 +38,19 @@ TEST_SUITE("StepCounterTest") {
             fakeit::Verify(Method(stepListenerMock, stepReady).Using(1)).Twice();
         }
 
+        SUBCASE("inverted clock ticks should notify observer of incrementing steps") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            stepCounter.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
+
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(1)).Once();
+        }
+
         SUBCASE("reset() should start counting steps at 0 again") {
             clock.invertedClockTicked();
             clock.invertedClockTicked();

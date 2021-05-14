@@ -31,6 +31,7 @@ std::string UI::ValueModel::getRenderText() const {
 
 std::string UI::ValueModel::valueAsBinary() const {
     switch (bits) {
+        case 3: return std::bitset<3>(value).to_string();
         case 4: return std::bitset<4>(value).to_string();
         case 8: return std::bitset<8>(value).to_string();
         default: return "Unhandled";
