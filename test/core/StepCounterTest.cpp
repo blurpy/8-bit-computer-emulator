@@ -6,7 +6,7 @@
 using namespace Core;
 
 TEST_SUITE("StepCounterTest") {
-    TEST_CASE("inverted clock ticks should notify listener of incrementing steps and wrap at 4") {
+    TEST_CASE("step counter should work") {
         fakeit::Mock<StepListener> stepListenerMock;
         auto stepListenerMockSharedPtr = std::shared_ptr<StepListener>(&stepListenerMock(), [](...) {});
         StepCounter stepCounter(stepListenerMockSharedPtr);
@@ -15,54 +15,44 @@ TEST_SUITE("StepCounterTest") {
 
         auto &clock = dynamic_cast<ClockListener&>(stepCounter);
 
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Once();
+        SUBCASE("inverted clock ticks should notify listener of incrementing steps and wrap at 4") {
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Once();
 
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(1)).Once();
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(1)).Once();
 
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(2)).Once();
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(2)).Once();
 
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(3)).Once();
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(3)).Once();
 
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(4)).Once();
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(4)).Once();
 
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Twice();
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Twice();
 
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(1)).Twice();
-    }
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(1)).Twice();
+        }
 
-    TEST_CASE("reset() should start counting steps at 0 again") {
-        fakeit::Mock<StepListener> stepListenerMock;
-        auto stepListenerMockSharedPtr = std::shared_ptr<StepListener>(&stepListenerMock(), [](...) {});
-        StepCounter stepCounter(stepListenerMockSharedPtr);
+        SUBCASE("reset() should start counting steps at 0 again") {
+            clock.invertedClockTicked();
+            clock.invertedClockTicked();
 
-        fakeit::When(Method(stepListenerMock, stepReady)).AlwaysReturn();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Once();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(1)).Once();
 
-        auto &clock = dynamic_cast<ClockListener&>(stepCounter);
+            stepCounter.reset();
 
-        clock.invertedClockTicked();
-        clock.invertedClockTicked();
+            clock.invertedClockTicked();
+            fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Twice();
+        }
 
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Once();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(1)).Once();
-
-        stepCounter.reset();
-
-        clock.invertedClockTicked();
-        fakeit::Verify(Method(stepListenerMock, stepReady).Using(0)).Twice();
-    }
-
-    TEST_CASE("print() should not fail") {
-        fakeit::Mock<StepListener> stepListenerMock;
-        auto stepListenerMockSharedPtr = std::shared_ptr<StepListener>(&stepListenerMock(), [](...) {});
-        StepCounter stepCounter(stepListenerMockSharedPtr);
-
-        stepCounter.print();
+        SUBCASE("print() should not fail") {
+            stepCounter.print();
+        }
     }
 }
