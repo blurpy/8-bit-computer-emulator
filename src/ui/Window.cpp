@@ -102,7 +102,7 @@ bool UI::Window::isClosed() const {
 }
 
 void UI::Window::drawText(const std::string &text, const int xPosition, const int yPosition) {
-    SDL_Surface *surface = TTF_RenderText_Shaded(font, text.c_str(), TEXT_COLOR, BACKGROUND_COLOR);
+    SDL_Surface *surface = TTF_RenderText_Shaded(font, text.c_str(), ORANGE, BLACK);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_Rect destination{xPosition, yPosition, surface->w, surface->h};

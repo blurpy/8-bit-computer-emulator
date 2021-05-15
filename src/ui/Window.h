@@ -27,8 +27,8 @@ namespace UI {
         static const int HEIGHT = 400;
         static const int FONT_SIZE = 18;
 
-        static constexpr SDL_Color TEXT_COLOR = {255, 165, 0};
-        static constexpr SDL_Color BACKGROUND_COLOR = {0, 0, 0};
+        static constexpr SDL_Color ORANGE = {255, 165, 0};
+        static constexpr SDL_Color BLACK = {0, 0, 0};
 
         std::string windowTitle;
         bool closed;
