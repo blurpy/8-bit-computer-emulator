@@ -31,6 +31,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->stepCounter = std::make_shared<ValueModel>("Step Counter", 3);
     this->flagsRegister = std::make_shared<FlagsRegisterModel>();
     this->instruction = std::make_unique<InstructionModel>(this->stepCounter, this->instructionRegister);
+    this->instructionDecoder = std::make_shared<InstructionDecoderModel>();
 
     this->emulator->setClockObserver(this->clock);
     this->emulator->setBusObserver(this->bus);
@@ -44,6 +45,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->emulator->setOutputRegisterObserver(this->outputRegister);
     this->emulator->setStepCounterObserver(this->stepCounter);
     this->emulator->setFlagsRegisterObserver(this->flagsRegister);
+    this->emulator->setInstructionDecoderObserver(this->instructionDecoder);
 }
 
 UI::UserInterface::~UserInterface() {
@@ -104,7 +106,12 @@ void UI::UserInterface::drawLeftColumn() {
     drawLeftText(stepCounter->getRenderText(), currentLine++);
     drawLeftText(instructionRegister->getRenderText(), currentLine++);
     drawLeftText(instruction->getRenderText(), currentLine++);
-    drawLeftText(outputRegister->getRenderText(), currentLine);
+    drawLeftText(outputRegister->getRenderText(), currentLine++);
+
+    currentLine++;
+
+    drawLeftText(instructionDecoder->getRenderValueText(), currentLine++);
+    drawLeftText(instructionDecoder->getRenderTitleText(), currentLine);
 }
 
 void UI::UserInterface::drawLeftText(const std::string &text, const int currentLine) {

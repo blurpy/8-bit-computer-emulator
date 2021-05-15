@@ -5,6 +5,7 @@
 #include "Clock.h"
 #include "FlagsRegister.h"
 #include "GenericRegister.h"
+#include "InstructionDecoderObserver.h"
 #include "InstructionRegister.h"
 #include "MemoryAddressRegister.h"
 #include "OutputRegister.h"
@@ -35,9 +36,10 @@ namespace Core {
      *
      * To make this work, the instruction decoder is notified by the step counter of which step to execute
      * on the falling edge of the clock cycle. It will then prepare the control lines for a particular
-     * step of a particular instruction. Output operations are executed right away, while input operations
-     * are executed on the next rising edge of the clock cycle. Although that is the responsibility of
-     * the part itself and not the instruction decoder.
+     * step of a particular instruction, and that combination is called a control word.
+     * Output operations are executed right away, while input operations are executed on the
+     * next rising edge of the clock cycle. Although that is the responsibility of the part itself and
+     * not the instruction decoder.
      *
      * Some instructions also use flags to make decisions.
      */
@@ -56,6 +58,9 @@ namespace Core {
                            const std::shared_ptr<Clock> &clock);
         ~InstructionDecoder();
 
+        /** Set an optional external observer of this instruction decoder. */
+        void setObserver(const std::shared_ptr<InstructionDecoderObserver> &newObserver);
+
     private:
         std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
         std::shared_ptr<ProgramCounter> programCounter;
@@ -67,12 +72,15 @@ namespace Core {
         std::shared_ptr<OutputRegister> outputRegister;
         std::shared_ptr<FlagsRegister> flagsRegister;
         std::shared_ptr<Clock> clock;
+        std::shared_ptr<InstructionDecoderObserver> observer;
 
         void handleStep0() const;
         void handleStep1() const;
         void handleStep2() const;
         void handleStep3() const;
         void handleStep4() const;
+
+        void notifyObserver(const std::vector<ControlLine> &lines = {}) const;
 
         void stepReady(uint8_t step) override;
     };

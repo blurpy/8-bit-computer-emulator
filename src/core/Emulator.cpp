@@ -188,6 +188,10 @@ void Core::Emulator::setStepCounterObserver(const std::shared_ptr<ValueObserver>
     stepCounter->setObserver(observer);
 }
 
+void Core::Emulator::setInstructionDecoderObserver(const std::shared_ptr<InstructionDecoderObserver> &observer) {
+    instructionDecoder->setObserver(observer);
+}
+
 void Core::Emulator::setFlagsRegisterObserver(const std::shared_ptr<FlagsRegisterObserver> &observer) {
     flagsRegister->setObserver(observer);
 }

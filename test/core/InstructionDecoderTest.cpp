@@ -29,10 +29,13 @@ TEST_SUITE("InstructionDecoderTest") {
         fakeit::Mock<OutputRegister> outMock;
         fakeit::Mock<FlagsRegister> flagsMock;
         fakeit::Mock<Clock> clockMock;
+        fakeit::Mock<InstructionDecoderObserver> observerMock;
 
         InstructionDecoder instructionDecoder(ptr(marMock), ptr(pcMock), ptr(ramMock), ptr(irMock),
                                               ptr(aRegisterMock), ptr(bRegisterMock), ptr(aluMock),
                                               ptr(outMock), ptr(flagsMock), ptr(clockMock));
+
+        instructionDecoder.setObserver(ptr(observerMock));
 
         fakeit::When(Method(marMock, in)).Return();
         fakeit::When(Method(pcMock, out)).Return();
@@ -53,7 +56,14 @@ TEST_SUITE("InstructionDecoderTest") {
         fakeit::When(Method(outMock, in)).Return();
         fakeit::When(Method(clockMock, stop)).Return();
 
-        auto &stepCounter = dynamic_cast<StepListener &>(instructionDecoder);
+        // This is a bit of a hack to save values from the const& vector by copying it before the reference
+        // is out of scope. See https://github.com/eranpeer/FakeIt/issues/31
+        std::vector<ControlLine> capturedLines;
+        fakeit::When(Method(observerMock, controlWordUpdated)).Do([&](auto &lines) {
+            std::copy(lines.begin(), lines.end(), std::back_inserter(capturedLines));
+        });
+
+        auto &stepCounter = dynamic_cast<StepListener&>(instructionDecoder);
 
         SUBCASE("FETCH pre instruction") {
             SUBCASE("FETCH step 0 should run MI|CO") {
@@ -62,8 +72,12 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(marMock, in)).Once();
                 fakeit::Verify(Method(pcMock, out)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::MI, ControlLine::CO};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("FETCH step 1 should run RO|II|CE") {
@@ -73,8 +87,12 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(irMock, in)).Once();
                 fakeit::Verify(Method(pcMock, enable)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::RO, ControlLine::II, ControlLine::CE};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -84,25 +102,37 @@ TEST_SUITE("InstructionDecoderTest") {
             SUBCASE("NOP step 2 should run nothing") {
                 stepCounter.stepReady(2);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("NOP step 3 should run nothing") {
                 stepCounter.stepReady(3);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("NOP step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -115,9 +145,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(marMock, in)).Once();
                 fakeit::Verify(Method(irMock, out)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::MI, ControlLine::IO};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("LDA step 3 should run RO|AI") {
@@ -126,17 +160,25 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(ramMock, out)).Once();
                 fakeit::Verify(Method(aRegisterMock, in)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::RO, ControlLine::AI};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("LDA step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -149,9 +191,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(marMock, in)).Once();
                 fakeit::Verify(Method(irMock, out)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::MI, ControlLine::IO};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("ADD step 3 should run RO|BI") {
@@ -160,9 +206,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(ramMock, out)).Once();
                 fakeit::Verify(Method(bRegisterMock, in)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::RO, ControlLine::BI};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("ADD step 4 should run AI|SO|FI") {
@@ -172,9 +222,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(aluMock, out)).Once();
                 fakeit::Verify(Method(flagsMock, in)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::AI, ControlLine::SO, ControlLine::FI};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -187,9 +241,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(marMock, in)).Once();
                 fakeit::Verify(Method(irMock, out)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::MI, ControlLine::IO};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("SUB step 3 should run RO|BI") {
@@ -198,9 +256,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(ramMock, out)).Once();
                 fakeit::Verify(Method(bRegisterMock, in)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::RO, ControlLine::BI};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("SUB step 4 should run AI|S-|SO|FI") {
@@ -211,9 +273,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(aluMock, out)).Once();
                 fakeit::Verify(Method(flagsMock, in)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::AI, ControlLine::SM, ControlLine::SO, ControlLine::FI};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -226,9 +292,13 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(marMock, in)).Once();
                 fakeit::Verify(Method(irMock, out)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::MI, ControlLine::IO};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("STA step 3 should run RI|AO") {
@@ -237,17 +307,25 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(ramMock, in)).Once();
                 fakeit::Verify(Method(aRegisterMock, out)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::RI, ControlLine::AO};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("STA step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -260,25 +338,37 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(irMock, out)).Once();
                 fakeit::Verify(Method(aRegisterMock, in)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::IO, ControlLine::AI};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("LDI step 3 should run nothing") {
                 stepCounter.stepReady(3);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("LDI step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -291,25 +381,37 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(irMock, out)).Once();
                 fakeit::Verify(Method(pcMock, jump)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::IO, ControlLine::CJ};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JMP step 3 should run nothing") {
                 stepCounter.stepReady(3);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JMP step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -321,9 +423,13 @@ TEST_SUITE("InstructionDecoderTest") {
 
                 fakeit::Verify(Method(flagsMock, isCarryFlag)).Once();
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JC step 2 should run IO|CJ if carry flag set") {
@@ -335,25 +441,37 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(irMock, out)).Once();
                 fakeit::Verify(Method(pcMock, jump)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::IO, ControlLine::CJ};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JC step 3 should run nothing") {
                 stepCounter.stepReady(3);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JC step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -365,9 +483,13 @@ TEST_SUITE("InstructionDecoderTest") {
 
                 fakeit::Verify(Method(flagsMock, isZeroFlag)).Once();
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JZ step 2 should run IO|CJ if zero flag set") {
@@ -379,25 +501,37 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(irMock, out)).Once();
                 fakeit::Verify(Method(pcMock, jump)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::IO, ControlLine::CJ};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JZ step 3 should run nothing") {
                 stepCounter.stepReady(3);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("JZ step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -410,25 +544,37 @@ TEST_SUITE("InstructionDecoderTest") {
                 fakeit::Verify(Method(aRegisterMock, out)).Once();
                 fakeit::Verify(Method(outMock, in)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::AO, ControlLine::OI};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("OUT step 3 should run nothing") {
                 stepCounter.stepReady(3);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("OUT step 4 should run nothing") {
                 stepCounter.stepReady(4);
 
+                std::vector<ControlLine> expectedLines = {};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
         }
 
@@ -440,9 +586,13 @@ TEST_SUITE("InstructionDecoderTest") {
 
                 fakeit::Verify(Method(clockMock, stop)).Once();
 
+                std::vector<ControlLine> expectedLines = {ControlLine::HLT};
+                CHECK_EQ(expectedLines, capturedLines);
+                fakeit::Verify(Method(observerMock, controlWordUpdated)).Once();
+
                 fakeit::Verify(Method(irMock, getOpcode)).Once();
                 fakeit::VerifyNoOtherInvocations(marMock, pcMock, ramMock, irMock, aRegisterMock, bRegisterMock,
-                                                 aluMock, outMock, flagsMock, clockMock);
+                                                 aluMock, outMock, flagsMock, clockMock, observerMock);
             }
 
             SUBCASE("HLT step 3 should throw exception") {
@@ -466,6 +616,15 @@ TEST_SUITE("InstructionDecoderTest") {
         SUBCASE("Unknown step should throw exception") {
             CHECK_THROWS_WITH(stepCounter.stepReady(5),
                               "InstructionDecoder step is unknown: 5");
+        }
+
+        SUBCASE("should not fail if observer is missing") {
+            instructionDecoder.setObserver(nullptr);
+
+            stepCounter.stepReady(0);
+
+            fakeit::Verify(Method(marMock, in)).Once();
+            fakeit::Verify(Method(pcMock, out)).Once();
         }
     }
 
