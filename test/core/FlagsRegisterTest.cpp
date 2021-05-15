@@ -75,6 +75,24 @@ TEST_SUITE("FlagsRegisterTest") {
             CHECK(flagsRegister.isZeroFlag());
         }
 
+        SUBCASE("observer should be notified when reading from the alu") {
+            fakeit::Mock<FlagsRegisterObserver> observerMock;
+            auto observerPtr = std::shared_ptr<FlagsRegisterObserver>(&observerMock(), [](...) {});
+            flagsRegister.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, flagsUpdated)).Return();
+
+            fakeit::When(Method(aluMock, isCarry)).Return(true);
+            fakeit::When(Method(aluMock, isZero)).Return(false);
+
+            flagsRegister.in();
+
+            fakeit::VerifyNoOtherInvocations(observerMock); // Nothing read from the alu yet
+
+            clock.clockTicked();
+
+            fakeit::Verify(Method(observerMock, flagsUpdated).Using(true, false)).Once();
+        }
+
         SUBCASE("print() should not fail") {
             flagsRegister.print();
         }

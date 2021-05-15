@@ -72,6 +72,9 @@ namespace Core {
         /** Set an optional external observer of the step counter. */
         void setStepCounterObserver(const std::shared_ptr<ValueObserver> &observer);
 
+        /** Set an optional external observer of the flags register. */
+        void setFlagsRegisterObserver(const std::shared_ptr<FlagsRegisterObserver> &observer);
+
     private:
         std::shared_ptr<TimeSource> timeSource;
         std::shared_ptr<Clock> clock;

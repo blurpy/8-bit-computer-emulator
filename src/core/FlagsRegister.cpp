@@ -49,6 +49,8 @@ void Core::FlagsRegister::readFromAlu() {
 
     carryFlag = aluCarry;
     zeroFlag = aluZero;
+
+    notifyObserver();
 }
 
 void Core::FlagsRegister::clockTicked() {
@@ -68,4 +70,14 @@ bool Core::FlagsRegister::isCarryFlag() const {
 
 bool Core::FlagsRegister::isZeroFlag() const {
     return zeroFlag;
+}
+
+void Core::FlagsRegister::notifyObserver() const {
+    if (observer != nullptr) {
+        observer->flagsUpdated(carryFlag, zeroFlag);
+    }
+}
+
+void Core::FlagsRegister::setObserver(const std::shared_ptr<FlagsRegisterObserver> &newObserver) {
+    observer = newObserver;
 }

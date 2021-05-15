@@ -3,6 +3,7 @@
 
 #include "ArithmeticLogicUnit.h"
 #include "ClockListener.h"
+#include "FlagsRegisterObserver.h"
 
 namespace Core {
 
@@ -36,13 +37,18 @@ namespace Core {
         /** Is the zero flag set. */
         [[nodiscard]] virtual bool isZeroFlag() const;
 
+        /** Set an optional external observer of this register. */
+        void setObserver(const std::shared_ptr<FlagsRegisterObserver> &newObserver);
+
     private:
         std::shared_ptr<ArithmeticLogicUnit> arithmeticLogicUnit;
+        std::shared_ptr<FlagsRegisterObserver> observer;
         bool readOnClock;
         bool carryFlag;
         bool zeroFlag;
 
         void readFromAlu();
+        void notifyObserver() const;
 
         void clockTicked() override;
         void invertedClockTicked() override {}; // Not implemented
