@@ -14,6 +14,7 @@ Core::Clock::Clock(const std::shared_ptr<TimeSource> &timeSource) {
     this->counter = 0;
     this->frequency = 0;
     this->running = false;
+    this->halted = false;
     this->rising = false;
     this->singleStepping = false;
     this->remainingTicks = 0;
@@ -30,6 +31,11 @@ Core::Clock::~Clock() {
 
 void Core::Clock::start() {
     std::cout << "Clock: starting clock" << std::endl;
+
+    if (halted) {
+        std::cerr << "Clock: halted" << std::endl;
+        return;
+    }
 
     if (frequency <= 0) {
         throw std::runtime_error("Clock: frequency must be set before start");
@@ -48,12 +54,29 @@ void Core::Clock::stop() {
     std::cout << "Clock: stopped" << std::endl;
 }
 
+void Core::Clock::halt() {
+    halted = true;
+    stop();
+}
+
 void Core::Clock::join() {
-    clockThread.join();
+    if (clockThread.joinable()) {
+        clockThread.join();
+    }
 }
 
 void Core::Clock::singleStep() {
     std::cout << "Clock: single stepping clock" << std::endl;
+
+    if (halted) {
+        std::cerr << "Clock: halted" << std::endl;
+        return;
+    }
+
+    if (running) {
+        std::cerr << "Clock: already running" << std::endl;
+        return;
+    }
 
     if (frequency <= 0) {
         throw std::runtime_error("Clock: frequency must be set before start");

@@ -190,7 +190,7 @@ void Core::InstructionDecoder::handleStep2() const {
             if (Utils::debugL1()) {
                 std::cout << "InstructionDecoder step 2 HLT (" << opcodeBits << "): HLT" << std::endl;
             }
-            clock->stop(); // HLT
+            clock->halt(); // HLT
             notifyObserver({ControlLine::HLT});
             break;
         default:

@@ -54,7 +54,7 @@ TEST_SUITE("InstructionDecoderTest") {
         fakeit::When(Method(flagsMock, isCarryFlag)).Return(false);
         fakeit::When(Method(flagsMock, isZeroFlag)).Return(false);
         fakeit::When(Method(outMock, in)).Return();
-        fakeit::When(Method(clockMock, stop)).Return();
+        fakeit::When(Method(clockMock, halt)).Return();
 
         // This is a bit of a hack to save values from the const& vector by copying it before the reference
         // is out of scope. See https://github.com/eranpeer/FakeIt/issues/31
@@ -584,7 +584,7 @@ TEST_SUITE("InstructionDecoderTest") {
             SUBCASE("HLT step 2 should run HLT") {
                 stepCounter.stepReady(2);
 
-                fakeit::Verify(Method(clockMock, stop)).Once();
+                fakeit::Verify(Method(clockMock, halt)).Once();
 
                 std::vector<ControlLine> expectedLines = {ControlLine::HLT};
                 CHECK_EQ(expectedLines, capturedLines);

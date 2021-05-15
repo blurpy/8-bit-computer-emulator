@@ -114,6 +114,18 @@ TEST_SUITE("ClockTest") {
             CHECK_FALSE(clock.isRunning());
         }
 
+        SUBCASE("singleStep() should do nothing when already running") {
+            clock.setFrequency(5);
+            clock.start();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            clock.singleStep(); // Would crash unless handled
+
+            clock.stop();
+            clock.join();
+        }
+
         SUBCASE("clearListeners() should remove all listeners") {
             clock.setFrequency(5000);
             clock.clearListeners();
@@ -160,6 +172,44 @@ TEST_SUITE("ClockTest") {
             clock.join();
 
             CHECK_FALSE(clock.isRunning());
+        }
+
+        SUBCASE("halt() should prevent restarting clock") {
+            CHECK_FALSE(clock.isRunning());
+
+            clock.setFrequency(5);
+            clock.start();
+
+            CHECK(clock.isRunning());
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            clock.halt();
+            clock.join();
+
+            CHECK_FALSE(clock.isRunning());
+
+            clock.start();
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            CHECK_FALSE(clock.isRunning());
+        }
+
+        SUBCASE("halt() should prevent single stepping clock") {
+            CHECK_FALSE(clock.isRunning());
+
+            clock.setFrequency(5);
+            clock.start();
+
+            CHECK(clock.isRunning());
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            clock.halt();
+            clock.join();
+
+            CHECK_FALSE(clock.isRunning());
+            listenerMock.ClearInvocationHistory();
+
+            clock.singleStep();
+            fakeit::VerifyNoOtherInvocations(listenerMock);
         }
 
         SUBCASE("setFrequency() should throw exception if frequency is set to 0") {

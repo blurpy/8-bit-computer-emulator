@@ -34,7 +34,10 @@ namespace Core {
         void start();
 
         /** Stops a running asynchronous clock. */
-        virtual void stop();
+        void stop();
+
+        /** Halt the clock permanently when a program is finished running. */
+        virtual void halt();
 
         /** Wait for an asynchronous clock while it's running. */
         void join();
@@ -62,6 +65,7 @@ namespace Core {
         double frequency;
         double counter;
         bool running;
+        bool halted;
         bool rising;
         bool singleStepping;
         int remainingTicks;
