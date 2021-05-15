@@ -75,24 +75,9 @@ void UI::UserInterface::mainLoop() {
     emulator->run(fileName);
 
     while (running) {
-        int currentLine = 0;
-
         window->clearScreen();
 
-        drawText(clock->getRenderText(), currentLine++);
-        drawText(programCounter->getRenderText(), currentLine++);
-        drawText(bus->getRenderText(), currentLine++);
-        drawText(aRegister->getRenderText(), currentLine++);
-        drawText(bRegister->getRenderText(), currentLine++);
-        drawText(arithmeticLogicUnit->getRenderText(), currentLine++);
-        drawText(flagsRegister->getRenderText(), currentLine++);
-        drawText(memoryAddressRegister->getRenderText(), currentLine++);
-        drawText(randomAccessMemory->getRenderText(), currentLine++);
-        drawText(stepCounter->getRenderText(), currentLine++);
-        drawText(instructionRegister->getRenderText(), currentLine++);
-        drawText(instruction->getRenderText(), currentLine++);
-        drawText(outputRegister->getRenderText(), currentLine);
-
+        drawLeftColumn();
         drawRightColumn();
 
         window->redraw();
@@ -104,7 +89,25 @@ void UI::UserInterface::mainLoop() {
     emulator->waitUntilFinished();
 }
 
-void UI::UserInterface::drawText(const std::string &text, const int currentLine) {
+void UI::UserInterface::drawLeftColumn() {
+    int currentLine = 0;
+
+    drawLeftText(clock->getRenderText(), currentLine++);
+    drawLeftText(programCounter->getRenderText(), currentLine++);
+    drawLeftText(bus->getRenderText(), currentLine++);
+    drawLeftText(aRegister->getRenderText(), currentLine++);
+    drawLeftText(bRegister->getRenderText(), currentLine++);
+    drawLeftText(arithmeticLogicUnit->getRenderText(), currentLine++);
+    drawLeftText(flagsRegister->getRenderText(), currentLine++);
+    drawLeftText(memoryAddressRegister->getRenderText(), currentLine++);
+    drawLeftText(randomAccessMemory->getRenderText(), currentLine++);
+    drawLeftText(stepCounter->getRenderText(), currentLine++);
+    drawLeftText(instructionRegister->getRenderText(), currentLine++);
+    drawLeftText(instruction->getRenderText(), currentLine++);
+    drawLeftText(outputRegister->getRenderText(), currentLine);
+}
+
+void UI::UserInterface::drawLeftText(const std::string &text, const int currentLine) {
     window->drawText(text, LEFT_POSITION, currentLine * LINE_HEIGHT);
 }
 

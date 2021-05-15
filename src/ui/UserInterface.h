@@ -50,7 +50,8 @@ namespace UI {
         bool running;
 
         void mainLoop();
-        void drawText(const std::string &text, int currentLine);
+        void drawLeftColumn();
+        void drawLeftText(const std::string &text, int currentLine);
         void drawRightColumn();
     };
 }
