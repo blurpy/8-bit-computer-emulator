@@ -23,7 +23,8 @@ namespace Core {
      * like RAM In and Instruction Register Out. Typically an operation either reads (in) from the bus
      * or writes (out) to the bus.
      *
-     * Every instruction takes 5 steps to complete, called the instruction cycle, split into 2 phases.
+     * Every instruction takes 5 steps (microinstructions) to complete, called the instruction cycle,
+     * split into 2 phases.
      *
      * The first phase is the fetch phase. It consists of 2 steps that are the same every time:
      *   step 0: Put the current value of the program counter into the memory address register.

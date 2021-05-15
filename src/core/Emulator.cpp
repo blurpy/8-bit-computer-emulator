@@ -97,6 +97,10 @@ void Core::Emulator::waitUntilFinished() {
     clock->join();
 }
 
+void Core::Emulator::singleStep() {
+    clock->singleStep();
+}
+
 void Core::Emulator::stop() {
     clock->stop();
 }

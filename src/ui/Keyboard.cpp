@@ -28,4 +28,9 @@ void UI::Keyboard::keyUp(const SDL_Keycode keycode) {
             emulator->run();
         }
     }
+
+    // space: single step
+    else if (keycode == SDLK_SPACE) {
+        emulator->singleStep();
+    }
 }

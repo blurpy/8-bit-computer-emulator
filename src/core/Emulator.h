@@ -39,6 +39,9 @@ namespace Core {
         /** Whether the emulator is currently running a program. */
         bool isRunning();
 
+        /** Run one microinstruction synchronously and then stop. */
+        void singleStep();
+
         /** Ask the emulator to stop running the current program. Asynchronous. */
         void stop();
 
