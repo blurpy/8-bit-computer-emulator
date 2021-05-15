@@ -126,7 +126,7 @@ void UI::UserInterface::drawRightColumn() {
         const std::string &ramValue = ramValues[i];
 
         if (memoryAddressRegister->getValue() == i) {
-            window->drawText("> " + ramValue, RIGHT_MARKER_POSITION, i * LINE_HEIGHT);
+            window->drawText("* " + ramValue, RIGHT_MARKER_POSITION, i * LINE_HEIGHT);
         } else {
             window->drawText(ramValue, RIGHT_POSITION, i * LINE_HEIGHT);
         }
