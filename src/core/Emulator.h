@@ -27,11 +27,17 @@ namespace Core {
         Emulator();
         ~Emulator();
 
-        /** Start the emulator, load the program from the specified file, and run it. Asynchronous. */
-        void run(const std::string &fileName);
+        /** Initialize the emulator with the program from the specified file. */
+        void load(const std::string &newFileName);
+
+        /** Start running the loaded program. Asynchronous. */
+        void run();
 
         /** Wait for the program to finish, or for the emulator to finish stopping. */
         void waitUntilFinished();
+
+        /** Whether the emulator is currently running a program. */
+        bool isRunning();
 
         /** Ask the emulator to stop running the current program. Asynchronous. */
         void stop();
@@ -93,10 +99,12 @@ namespace Core {
         std::shared_ptr<StepCounter> stepCounter;
         std::shared_ptr<InstructionDecoder> instructionDecoder;
         std::shared_ptr<FlagsRegister> flagsRegister;
+        std::string fileName;
 
         void printValues();
         void reset();
-        [[nodiscard]] bool programMemory(const std::string &fileName);
+        void initializeProgram();
+        [[nodiscard]] bool programMemory();
     };
 }
 

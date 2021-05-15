@@ -31,6 +31,7 @@ namespace UI {
         static const int RIGHT_MARKER_POSITION = 618;
 
         std::unique_ptr<Window> window;
+        std::shared_ptr<Keyboard> keyboard;
         std::shared_ptr<Core::Emulator> emulator;
 
         std::shared_ptr<ClockModel> clock;

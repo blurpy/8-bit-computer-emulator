@@ -105,6 +105,15 @@ TEST_SUITE("ClockTest") {
                            Method(observerMock, clockTicked).Using(false)).Twice();
         }
 
+        SUBCASE("singleStep() should reset running flag") {
+            CHECK_FALSE(clock.isRunning());
+
+            clock.setFrequency(5000);
+            clock.singleStep(); // Should be true right now, but can't verify
+
+            CHECK_FALSE(clock.isRunning());
+        }
+
         SUBCASE("clearListeners() should remove all listeners") {
             clock.setFrequency(5000);
             clock.clearListeners();
@@ -135,6 +144,22 @@ TEST_SUITE("ClockTest") {
             fakeit::Verify(Method(timeSourceMock, delta)).AtLeast(100);
             fakeit::Verify(Method(timeSourceMock, sleep)).AtLeast(100);
             fakeit::Verify(Method(timeSourceMock, reset)).Exactly(1);
+        }
+
+        SUBCASE("clock should be running between start and stop") {
+            CHECK_FALSE(clock.isRunning());
+
+            clock.setFrequency(5);
+            clock.start();
+
+            CHECK(clock.isRunning());
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            CHECK(clock.isRunning());
+
+            clock.stop();
+            clock.join();
+
+            CHECK_FALSE(clock.isRunning());
         }
 
         SUBCASE("setFrequency() should throw exception if frequency is set to 0") {

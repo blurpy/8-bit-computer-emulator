@@ -17,19 +17,20 @@ TEST_SUITE("EmulatorIntegrationTest") {
         emulator.setOutputRegisterObserver(observerPtr);
         emulator.setFrequency(2000);
 
-        SUBCASE("run() should throw exception if file does not exist") {
-            CHECK_THROWS_WITH(emulator.run("../../programs/test/does_not_exist.asm"),
+        SUBCASE("load() should throw exception if file does not exist") {
+            CHECK_THROWS_WITH(emulator.load("../../programs/test/does_not_exist.asm"),
                               "Assembler: failed to open file: ../../programs/test/does_not_exist.asm");
         }
 
-        SUBCASE("run() should throw exception if file is empty") {
-            CHECK_THROWS_WITH(emulator.run("../../programs/test/empty_test.asm"),
+        SUBCASE("load() should throw exception if file is empty") {
+            CHECK_THROWS_WITH(emulator.load("../../programs/test/empty_test.asm"),
                               "Emulator: no instructions loaded. Aborting");
         }
 
         SUBCASE("run() should complete nop_test.asm") {
-            emulator.run("../../programs/nop_test.asm");
+            emulator.load("../../programs/nop_test.asm");
 
+            emulator.run();
             emulator.waitUntilFinished();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
@@ -38,8 +39,9 @@ TEST_SUITE("EmulatorIntegrationTest") {
         }
 
         SUBCASE("run() should complete add_two_numbers.asm") {
-            emulator.run("../../programs/add_two_numbers.asm");
+            emulator.load("../../programs/add_two_numbers.asm");
 
+            emulator.run();
             emulator.waitUntilFinished();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
@@ -48,8 +50,9 @@ TEST_SUITE("EmulatorIntegrationTest") {
         }
 
         SUBCASE("run() should complete subtract_two_numbers.asm") {
-            emulator.run("../../programs/subtract_two_numbers.asm");
+            emulator.load("../../programs/subtract_two_numbers.asm");
 
+            emulator.run();
             emulator.waitUntilFinished();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
@@ -58,8 +61,9 @@ TEST_SUITE("EmulatorIntegrationTest") {
         }
 
         SUBCASE("run() should complete multiply_two_numbers.asm") {
-            emulator.run("../../programs/multiply_two_numbers.asm");
+            emulator.load("../../programs/multiply_two_numbers.asm");
 
+            emulator.run();
             emulator.waitUntilFinished();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
@@ -68,8 +72,9 @@ TEST_SUITE("EmulatorIntegrationTest") {
         }
 
         SUBCASE("run() should complete count_0_255_stop.asm") {
-            emulator.run("../../programs/count_0_255_stop.asm");
+            emulator.load("../../programs/count_0_255_stop.asm");
 
+            emulator.run();
             emulator.waitUntilFinished();
 
             // Once for reset, and once when counting
@@ -83,8 +88,9 @@ TEST_SUITE("EmulatorIntegrationTest") {
         }
 
         SUBCASE("run() should complete count_255_0_stop.asm") {
-            emulator.run("../../programs/count_255_0_stop.asm");
+            emulator.load("../../programs/count_255_0_stop.asm");
 
+            emulator.run();
             emulator.waitUntilFinished();
 
             // Once for reset, and once when counting

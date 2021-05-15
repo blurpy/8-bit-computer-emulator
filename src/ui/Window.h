@@ -7,12 +7,14 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "Keyboard.h"
+
 namespace UI {
 
     class Window {
 
     public:
-        explicit Window(const std::string &windowTitle);
+        Window(const std::string &windowTitle, const std::shared_ptr<Keyboard> &keyboard);
         ~Window();
 
         bool show();
@@ -30,6 +32,7 @@ namespace UI {
         static constexpr SDL_Color ORANGE = {255, 165, 0};
         static constexpr SDL_Color BLACK = {0, 0, 0};
 
+        std::shared_ptr<Keyboard> keyboard;
         std::string windowTitle;
         bool closed;
 

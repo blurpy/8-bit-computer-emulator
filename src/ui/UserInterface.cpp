@@ -16,7 +16,8 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->running = false;
 
     this->emulator = std::make_shared<Core::Emulator>();
-    this->window = std::make_unique<Window>("8bit");
+    this->keyboard = std::make_shared<Keyboard>(this->emulator);
+    this->window = std::make_unique<Window>("8bit", this->keyboard);
 
     this->clock = std::make_shared<ClockModel>();
     this->bus = std::make_shared<ValueModel>("Bus", 8);
@@ -73,8 +74,8 @@ void UI::UserInterface::start() {
 void UI::UserInterface::mainLoop() {
     std::cout << std::endl << "UserInterface: starting main loop" << std::endl << std::endl;
 
-    emulator->setFrequency(5);
-    emulator->run(fileName);
+    emulator->load(fileName);
+    emulator->setFrequency(2);
 
     while (running) {
         window->clearScreen();

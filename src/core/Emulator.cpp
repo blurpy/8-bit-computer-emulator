@@ -58,28 +58,39 @@ Core::Emulator::~Emulator() {
     clock->clearListeners();
 }
 
-void Core::Emulator::run(const std::string &fileName) {
+void Core::Emulator::load(const std::string &newFileName) {
+    fileName = newFileName;
+    initializeProgram();
+}
+
+void Core::Emulator::run() {
     if (Utils::debugL1()) {
         std::cout << "Emulator: run start" << std::endl;
     }
 
+    clock->start();
+}
+
+void Core::Emulator::initializeProgram() {
+    if (Utils::debugL1()) {
+        std::cout << "Emulator: initialize start" << std::endl;
+    }
+
     reset();
 
-    if (!programMemory(fileName)) {
+    if (!programMemory()) {
         throw std::runtime_error("Emulator: no instructions loaded. Aborting");
     }
-
-    if (Utils::debugL1()) {
-        std::cout << "Emulator: run clock" << std::endl;
-    }
-
-    clock->start();
 
     printValues();
 
     if (Utils::debugL1()) {
-        std::cout << "Emulator: run stop" << std::endl;
+        std::cout << "Emulator: initialize ready" << std::endl;
     }
+}
+
+bool Core::Emulator::isRunning() {
+    return clock->isRunning();
 }
 
 void Core::Emulator::waitUntilFinished() {
@@ -94,7 +105,7 @@ void Core::Emulator::setFrequency(double hz) {
     clock->setFrequency(hz);
 }
 
-bool Core::Emulator::programMemory(const std::string &fileName) {
+bool Core::Emulator::programMemory() {
     std::cout << "Emulator: program memory" << std::endl;
 
     auto assembler = std::make_unique<Assembler>();

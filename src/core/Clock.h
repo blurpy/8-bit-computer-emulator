@@ -42,6 +42,9 @@ namespace Core {
         /** Run one clock cycle synchronously and then stop. */
         void singleStep();
 
+        /** Whether the clock is currently running. */
+        [[nodiscard]] bool isRunning() const;
+
         /** Set the speed to run the clock, in hertz. Must be at least 0.1. */
         void setFrequency(double hz);
 

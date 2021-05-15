@@ -4,12 +4,14 @@
 
 #include "Window.h"
 
-UI::Window::Window(const std::string &windowTitle) {
+UI::Window::Window(const std::string &windowTitle, const std::shared_ptr<Keyboard> &keyboard) {
     if (Core::Utils::debugL2()) {
         std::cout << "Window construct" << std::endl;
     }
 
     this->windowTitle = windowTitle;
+    this->keyboard = keyboard;
+
     this->closed = true;
     this->window = nullptr;
     this->renderer = nullptr;
@@ -93,6 +95,8 @@ void UI::Window::pollEvents() {
     if (SDL_PollEvent(&windowEvent)) {
         if (windowEvent.type == SDL_QUIT) {
             closed = true;
+        } else if (windowEvent.type == SDL_KEYUP) {
+            keyboard->keyUp(windowEvent.key.keysym.sym);
         }
     }
 }
