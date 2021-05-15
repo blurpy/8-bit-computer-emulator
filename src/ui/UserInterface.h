@@ -7,6 +7,7 @@
 #include "ClockModel.h"
 #include "FlagsRegisterModel.h"
 #include "InstructionModel.h"
+#include "RandomAccessMemoryModel.h"
 #include "ValueModel.h"
 #include "Window.h"
 
@@ -25,6 +26,8 @@ namespace UI {
     private:
         static const int LINE_HEIGHT = 24;
         static const int LEFT_POSITION = 5;
+        static const int RIGHT_POSITION = 640;
+        static const int RIGHT_MARKER_POSITION = 618;
 
         std::unique_ptr<Window> window;
         std::shared_ptr<Core::Emulator> emulator;
@@ -36,7 +39,7 @@ namespace UI {
         std::shared_ptr<ArithmeticLogicUnitModel> arithmeticLogicUnit;
         std::shared_ptr<ValueModel> memoryAddressRegister;
         std::shared_ptr<ValueModel> programCounter;
-        std::shared_ptr<ValueModel> randomAccessMemory;
+        std::shared_ptr<RandomAccessMemoryModel> randomAccessMemory;
         std::shared_ptr<ValueModel> instructionRegister;
         std::shared_ptr<ValueModel> outputRegister;
         std::shared_ptr<ValueModel> stepCounter;
@@ -48,6 +51,7 @@ namespace UI {
 
         void mainLoop();
         void drawText(const std::string &text, int currentLine);
+        void drawRightColumn();
     };
 }
 

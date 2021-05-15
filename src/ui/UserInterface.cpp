@@ -25,7 +25,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->arithmeticLogicUnit = std::make_shared<ArithmeticLogicUnitModel>();
     this->memoryAddressRegister = std::make_shared<ValueModel>("Memory Address Register", 4);
     this->programCounter = std::make_shared<ValueModel>("Program Counter", 4);
-    this->randomAccessMemory = std::make_shared<ValueModel>("Random Access Memory", 8);
+    this->randomAccessMemory = std::make_shared<RandomAccessMemoryModel>(this->memoryAddressRegister);
     this->instructionRegister = std::make_shared<ValueModel>("Instruction Register", 8);
     this->outputRegister = std::make_shared<ValueModel>("Output Register", 8);
     this->stepCounter = std::make_shared<ValueModel>("Step Counter", 3);
@@ -93,6 +93,8 @@ void UI::UserInterface::mainLoop() {
         drawText(instruction->getRenderText(), currentLine++);
         drawText(outputRegister->getRenderText(), currentLine);
 
+        drawRightColumn();
+
         window->redraw();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -104,4 +106,18 @@ void UI::UserInterface::mainLoop() {
 
 void UI::UserInterface::drawText(const std::string &text, const int currentLine) {
     window->drawText(text, LEFT_POSITION, currentLine * LINE_HEIGHT);
+}
+
+void UI::UserInterface::drawRightColumn() {
+    const std::array<std::string, RandomAccessMemoryModel::MEMORY_SIZE> &ramValues = randomAccessMemory->getRenderTextFull();
+
+    for (int i = 0; i < ramValues.size(); i++) {
+        const std::string &ramValue = ramValues[i];
+
+        if (memoryAddressRegister->getValue() == i) {
+            window->drawText("> " + ramValue, RIGHT_MARKER_POSITION, i * LINE_HEIGHT);
+        } else {
+            window->drawText(ramValue, RIGHT_POSITION, i * LINE_HEIGHT);
+        }
+    }
 }
