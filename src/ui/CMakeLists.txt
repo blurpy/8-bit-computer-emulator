@@ -4,7 +4,7 @@ find_package(Threads REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
-add_library(8bit-ui Window.cpp Window.h UserInterface.cpp UserInterface.h ValueModel.cpp ValueModel.h ClockModel.cpp ClockModel.h ArithmeticLogicUnitModel.cpp ArithmeticLogicUnitModel.h FlagsRegisterModel.cpp FlagsRegisterModel.h)
+add_library(8bit-ui Window.cpp Window.h UserInterface.cpp UserInterface.h ValueModel.cpp ValueModel.h ClockModel.cpp ClockModel.h ArithmeticLogicUnitModel.cpp ArithmeticLogicUnitModel.h FlagsRegisterModel.cpp FlagsRegisterModel.h InstructionModel.cpp InstructionModel.h)
 
 target_link_libraries(8bit-ui 8bit-core)
 target_link_libraries(8bit-ui ${CMAKE_THREAD_LIBS_INIT})

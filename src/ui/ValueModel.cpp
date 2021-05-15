@@ -29,6 +29,10 @@ std::string UI::ValueModel::getRenderText() const {
     return name + ": " + valueAsBinary() + " / " + std::to_string(value);
 }
 
+uint8_t UI::ValueModel::getValue() const {
+    return value;
+}
+
 std::string UI::ValueModel::valueAsBinary() const {
     switch (bits) {
         case 3: return std::bitset<3>(value).to_string();

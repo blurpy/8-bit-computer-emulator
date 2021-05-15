@@ -6,6 +6,7 @@
 #include "ArithmeticLogicUnitModel.h"
 #include "ClockModel.h"
 #include "FlagsRegisterModel.h"
+#include "InstructionModel.h"
 #include "ValueModel.h"
 #include "Window.h"
 
@@ -40,6 +41,7 @@ namespace UI {
         std::shared_ptr<ValueModel> outputRegister;
         std::shared_ptr<ValueModel> stepCounter;
         std::shared_ptr<FlagsRegisterModel> flagsRegister;
+        std::unique_ptr<InstructionModel> instruction;
 
         std::string fileName;
         bool running;

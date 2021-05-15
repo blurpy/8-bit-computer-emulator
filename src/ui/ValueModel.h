@@ -14,6 +14,7 @@ namespace UI {
         ~ValueModel();
 
         [[nodiscard]] std::string getRenderText() const;
+        [[nodiscard]] uint8_t getValue() const;
 
     private:
         std::string name;

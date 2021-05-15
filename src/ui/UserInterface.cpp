@@ -30,6 +30,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
     this->outputRegister = std::make_shared<ValueModel>("Output Register", 8);
     this->stepCounter = std::make_shared<ValueModel>("Step Counter", 3);
     this->flagsRegister = std::make_shared<FlagsRegisterModel>();
+    this->instruction = std::make_unique<InstructionModel>(this->stepCounter, this->instructionRegister);
 
     this->emulator->setClockObserver(this->clock);
     this->emulator->setBusObserver(this->bus);
@@ -89,6 +90,7 @@ void UI::UserInterface::mainLoop() {
         drawText(randomAccessMemory->getRenderText(), currentLine++);
         drawText(stepCounter->getRenderText(), currentLine++);
         drawText(instructionRegister->getRenderText(), currentLine++);
+        drawText(instruction->getRenderText(), currentLine++);
         drawText(outputRegister->getRenderText(), currentLine);
 
         window->redraw();
