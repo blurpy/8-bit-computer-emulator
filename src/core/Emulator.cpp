@@ -128,6 +128,9 @@ bool Core::Emulator::programMemory() {
         randomAccessMemory->program(instruction.opcode, instruction.operand);
     }
 
+    // Reset pointer to address 0 before continuing
+    memoryAddressRegister->program(0);
+
     return true;
 }
 
