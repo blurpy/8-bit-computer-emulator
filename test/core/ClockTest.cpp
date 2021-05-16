@@ -212,6 +212,25 @@ TEST_SUITE("ClockTest") {
             fakeit::VerifyNoOtherInvocations(listenerMock);
         }
 
+        SUBCASE("reset() should allow starting the clock again after halt()") {
+            clock.setFrequency(5);
+            clock.start();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            clock.halt();
+            clock.join();
+
+            CHECK_FALSE(clock.isRunning());
+            listenerMock.ClearInvocationHistory();
+
+            clock.reset();
+
+            clock.singleStep();
+            fakeit::Verify(Method(listenerMock, clockTicked), Method(listenerMock, invertedClockTicked)).Once();
+            fakeit::VerifyNoOtherInvocations(listenerMock);
+        }
+
         SUBCASE("setFrequency() should throw exception if frequency is set to 0") {
             CHECK_THROWS_WITH(clock.setFrequency(0), "Clock: frequency too low 0.000000");
         }

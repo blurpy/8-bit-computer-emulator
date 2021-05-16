@@ -36,7 +36,7 @@ namespace Core {
         /** Stops a running asynchronous clock. */
         void stop();
 
-        /** Halt the clock permanently when a program is finished running. */
+        /** Halt the clock when a program is finished running, until reset(). */
         virtual void halt();
 
         /** Wait for an asynchronous clock while it's running. */
@@ -47,6 +47,9 @@ namespace Core {
 
         /** Whether the clock is currently running. */
         [[nodiscard]] bool isRunning() const;
+
+        /** Reset the halted status of the clock to allow it to restart. */
+        void reset();
 
         /** Set the speed to run the clock, in hertz. Must be at least 0.1. */
         void setFrequency(double hz);

@@ -57,6 +57,7 @@ void Core::Clock::stop() {
 void Core::Clock::halt() {
     halted = true;
     stop();
+    clockThread.detach(); // To allow creating a new thread without crashing if you don't join() first
 }
 
 void Core::Clock::join() {
@@ -94,6 +95,10 @@ void Core::Clock::singleStep() {
 
 bool Core::Clock::isRunning() const {
     return running;
+}
+
+void Core::Clock::reset() {
+    halted = false;
 }
 
 void Core::Clock::setFrequency(const double hz) {

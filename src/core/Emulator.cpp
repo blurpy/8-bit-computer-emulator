@@ -153,6 +153,7 @@ void Core::Emulator::printValues() {
 void Core::Emulator::reset() {
     std::cout << "Emulator: reset" << std::endl;
 
+    clock->reset();
     bus->reset();
     aRegister->reset();
     bRegister->reset();
