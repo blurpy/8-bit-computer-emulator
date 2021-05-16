@@ -32,7 +32,6 @@ namespace Core {
 
     private:
         uint8_t counter;
-        bool init;
         std::shared_ptr<StepListener> stepListener;
         std::shared_ptr<ValueObserver> observer;
 
