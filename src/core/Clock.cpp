@@ -13,6 +13,7 @@ Core::Clock::Clock(const std::shared_ptr<TimeSource> &timeSource) {
     this->timeSource = timeSource;
     this->counter = 0;
     this->frequency = 0;
+    this->hz = 0;
     this->running = false;
     this->halted = false;
     this->rising = false;
@@ -101,12 +102,15 @@ void Core::Clock::reset() {
     halted = false;
 }
 
-void Core::Clock::setFrequency(const double hz) {
-    if (hz < 0.1) {
-        throw std::runtime_error("Clock: frequency too low " + std::to_string(hz));
+void Core::Clock::setFrequency(const double newHz) {
+    if (newHz < 0.1) {
+        throw std::runtime_error("Clock: frequency too low " + std::to_string(newHz));
     }
 
+    hz = newHz;
     frequency = (1.0 / (hz * 2.0) * 1000.0 * 1000.0 * 1000.0);
+
+    notifyFrequencyChanged();
 }
 
 void Core::Clock::mainLoop() {
@@ -177,6 +181,12 @@ void Core::Clock::notifyInvertedTick() const {
 
     for (auto &listener : listeners) {
         listener->invertedClockTicked();
+    }
+}
+
+void Core::Clock::notifyFrequencyChanged() const {
+    if (observer != nullptr) {
+        observer->frequencyChanged(hz);
     }
 }
 

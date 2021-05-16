@@ -17,8 +17,10 @@ namespace UI {
 
     private:
         bool on;
+        double frequency;
 
         void clockTicked(bool newOn) override;
+        void frequencyChanged(double newHz) override;
     };
 }
 

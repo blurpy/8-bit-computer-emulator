@@ -52,7 +52,7 @@ namespace Core {
         void reset();
 
         /** Set the speed to run the clock, in hertz. Must be at least 0.1. */
-        void setFrequency(double hz);
+        void setFrequency(double newHz);
 
         /** Add a listener for clock events. */
         void addListener(const std::shared_ptr<ClockListener> &listener);
@@ -66,6 +66,7 @@ namespace Core {
     private:
         std::shared_ptr<TimeSource> timeSource;
         double frequency;
+        double hz;
         double counter;
         bool running;
         bool halted;
@@ -80,6 +81,7 @@ namespace Core {
         bool tick();
         void notifyTick() const;
         void notifyInvertedTick() const;
+        void notifyFrequencyChanged() const;
     };
 }
 

@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 
 #include "../core/Utils.h"
@@ -10,6 +11,7 @@ UI::ClockModel::ClockModel() {
     }
 
     this->on = false;
+    this->frequency = 0;
 }
 
 UI::ClockModel::~ClockModel() {
@@ -22,6 +24,13 @@ void UI::ClockModel::clockTicked(const bool newOn) {
     on = newOn;
 }
 
+void UI::ClockModel::frequencyChanged(const double newHz) {
+    frequency = newHz;
+}
+
 std::string UI::ClockModel::getRenderText() const {
-    return "Clock: " + std::to_string(on);
+    std::stringstream hzStream;
+    hzStream << std::fixed << std::setprecision(1) << frequency;
+
+    return "Clock: " + std::to_string(on) + " / " + hzStream.str() + " Hz";
 }

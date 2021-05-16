@@ -94,6 +94,7 @@ TEST_SUITE("ClockTest") {
             auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});
             clock.setObserver(observerPtr);
             fakeit::When(Method(observerMock, clockTicked)).AlwaysReturn();
+            fakeit::When(Method(observerMock, frequencyChanged)).Return();
 
             clock.setFrequency(5000);
 
@@ -229,6 +230,17 @@ TEST_SUITE("ClockTest") {
             clock.singleStep();
             fakeit::Verify(Method(listenerMock, clockTicked), Method(listenerMock, invertedClockTicked)).Once();
             fakeit::VerifyNoOtherInvocations(listenerMock);
+        }
+
+        SUBCASE("setFrequency() should notify observer") {
+            fakeit::Mock<ClockObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});
+            clock.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, frequencyChanged)).Return();
+
+            clock.setFrequency(5000);
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Using(5000));
         }
 
         SUBCASE("setFrequency() should throw exception if frequency is set to 0") {
