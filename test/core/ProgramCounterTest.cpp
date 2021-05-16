@@ -156,6 +156,26 @@ TEST_SUITE("ProgramCounterTest") {
             CHECK_EQ(bus->read(), 0);
         }
 
+        SUBCASE("observer should be notified when resetting") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            programCounter.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
+
+            bus->write(8);
+
+            programCounter.jump();
+            clock.clockTicked();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(8)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            programCounter.reset();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
         SUBCASE("print() should not fail") {
             programCounter.print();
         }

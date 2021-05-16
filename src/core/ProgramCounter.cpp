@@ -62,6 +62,8 @@ void Core::ProgramCounter::print() const {
 
 void Core::ProgramCounter::reset() {
     value = 0;
+
+    notifyObserver();
 }
 
 void Core::ProgramCounter::out() {
