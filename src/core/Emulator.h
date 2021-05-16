@@ -30,6 +30,9 @@ namespace Core {
         /** Initialize the emulator with the program from the specified file. */
         void load(const std::string &newFileName);
 
+        /** Resets state of the computer to the state where it was after load() and before run(). */
+        void reload();
+
         /** Start running the loaded program. Asynchronous. */
         void run();
 

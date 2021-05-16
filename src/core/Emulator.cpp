@@ -63,6 +63,10 @@ void Core::Emulator::load(const std::string &newFileName) {
     initializeProgram();
 }
 
+void Core::Emulator::reload() {
+    initializeProgram();
+}
+
 void Core::Emulator::run() {
     if (Utils::debugL1()) {
         std::cout << "Emulator: run start" << std::endl;
