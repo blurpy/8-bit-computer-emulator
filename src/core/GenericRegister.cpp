@@ -49,6 +49,9 @@ void Core::GenericRegister::print() {
 
 void Core::GenericRegister::reset() {
     value = 0;
+
+    notifyObserver();
+    notifyListener();
 }
 
 void Core::GenericRegister::in() {

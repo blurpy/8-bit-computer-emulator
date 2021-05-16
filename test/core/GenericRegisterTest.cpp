@@ -116,6 +116,46 @@ TEST_SUITE("GenericRegisterTest") {
             CHECK_EQ(bus->read(), 0);
         }
 
+        SUBCASE("reset() should notify the listener") {
+            fakeit::Mock<RegisterListener> listenerMock;
+            auto listenerPtr = std::shared_ptr<RegisterListener>(&listenerMock(), [](...) {});
+            genericRegister.setRegisterListener(listenerPtr);
+            fakeit::When(Method(listenerMock, registerValueChanged)).AlwaysReturn();
+
+            bus->write(80);
+
+            genericRegister.in();
+            clock.clockTicked();
+
+            fakeit::Verify(Method(listenerMock, registerValueChanged).Using(80)).Once();
+            fakeit::VerifyNoOtherInvocations(listenerMock);
+
+            genericRegister.reset();
+
+            fakeit::Verify(Method(listenerMock, registerValueChanged).Using(0)).Once();
+            fakeit::VerifyNoOtherInvocations(listenerMock);
+        }
+
+        SUBCASE("reset() should notify the observer") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            genericRegister.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
+
+            bus->write(88);
+
+            genericRegister.in();
+            clock.clockTicked();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(88)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            genericRegister.reset();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
         SUBCASE("print() should not fail") {
             genericRegister.print();
         }
