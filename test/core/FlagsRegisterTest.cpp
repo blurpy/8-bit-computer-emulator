@@ -93,6 +93,27 @@ TEST_SUITE("FlagsRegisterTest") {
             fakeit::Verify(Method(observerMock, flagsUpdated).Using(true, false)).Once();
         }
 
+        SUBCASE("observer should be notified when resetting") {
+            fakeit::Mock<FlagsRegisterObserver> observerMock;
+            auto observerPtr = std::shared_ptr<FlagsRegisterObserver>(&observerMock(), [](...) {});
+            flagsRegister.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, flagsUpdated)).AlwaysReturn();
+
+            fakeit::When(Method(aluMock, isCarry)).Return(true);
+            fakeit::When(Method(aluMock, isZero)).Return(false);
+
+            flagsRegister.in();
+            clock.clockTicked();
+
+            fakeit::Verify(Method(observerMock, flagsUpdated).Using(true, false)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            flagsRegister.reset();
+
+            fakeit::Verify(Method(observerMock, flagsUpdated).Using(false, false)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
         SUBCASE("print() should not fail") {
             flagsRegister.print();
         }

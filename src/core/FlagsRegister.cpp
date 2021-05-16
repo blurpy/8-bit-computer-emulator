@@ -28,6 +28,8 @@ void Core::FlagsRegister::print() const {
 void Core::FlagsRegister::reset() {
     carryFlag = false;
     zeroFlag = false;
+
+    notifyObserver();
 }
 
 void Core::FlagsRegister::in() {
