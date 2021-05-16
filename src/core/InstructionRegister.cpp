@@ -44,6 +44,8 @@ void Core::InstructionRegister::print() const {
 
 void Core::InstructionRegister::reset() {
     value = 0;
+
+    notifyObserver();
 }
 
 void Core::InstructionRegister::in() {

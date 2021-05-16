@@ -98,6 +98,26 @@ TEST_SUITE("InstructionRegisterTest") {
             CHECK_EQ(bus->read(), 0);
         }
 
+        SUBCASE("reset() should notify observer") {
+            fakeit::Mock<ValueObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+            instructionRegister.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
+
+            bus->write(83);
+
+            instructionRegister.in();
+            clock.clockTicked();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(83)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            instructionRegister.reset();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
         SUBCASE("print() should not fail") {
             instructionRegister.print();
         }
