@@ -1,5 +1,6 @@
 #include <iomanip>
 #include <iostream>
+#include <sstream> // Needed to build on macos and windows
 
 #include "../core/Utils.h"
 
