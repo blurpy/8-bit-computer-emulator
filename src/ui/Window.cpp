@@ -77,6 +77,8 @@ bool UI::Window::init() {
         return false;
     }
 
+    SDL_RenderSetLogicalSize(renderer, WIDTH, HEIGHT); // Fix scaling on retina displays
+
     return true;
 }
 
