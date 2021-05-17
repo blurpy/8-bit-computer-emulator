@@ -59,7 +59,7 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       shell: bash
-      run: ctest -C $BUILD_TYPE
+      run: ctest -C $BUILD_TYPE --output-on-failure
 
     - name: Archive binaries
       uses: actions/upload-artifact@v2
