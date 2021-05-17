@@ -58,12 +58,17 @@ void Core::Clock::stop() {
 void Core::Clock::halt() {
     halted = true;
     stop();
-    clockThread.detach(); // To allow creating a new thread without crashing if you don't join() first
 }
 
 void Core::Clock::join() {
     if (clockThread.joinable()) {
         clockThread.join();
+    }
+}
+
+void Core::Clock::detach() {
+    if (clockThread.joinable()) {
+        clockThread.detach();
     }
 }
 

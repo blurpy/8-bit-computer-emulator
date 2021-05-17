@@ -67,12 +67,22 @@ void Core::Emulator::reload() {
     initializeProgram();
 }
 
-void Core::Emulator::run() {
+void Core::Emulator::startAsynchronous() {
     if (Utils::debugL1()) {
-        std::cout << "Emulator: run start" << std::endl;
+        std::cout << "Emulator: start asynchronous" << std::endl;
     }
 
     clock->start();
+    clock->detach();
+}
+
+void Core::Emulator::startSynchronous() {
+    if (Utils::debugL1()) {
+        std::cout << "Emulator: start synchronous" << std::endl;
+    }
+
+    clock->start();
+    clock->join();
 }
 
 void Core::Emulator::initializeProgram() {
@@ -95,10 +105,6 @@ void Core::Emulator::initializeProgram() {
 
 bool Core::Emulator::isRunning() {
     return clock->isRunning();
-}
-
-void Core::Emulator::waitUntilFinished() {
-    clock->join();
 }
 
 void Core::Emulator::singleStep() {

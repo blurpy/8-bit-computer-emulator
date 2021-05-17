@@ -23,9 +23,8 @@ void UI::Keyboard::keyUp(const SDL_Keycode keycode) {
     if (keycode == SDLK_s) {
         if (emulator->isRunning()) {
             emulator->stop();
-            emulator->waitUntilFinished();
         } else {
-            emulator->run();
+            emulator->startAsynchronous();
         }
     }
 

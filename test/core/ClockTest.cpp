@@ -241,6 +241,20 @@ TEST_SUITE("ClockTest") {
             fakeit::VerifyNoOtherInvocations(listenerMock);
         }
 
+        SUBCASE("detach() should allow restarting the clock without join()") {
+            clock.setFrequency(5);
+            clock.start();
+
+            clock.detach();
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            clock.stop();
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            CHECK_FALSE(clock.isRunning());
+
+            clock.singleStep();
+        }
+
         SUBCASE("setFrequency() should notify observer") {
             fakeit::Mock<ClockObserver> observerMock;
             auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});

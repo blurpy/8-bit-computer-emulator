@@ -34,10 +34,10 @@ namespace Core {
         void reload();
 
         /** Start running the loaded program. Asynchronous. */
-        void run();
+        void startAsynchronous();
 
-        /** Wait for the program to finish, or for the emulator to finish stopping. */
-        void waitUntilFinished();
+        /** Start running the loaded program. Synchronous. */
+        void startSynchronous();
 
         /** Whether the emulator is currently running a program. */
         bool isRunning();

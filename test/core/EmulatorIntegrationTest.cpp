@@ -27,55 +27,50 @@ TEST_SUITE("EmulatorIntegrationTest") {
                               "Emulator: no instructions loaded. Aborting");
         }
 
-        SUBCASE("run() should complete nop_test.asm") {
+        SUBCASE("startSynchronous() should complete nop_test.asm") {
             emulator.load("../../programs/nop_test.asm");
 
-            emulator.run();
-            emulator.waitUntilFinished();
+            emulator.startSynchronous();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(10)).Once();
             fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
-        SUBCASE("run() should complete add_two_numbers.asm") {
+        SUBCASE("startSynchronous() should complete add_two_numbers.asm") {
             emulator.load("../../programs/add_two_numbers.asm");
 
-            emulator.run();
-            emulator.waitUntilFinished();
+            emulator.startSynchronous();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(42)).Once(); // 28+14
             fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
-        SUBCASE("run() should complete subtract_two_numbers.asm") {
+        SUBCASE("startSynchronous() should complete subtract_two_numbers.asm") {
             emulator.load("../../programs/subtract_two_numbers.asm");
 
-            emulator.run();
-            emulator.waitUntilFinished();
+            emulator.startSynchronous();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(18)).Once(); // 30-12
             fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
-        SUBCASE("run() should complete multiply_two_numbers.asm") {
+        SUBCASE("startSynchronous() should complete multiply_two_numbers.asm") {
             emulator.load("../../programs/multiply_two_numbers.asm");
 
-            emulator.run();
-            emulator.waitUntilFinished();
+            emulator.startSynchronous();
 
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once(); // Reset before start
             fakeit::Verify(Method(observerMock, valueUpdated).Using(56)).Once(); // 7*8
             fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
-        SUBCASE("run() should complete count_0_255_stop.asm") {
+        SUBCASE("startSynchronous() should complete count_0_255_stop.asm") {
             emulator.load("../../programs/count_0_255_stop.asm");
 
-            emulator.run();
-            emulator.waitUntilFinished();
+            emulator.startSynchronous();
 
             // Once for reset, and once when counting
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Twice();
@@ -87,11 +82,10 @@ TEST_SUITE("EmulatorIntegrationTest") {
             fakeit::VerifyNoOtherInvocations(observerMock);
         }
 
-        SUBCASE("run() should complete count_255_0_stop.asm") {
+        SUBCASE("startSynchronous() should complete count_255_0_stop.asm") {
             emulator.load("../../programs/count_255_0_stop.asm");
 
-            emulator.run();
-            emulator.waitUntilFinished();
+            emulator.startSynchronous();
 
             // Once for reset, and once when counting
             fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Twice();

@@ -99,7 +99,6 @@ void UI::UserInterface::mainLoop() {
     }
 
     emulator->stop();
-    emulator->waitUntilFinished();
 }
 
 void UI::UserInterface::drawLeftColumn() {

@@ -28,8 +28,9 @@ namespace Core {
         ~Clock();
 
         /**
-         * Start the clock asynchronously.
-         * Will continue until stopped programmatically or through the HLT instruction.
+         * Start the clock asynchronously. Will continue until stop() or halt().
+         * Note: you need to either call join() or detach() right afterwards otherwise you may experience
+         * crashes or deadlocks.
          */
         void start();
 
@@ -41,6 +42,9 @@ namespace Core {
 
         /** Wait for an asynchronous clock while it's running. */
         void join();
+
+        /** Ignore an asynchronous clock while it's running. */
+        void detach();
 
         /** Run one clock cycle synchronously and then stop. */
         void singleStep();
