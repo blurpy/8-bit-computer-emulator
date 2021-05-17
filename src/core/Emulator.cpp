@@ -113,6 +113,14 @@ void Core::Emulator::setFrequency(double hz) {
     clock->setFrequency(hz);
 }
 
+void Core::Emulator::increaseFrequency() {
+    clock->increaseFrequency();
+}
+
+void Core::Emulator::decreaseFrequency() {
+    clock->decreaseFrequency();
+}
+
 bool Core::Emulator::programMemory() {
     std::cout << "Emulator: program memory" << std::endl;
 

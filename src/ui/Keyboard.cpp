@@ -38,4 +38,14 @@ void UI::Keyboard::keyUp(const SDL_Keycode keycode) {
     else if (keycode == SDLK_SPACE) {
         emulator->singleStep();
     }
+
+    // +: increase frequency
+    else if (keycode == SDLK_PLUS || keycode == SDLK_KP_PLUS) {
+        emulator->increaseFrequency();
+    }
+
+    // -: decrease frequency
+    else if (keycode == SDLK_MINUS || keycode == SDLK_KP_MINUS) {
+        emulator->decreaseFrequency();
+    }
 }

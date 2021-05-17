@@ -55,6 +55,12 @@ namespace Core {
 
         /** Checks if the first string starts with the value of the second string. Comes in C++20 */
         static bool startsWith(const std::string &stringToCheck, const std::string &valueToLookFor);
+
+        /** Checks if x is less than y, handling floating point rounding errors. */
+        static bool isLessThan(double x, double y);
+
+        /** Checks if x is more or less equal to y, handling floating point rounding errors. */
+        static bool equals(double x, double y);
     };
 }
 

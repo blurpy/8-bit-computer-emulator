@@ -54,6 +54,12 @@ namespace Core {
         /** Set the speed to run the clock, in hertz. Must be at least 0.1. */
         void setFrequency(double newHz);
 
+        /** Increase frequency by a step factor. */
+        void increaseFrequency();
+
+        /** Decrease frequency by a step factor, but not below 0.1. */
+        void decreaseFrequency();
+
         /** Add a listener for clock events. */
         void addListener(const std::shared_ptr<ClockListener> &listener);
 

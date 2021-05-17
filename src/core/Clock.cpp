@@ -103,7 +103,11 @@ void Core::Clock::reset() {
 }
 
 void Core::Clock::setFrequency(const double newHz) {
-    if (newHz < 0.1) {
+    if (Utils::debugL1()) {
+        std::cout << "Clock: changing frequency to " << newHz << std::endl;
+    }
+
+    if (Utils::isLessThan(newHz, 0.1)) {
         throw std::runtime_error("Clock: frequency too low " + std::to_string(newHz));
     }
 
@@ -111,6 +115,32 @@ void Core::Clock::setFrequency(const double newHz) {
     frequency = (1.0 / (hz * 2.0) * 1000.0 * 1000.0 * 1000.0);
 
     notifyFrequencyChanged();
+}
+
+void Core::Clock::increaseFrequency() {
+    if (Utils::isLessThan(hz, 1)) {
+        setFrequency(hz + 0.1);
+    } else if (hz < 20) {
+        setFrequency(hz + 1);
+    } else if (hz < 200) {
+        setFrequency(hz + 10);
+    } else {
+        setFrequency(hz + 100);
+    }
+}
+
+void Core::Clock::decreaseFrequency() {
+    if (Utils::isLessThan(hz, 0.1) || Utils::equals(hz, 0.1)) {
+        std::cerr << "Clock: can not decrease frequency below 0.1" << std::endl;
+    } else if (hz <= 1) {
+        setFrequency(hz - 0.1);
+    } else if (hz <= 20) {
+        setFrequency(hz - 1);
+    } else if (hz <= 200) {
+        setFrequency(hz - 10);
+    } else {
+        setFrequency(hz - 100);
+    }
 }
 
 void Core::Clock::mainLoop() {

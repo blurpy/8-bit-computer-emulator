@@ -1,6 +1,8 @@
 #include <doctest.h>
 #include <fakeit.hpp>
 
+#include <core/Utils.h>
+
 #include "core/Clock.h"
 
 using namespace Core;
@@ -8,6 +10,13 @@ using namespace Core;
 // 1 millisecond = 1 000 000 nanoseconds
 double milliToNano(double milliseconds) {
     return milliseconds * 1000000.0;
+}
+
+// Workaround for issue with comparison of floating point numbers: https://github.com/eranpeer/FakeIt/issues/218
+std::function<bool (double)> equals(const double &expected) {
+    return [&](double input) -> bool {
+        return Utils::equals(expected, input);
+    };
 }
 
 TEST_SUITE("ClockTest") {
@@ -253,6 +262,226 @@ TEST_SUITE("ClockTest") {
 
         SUBCASE("setFrequency() should accept frequency of 0.1") {
             clock.setFrequency(0.1);
+        }
+
+        SUBCASE("increaseFrequency() should increase in different step sizes") {
+            fakeit::Mock<ClockObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});
+            clock.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, frequencyChanged)).AlwaysReturn();
+
+            clock.setFrequency(0.1); // Start at lowest value
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Using(0.1));
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            for (int i = 0; i < 50; i++) {
+                clock.increaseFrequency();
+            }
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.2))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.3))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.4))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.5))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.6))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.7))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.8))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.9))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(1))).Once();
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(2))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(3))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(4))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(5))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(6))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(7))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(8))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(9))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(10))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(11))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(12))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(13))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(14))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(15))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(16))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(17))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(18))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(19))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(20))).Once();
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(30))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(40))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(50))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(60))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(70))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(80))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(90))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(100))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(110))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(120))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(130))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(140))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(150))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(160))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(170))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(180))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(190))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(200))).Once();
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(300))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(400))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(500))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(600))).Once();
+
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
+        SUBCASE("decreaseFrequency() should decrease in different step sizes") {
+            fakeit::Mock<ClockObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});
+            clock.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, frequencyChanged)).AlwaysReturn();
+
+            clock.setFrequency(600); // Start at a high value
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Using(600));
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            for (int i = 0; i < 50; i++) {
+                clock.decreaseFrequency();
+            }
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(500))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(400))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(300))).Once();
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(200))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(190))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(180))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(170))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(160))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(150))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(140))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(130))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(120))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(110))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(100))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(90))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(80))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(70))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(60))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(50))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(40))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(30))).Once();
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(20))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(19))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(18))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(17))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(16))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(15))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(14))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(13))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(12))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(11))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(10))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(9))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(8))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(7))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(6))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(5))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(4))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(3))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(2))).Once();
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(1))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.9))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.8))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.7))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.6))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.5))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.4))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.3))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.2))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.1))).Once();
+
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
+        SUBCASE("decreaseFrequency() should not decrease below 0.1") {
+            // Try to avoid this:
+            // Clock: changing frequency to 0.3
+            // Clock: changing frequency to 0.2
+            // Clock: changing frequency to 0.1
+            // Clock: frequency too low 0.100000
+
+            fakeit::Mock<ClockObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});
+            clock.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, frequencyChanged)).AlwaysReturn();
+
+            clock.setFrequency(0.3);
+            fakeit::Verify(Method(observerMock, frequencyChanged).Using(0.3));
+
+            clock.decreaseFrequency();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.2))).Once();
+
+            clock.decreaseFrequency();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.1))).Once();
+
+            // Decrease has no effect anymore
+            clock.decreaseFrequency();
+            clock.decreaseFrequency();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            observerMock.ClearInvocationHistory(); // Start fresh
+
+            // But should be able to increase again
+            clock.increaseFrequency();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.2))).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
+        SUBCASE("decreaseFrequency() should handle starting from 2Hz") {
+            // Confusing, but decreasing from 2Hz in the UI can result in this:
+            // Clock: changing frequency to 0.1
+            // Clock: changing frequency to 1.38778e-16
+            // Clock: frequency too low 0.000000
+
+            fakeit::Mock<ClockObserver> observerMock;
+            auto observerPtr = std::shared_ptr<ClockObserver>(&observerMock(), [](...) {});
+            clock.setObserver(observerPtr);
+            fakeit::When(Method(observerMock, frequencyChanged)).AlwaysReturn();
+
+            clock.setFrequency(2);
+            fakeit::Verify(Method(observerMock, frequencyChanged).Using(2));
+
+            for (int i = 0; i < 10; i++) {
+                clock.decreaseFrequency();
+            }
+
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(1))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.9))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.8))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.7))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.6))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.5))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.4))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.3))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.2))).Once();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.1))).Once();
+
+            // Decrease has no effect anymore
+            clock.decreaseFrequency();
+            clock.decreaseFrequency();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            observerMock.ClearInvocationHistory(); // Start fresh
+
+            // But should be able to increase again
+            clock.increaseFrequency();
+            fakeit::Verify(Method(observerMock, frequencyChanged).Matching(equals(0.2))).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
         }
     }
 }

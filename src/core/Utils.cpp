@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "Utils.h"
 
 /*
@@ -23,4 +25,22 @@ bool Core::Utils::startsWith(const std::string &stringToCheck, const std::string
     }
 
     return stringToCheck.compare(0, valueToLookFor.length(), valueToLookFor) == 0;
+}
+
+bool Core::Utils::isLessThan(double x, double y) {
+    if (x >= y) {
+        return false;
+    }
+
+    // Feels hacky. There must be a better way...
+    return std::fabs(x - y) > 0.000001; //std::numeric_limits<double>::epsilon();;
+}
+
+bool Core::Utils::equals(double x, double y) {
+    if (x == y) {
+        return true;
+    }
+
+    // Feels hacky. There must be a better way...
+    return std::fabs(x - y) <= 0.000001; //std::numeric_limits<double>::epsilon();
 }
