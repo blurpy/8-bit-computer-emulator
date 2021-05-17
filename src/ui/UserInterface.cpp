@@ -63,12 +63,22 @@ void UI::UserInterface::start() {
     running = true;
     std::thread mainThread(&UserInterface::mainLoop, this);
 
-    while (!window->isClosed()) {
-        window->pollEvents();
+    try {
+        while (!window->isClosed()) {
+            window->pollEvents();
+        }
+
+        running = false;
+        mainThread.join();
     }
 
-    running = false;
-    mainThread.join();
+    // Stop the thread controlled, otherwise it will crash hard with no message
+    catch (const std::runtime_error &e) {
+        running = false;
+        mainThread.join();
+
+        throw e;
+    }
 }
 
 void UI::UserInterface::mainLoop() {
