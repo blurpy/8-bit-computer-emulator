@@ -1,5 +1,4 @@
 #include <iostream>
-#include <thread>
 
 #include "Assembler.h"
 #include "Utils.h"
