@@ -43,15 +43,23 @@ TEST_SUITE("ClockTest") {
             clock.setFrequency(1);
             clock.singleStep();
 
-            // 1 Hz = 1 clock cycle per second
+            // 1 Hz = 1 clock cycle per second (1 000 000 000 nanoseconds)
             // 1 cycle is 2 completed ticks - 1 rising edge (clock tick) and 1 falling edge (inverted clock tick)
-            // 1 time delta takes 100 ms (0.1s)
-            // To spend 1 second on this single step, we have to ask for delta and sleep 10 times
+            // 1 time delta takes 100 ms (0.1s / 100 000 000 ns)
 
             // Clock tick must be the first, and then inverted clock tick
             fakeit::Verify(Method(listenerMock, clockTicked), Method(listenerMock, invertedClockTicked)).Once();
+
+            // To spend 1 second on this single step, we have to ask for delta 10 times since sleep does nothing
             fakeit::Verify(Method(timeSourceMock, delta)).Exactly(10);
-            fakeit::Verify(Method(timeSourceMock, sleep).Using(100)).Exactly(10);
+
+            // It tries to calculate how long to sleep to avoid unnecessary work. In the real world
+            // it would sleep 400ms if the delta was 100ms, to spend a total of 500ms on a tick.
+            // In this test it counts down by the delta, since the delta is fixed instead of based on time passed.
+            fakeit::Verify(Method(timeSourceMock, sleep).Using(400000000),
+                           Method(timeSourceMock, sleep).Using(300000000),
+                           Method(timeSourceMock, sleep).Using(200000000),
+                           Method(timeSourceMock, sleep).Using(100000000)).Twice();
             fakeit::Verify(Method(timeSourceMock, reset)).Once();
         }
 
@@ -62,11 +70,11 @@ TEST_SUITE("ClockTest") {
 
             // 2 Hz = 2 clock cycles per second
             // 1 time delta takes 10 ms (0.01s)
-            // To spend 500 ms on this single step, we have to ask for delta and sleep 50 times
+            // To spend 500 ms on this single step, we have to ask for delta 50 times
 
             fakeit::Verify(Method(listenerMock, clockTicked), Method(listenerMock, invertedClockTicked)).Once();
             fakeit::Verify(Method(timeSourceMock, delta)).Exactly(50);
-            fakeit::Verify(Method(timeSourceMock, sleep)).Exactly(50);
+            fakeit::Verify(Method(timeSourceMock, sleep)).Exactly(48); // Doesn't sleep when it ticks
             fakeit::Verify(Method(timeSourceMock, reset)).Once();
         }
 
@@ -80,7 +88,7 @@ TEST_SUITE("ClockTest") {
 
             fakeit::Verify(Method(listenerMock, clockTicked), Method(listenerMock, invertedClockTicked)).Once();
             fakeit::Verify(Method(timeSourceMock, delta)).Twice();
-            fakeit::Verify(Method(timeSourceMock, sleep)).Twice();
+            fakeit::Verify(Method(timeSourceMock, sleep)).Never(); // No need to sleep
             fakeit::Verify(Method(timeSourceMock, reset)).Once();
         }
 
@@ -94,7 +102,6 @@ TEST_SUITE("ClockTest") {
             // Should be 3 times of everything from the previous test
             fakeit::Verify(Method(listenerMock, clockTicked), Method(listenerMock, invertedClockTicked)).Exactly(3);
             fakeit::Verify(Method(timeSourceMock, delta)).Exactly(6);
-            fakeit::Verify(Method(timeSourceMock, sleep)).Exactly(6);
             fakeit::Verify(Method(timeSourceMock, reset)).Exactly(3);
         }
 
@@ -144,7 +151,6 @@ TEST_SUITE("ClockTest") {
 
             fakeit::VerifyNoOtherInvocations(listenerMock);
             fakeit::Verify(Method(timeSourceMock, delta)).Twice();
-            fakeit::Verify(Method(timeSourceMock, sleep)).Twice();
             fakeit::Verify(Method(timeSourceMock, reset)).Once();
         }
 
@@ -164,7 +170,6 @@ TEST_SUITE("ClockTest") {
             // This will be many many times since sleep is mocked
             fakeit::Verify(Method(listenerMock, clockTicked), Method(listenerMock, invertedClockTicked)).AtLeast(100);
             fakeit::Verify(Method(timeSourceMock, delta)).AtLeast(100);
-            fakeit::Verify(Method(timeSourceMock, sleep)).AtLeast(100);
             fakeit::Verify(Method(timeSourceMock, reset)).Exactly(1);
         }
 

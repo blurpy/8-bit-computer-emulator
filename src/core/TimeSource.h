@@ -24,8 +24,8 @@ namespace Core {
         /** Return amount of time in nanoseconds that has passed since last time this method or reset was called. */
         virtual double delta();
 
-        /** Sleeps the current thread the specified number of microseconds. */
-        virtual void sleep(int microseconds) const;
+        /** Sleeps the current thread the specified number of nanoseconds. */
+        virtual void sleep(long nanoseconds) const;
 
     private:
         std::chrono::steady_clock::time_point lastTime;

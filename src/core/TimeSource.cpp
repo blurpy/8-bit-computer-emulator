@@ -32,6 +32,6 @@ double Core::TimeSource::delta() {
     return delta.count();
 }
 
-void Core::TimeSource::sleep(const int microseconds) const {
-    std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
+void Core::TimeSource::sleep(const long nanoseconds) const {
+    std::this_thread::sleep_for(std::chrono::nanoseconds(nanoseconds));
 }

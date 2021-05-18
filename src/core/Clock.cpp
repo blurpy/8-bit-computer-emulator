@@ -170,7 +170,10 @@ void Core::Clock::mainLoop() {
             }
         }
 
-        timeSource->sleep(100);
+        else {
+            // Sleep the remaining time before the next tick
+            timeSource->sleep(std::floor(frequency - counter));
+        }
     }
 
     if (Utils::debugL1()) {

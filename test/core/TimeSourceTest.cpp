@@ -17,7 +17,7 @@ TEST_SUITE("TimeSourceTest") {
         double startCount = timeSource.delta();
         WARN(startCount < 1000);
 
-        timeSource.sleep(100);
+        timeSource.sleep(microToNano(100));
 
         // Not easy to verify sleep, but should have slept at least 100 microseconds, and at most 200 hopefully
         double stopCount = timeSource.delta();
@@ -37,7 +37,7 @@ TEST_SUITE("TimeSourceTest") {
     TEST_CASE("reset() should reset delta") {
         TimeSource timeSource;
 
-        timeSource.sleep(100);
+        timeSource.sleep(microToNano(100));
         timeSource.reset();
 
         double count = timeSource.delta();
