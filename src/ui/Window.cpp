@@ -94,7 +94,7 @@ void UI::Window::clearScreen() {
 void UI::Window::pollEvents() {
     SDL_Event windowEvent;
 
-    if (SDL_PollEvent(&windowEvent)) {
+    if (SDL_WaitEvent(&windowEvent)) {
         if (windowEvent.type == SDL_QUIT) {
             closed = true;
         } else if (windowEvent.type == SDL_KEYUP) {
