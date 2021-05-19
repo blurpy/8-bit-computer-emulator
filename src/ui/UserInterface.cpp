@@ -17,7 +17,7 @@ UI::UserInterface::UserInterface(const std::string &fileName) {
 
     this->emulator = std::make_shared<Core::Emulator>();
     this->keyboard = std::make_shared<Keyboard>(this->emulator);
-    this->window = std::make_unique<Window>("8bit", this->keyboard);
+    this->window = std::make_unique<Window>("8bit " + fileName, this->keyboard);
 
     this->clock = std::make_shared<ClockModel>();
     this->bus = std::make_shared<ValueModel>("Bus", 8);
