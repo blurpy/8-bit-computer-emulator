@@ -43,6 +43,23 @@ TEST_SUITE("BusTest") {
         CHECK(bus.read() == 0);
     }
 
+    TEST_CASE("reset() should notify observer") {
+        Bus bus = Bus();
+
+        fakeit::Mock<ValueObserver> observerMock;
+        auto observerPtr = std::shared_ptr<ValueObserver>(&observerMock(), [](...) {});
+        bus.setObserver(observerPtr);
+        fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
+
+        bus.write(250);
+        fakeit::Verify(Method(observerMock, valueUpdated).Using(250)).Once();
+        fakeit::VerifyNoOtherInvocations(observerMock);
+
+        bus.reset();
+        fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+        fakeit::VerifyNoOtherInvocations(observerMock);
+    }
+
     TEST_CASE("print() should not fail") {
         Bus bus = Bus();
 

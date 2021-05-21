@@ -47,7 +47,8 @@ namespace Core {
     class InstructionDecoder: public StepListener {
 
     public:
-        InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
+        InstructionDecoder(const std::shared_ptr<Bus> &bus,
+                           const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
                            const std::shared_ptr<ProgramCounter> &programCounter,
                            const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
                            const std::shared_ptr<InstructionRegister> &instructionRegister,
@@ -63,6 +64,7 @@ namespace Core {
         void setObserver(const std::shared_ptr<InstructionDecoderObserver> &newObserver);
 
     private:
+        std::shared_ptr<Bus> bus;
         std::shared_ptr<MemoryAddressRegister> memoryAddressRegister;
         std::shared_ptr<ProgramCounter> programCounter;
         std::shared_ptr<RandomAccessMemory> randomAccessMemory;

@@ -22,7 +22,7 @@ Core::Emulator::Emulator() {
     instructionRegister = std::make_shared<InstructionRegister>(bus);
     outputRegister = std::make_shared<OutputRegister>(bus);
     flagsRegister = std::make_shared<FlagsRegister>(arithmeticLogicUnit);
-    instructionDecoder = std::make_shared<InstructionDecoder>(memoryAddressRegister, programCounter,
+    instructionDecoder = std::make_shared<InstructionDecoder>(bus, memoryAddressRegister, programCounter,
                                                               randomAccessMemory, instructionRegister, aRegister,
                                                               bRegister, arithmeticLogicUnit, outputRegister,
                                                               flagsRegister, clock);

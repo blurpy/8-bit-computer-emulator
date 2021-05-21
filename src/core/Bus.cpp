@@ -38,6 +38,8 @@ void Core::Bus::print() const {
 
 void Core::Bus::reset() {
     value = 0;
+
+    notifyObserver();
 }
 
 void Core::Bus::notifyObserver() const {

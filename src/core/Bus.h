@@ -27,7 +27,7 @@ namespace Core {
         void print() const;
 
         /** Reset the bus to 0. */
-        void reset();
+        virtual void reset();
 
         /** Set an optional external observer of this bus. */
         void setObserver(const std::shared_ptr<ValueObserver> &newObserver);

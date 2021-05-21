@@ -5,7 +5,8 @@
 
 #include "InstructionDecoder.h"
 
-Core::InstructionDecoder::InstructionDecoder(const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
+Core::InstructionDecoder::InstructionDecoder(const std::shared_ptr<Bus> &bus,
+                                             const std::shared_ptr<MemoryAddressRegister> &memoryAddressRegister,
                                              const std::shared_ptr<ProgramCounter> &programCounter,
                                              const std::shared_ptr<RandomAccessMemory> &randomAccessMemory,
                                              const std::shared_ptr<InstructionRegister> &instructionRegister,
@@ -19,6 +20,7 @@ Core::InstructionDecoder::InstructionDecoder(const std::shared_ptr<MemoryAddress
         std::cout << "InstructionDecoder construct" << std::endl;
     }
 
+    this->bus = bus;
     this->memoryAddressRegister = memoryAddressRegister;
     this->programCounter = programCounter;
     this->randomAccessMemory = randomAccessMemory;
@@ -41,6 +43,8 @@ void Core::InstructionDecoder::stepReady(const uint8_t step) {
     if (Utils::debugL2()) {
         std::cout << "InstructionDecoder step received: " << (int) step << std::endl;
     }
+
+    bus->reset(); // The bus is not a register, so it needs to reset when nothing outputs a value
 
     switch (step) {
         case 0:
