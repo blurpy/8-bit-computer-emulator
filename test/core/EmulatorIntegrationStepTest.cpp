@@ -517,5 +517,32 @@ TEST_SUITE("EmulatorIntegrationStepTest") {
             // Same as previous
             CHECK_EQ(bits("010"), state.stepValue);
         }
+
+        SUBCASE("reload should set state back to LDA 14 step 0") {
+            runSteps(emulator, 20);
+
+            // Same as previous
+            CHECK_EQ(bits("010"), state.stepValue);
+
+            emulator.reload();
+
+            CHECK_EQ(100, state.clockHz);
+            CHECK_EQ(false, state.clockOn);
+            CHECK_EQ(bits("0000"), state.pcValue);
+            CHECK_EQ(bits("00000000"), state.busValue);
+            CHECK_EQ(bits("00000000"), state.aRegValue);
+            CHECK_EQ(bits("00000000"), state.bRegValue);
+            CHECK_EQ(bits("00000000"), state.aluValue);
+            CHECK_EQ(false, state.aluCarry);
+            CHECK_EQ(true, state.aluZero);
+            CHECK_EQ(false, state.flagsCarry);
+            CHECK_EQ(false, state.flagsZero);
+            CHECK_EQ(bits("0000"), state.marValue);
+            CHECK_EQ(bits("00011110"), state.ramValue);
+            CHECK_EQ(bits("000"), state.stepValue);
+            CHECK_EQ(bits("00000000"), state.irValue);
+            CHECK_EQ(0, state.outValue);
+            CHECK_EQ(lines({ControlLine::MI, ControlLine::CO}), state.decoderLines);
+        }
     }
 }

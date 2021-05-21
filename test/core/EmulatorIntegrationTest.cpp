@@ -96,5 +96,56 @@ TEST_SUITE("EmulatorIntegrationTest") {
 
             fakeit::VerifyNoOtherInvocations(observerMock);
         }
+
+        SUBCASE("reload() should reset all state including memory") {
+            emulator.load("../../programs/memory_test.asm");
+
+            emulator.startSynchronous();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(7)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+
+            observerMock.ClearInvocationHistory();
+
+            emulator.reload();
+            emulator.startSynchronous();
+
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(0)).Once();
+            // This would be 11 if memory wasn't reset
+            fakeit::Verify(Method(observerMock, valueUpdated).Using(7)).Once();
+            fakeit::VerifyNoOtherInvocations(observerMock);
+        }
+
+        SUBCASE("increaseFrequency() and decreaseFrequency() should work") {
+            fakeit::Mock<ClockObserver> clockObserver;
+            auto clockPtr = std::shared_ptr<ClockObserver>(&clockObserver(), [](...) {});
+            emulator.setClockObserver(clockPtr);
+
+            fakeit::When(Method(clockObserver, frequencyChanged)).AlwaysReturn();
+
+            emulator.increaseFrequency();
+            fakeit::Verify(Method(clockObserver, frequencyChanged).Using(2100)).Once();
+
+            emulator.decreaseFrequency();
+            fakeit::Verify(Method(clockObserver, frequencyChanged).Using(2000)).Once();
+        }
+
+        SUBCASE("startAsynchronous() and stop() should work") {
+            CHECK_FALSE(emulator.isRunning());
+
+            emulator.load("../../programs/count_255_0_stop.asm");
+            emulator.setFrequency(10);
+
+            emulator.startAsynchronous();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            CHECK(emulator.isRunning());
+
+            emulator.stop();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            CHECK_FALSE(emulator.isRunning());
+        }
     }
 }
