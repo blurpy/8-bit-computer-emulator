@@ -2,17 +2,11 @@
 
 This is a C++ based emulator of my [8-bit-computer](https://github.com/blurpy/8-bit-computer).
 
-The goal is to make the emulator as realistic as possible. It's based on emulating the communication between the different parts of the computer so the state is accurate on every cycle. This means the instruction decoder does not change state of memory or registers, but rather directs which part can communicate over the bus at different points in time, like the real hardware do with the microcode in the EEPROMs. 
+The goal is to make the emulator as realistic as possible. It's based on emulating the communication between the different parts of the computer so the state is accurate on every cycle. This means the instruction decoder does not change state of memory or registers, but rather directs which part can communicate over the bus at different points in time, like the real hardware do with the microcode in the EEPROMs. Programs that run on the real hardware will run unmodified on the emulator with the same result.
 
 Please see the link above for documentation on how the computer works. Since the emulator tries to replicate that, no additional documentation is provided here.
 
-
-## Current state
-
-The emulation is done, and the programs that run on the real hardware will run unmodified on the emulator with the same result.
-
-TODO:
-* Some kind of user interface (work in progress)
+![Screenshot of emulator](resources/emulator-screenshot.png)
 
 
 ## Requirements
@@ -58,6 +52,17 @@ DB  202
 ```
 
 This is useful to prepare the memory before the program runs, and also the only way to prepare larger numbers since `LDI` only takes a 4-bit value. 
+
+
+## Keyboard shortcuts
+
+The emulator starts in a stopped state. Use the keyboard to control the emulator.
+
+* `s` start / stop
+* `r` restart the program
+* `space` single step
+* `+` increase frequency
+* `-` decrease frequency
 
 
 ## Included files
