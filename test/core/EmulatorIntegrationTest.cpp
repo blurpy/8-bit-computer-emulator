@@ -125,7 +125,7 @@ TEST_SUITE("EmulatorIntegrationTest") {
             fakeit::When(Method(clockObserver, frequencyChanged)).AlwaysReturn();
 
             emulator.increaseFrequency();
-            fakeit::Verify(Method(clockObserver, frequencyChanged).Using(2100)).Once();
+            fakeit::Verify(Method(clockObserver, frequencyChanged).Using(3000)).Once();
 
             emulator.decreaseFrequency();
             fakeit::Verify(Method(clockObserver, frequencyChanged).Using(2000)).Once();

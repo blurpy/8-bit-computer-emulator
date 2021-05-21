@@ -129,8 +129,10 @@ void Core::Clock::increaseFrequency() {
         setFrequency(hz + 1);
     } else if (hz < 200) {
         setFrequency(hz + 10);
-    } else {
+    } else if (hz < 2000) {
         setFrequency(hz + 100);
+    } else {
+        setFrequency(hz + 1000);
     }
 }
 
@@ -143,8 +145,10 @@ void Core::Clock::decreaseFrequency() {
         setFrequency(hz - 1);
     } else if (hz <= 200) {
         setFrequency(hz - 10);
-    } else {
+    } else if (hz <= 2000) {
         setFrequency(hz - 100);
+    } else {
+        setFrequency(hz - 1000);
     }
 }
 
