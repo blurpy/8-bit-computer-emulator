@@ -59,8 +59,8 @@ This is useful to prepare the memory before the program runs, and also the only 
 The emulator starts in a stopped state. Use the keyboard to control the emulator.
 
 * `s` start / stop
-* `r` restart the program
-* `space` single step
+* `r` restart the program (_when stopped_)
+* `space` single step (_when stopped_)
 * `+` increase frequency
 * `-` decrease frequency
 
