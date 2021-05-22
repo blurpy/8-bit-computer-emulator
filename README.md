@@ -6,7 +6,7 @@ The goal is to make the emulator as realistic as possible. It's based on emulati
 
 Please see the link above for documentation on how the computer works. Since the emulator tries to replicate that, no additional documentation is provided here.
 
-![Screenshot of emulator](resources/emulator-screenshot.png)
+![Animation of emulator](resources/emulator-animation-subtract.gif)
 
 
 ## Requirements
