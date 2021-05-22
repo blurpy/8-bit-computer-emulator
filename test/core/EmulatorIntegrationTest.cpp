@@ -15,7 +15,7 @@ TEST_SUITE("EmulatorIntegrationTest") {
         fakeit::When(Method(observerMock, valueUpdated)).AlwaysReturn();
 
         emulator.setOutputRegisterObserver(observerPtr);
-        emulator.setFrequency(2000);
+        emulator.setFrequency(5000);
 
         SUBCASE("load() should throw exception if file does not exist") {
             CHECK_THROWS_WITH(emulator.load("../../programs/test/does_not_exist.asm"),
@@ -123,6 +123,9 @@ TEST_SUITE("EmulatorIntegrationTest") {
             emulator.setClockObserver(clockPtr);
 
             fakeit::When(Method(clockObserver, frequencyChanged)).AlwaysReturn();
+
+            emulator.setFrequency(2000);
+            clockObserver.ClearInvocationHistory();
 
             emulator.increaseFrequency();
             fakeit::Verify(Method(clockObserver, frequencyChanged).Using(3000)).Once();
