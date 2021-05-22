@@ -10,7 +10,6 @@ Core::OutputRegister::OutputRegister(const std::shared_ptr<Bus> &bus) {
     }
 
     this->bus = bus;
-    this->observer = nullptr;
     this->value = 0;
     this->readOnClock = false;
 }

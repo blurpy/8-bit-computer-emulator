@@ -9,7 +9,6 @@ Core::GenericRegister::GenericRegister(const std::string& name, const std::share
     this->bus = bus;
     this->value = 0;
     this->readOnClock = false;
-    this->observer = nullptr;
 
     if (Utils::debugL2()) {
         std::cout << this->name << " register construct" << std::endl;
