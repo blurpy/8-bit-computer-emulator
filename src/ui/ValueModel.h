@@ -7,6 +7,10 @@
 
 namespace UI {
 
+    /**
+     * Observes a core component with a single 3, 4 or 8-bit value and prepares the value for
+     * presentation in the user interface.
+     */
     class ValueModel: public Core::ValueObserver {
 
     public:

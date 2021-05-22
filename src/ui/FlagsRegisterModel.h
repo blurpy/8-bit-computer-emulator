@@ -7,6 +7,9 @@
 
 namespace UI {
 
+    /**
+     * Observes the core flags register and prepares the state for presentation in the user interface.
+     */
     class FlagsRegisterModel : public Core::FlagsRegisterObserver {
 
     public:

@@ -8,6 +8,9 @@
 
 namespace UI {
 
+    /**
+     * Observes the core instruction decoder and prepares the state for presentation in the user interface.
+     */
     class InstructionDecoderModel : public Core::InstructionDecoderObserver {
 
     public:

@@ -8,6 +8,9 @@
 
 namespace UI {
 
+    /**
+     * Handles keyboard events for controlling the emulator.
+     */
     class Keyboard {
 
     public:

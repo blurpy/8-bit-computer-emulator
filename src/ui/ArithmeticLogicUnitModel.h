@@ -7,6 +7,9 @@
 
 namespace UI {
 
+    /**
+     * Observes the core arithmetic logic unit and prepares the state for presentation in the user interface.
+     */
     class ArithmeticLogicUnitModel : public Core::ArithmeticLogicUnitObserver {
 
     public:

@@ -9,6 +9,11 @@
 
 namespace UI {
 
+    /**
+     * Observes the core random access memory and prepares the state for presentation in the user interface.
+     * Supports presentation of the value in the current memory address as well as mapping out the full
+     * memory content.
+     */
     class RandomAccessMemoryModel: public Core::ValueObserver {
 
     public:

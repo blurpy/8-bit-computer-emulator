@@ -8,6 +8,10 @@
 
 namespace UI {
 
+    /**
+     * Infers which instruction is being executed at the moment based on the state of the
+     * core step counter and instruction register for presentation in the user interface.
+     */
     class InstructionModel {
 
     public:

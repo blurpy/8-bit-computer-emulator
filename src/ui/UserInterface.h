@@ -16,6 +16,9 @@
 
 namespace UI {
 
+    /**
+     * Manages the user interface, as well as the emulator behind.
+     */
     class UserInterface {
 
     public:

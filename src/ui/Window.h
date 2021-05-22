@@ -11,6 +11,9 @@
 
 namespace UI {
 
+    /**
+     * Manages a window with support for drawing text.
+     */
     class Window {
 
     public:

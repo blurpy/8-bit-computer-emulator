@@ -7,6 +7,9 @@
 
 namespace UI {
 
+    /**
+     * Observes the core clock and prepares the state for presentation in the user interface.
+     */
     class ClockModel : public Core::ClockObserver {
 
     public:
