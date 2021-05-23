@@ -8,6 +8,8 @@ Please see the link above for documentation on how the computer works. Since the
 
 ![Animation of emulator](resources/emulator-animation-subtract.gif)
 
+The column on the right displays the entire contents of the RAM, as well as where the MAR is pointing.
+
 
 ## Requirements
 
@@ -17,6 +19,36 @@ The emulator builds on Linux, macOS and Windows. It is primarily tested on Linux
 * gcc/clang/msvc
 * sdl2
 * sdl2_ttf
+
+
+### Linux
+
+Ubuntu:
+
+```
+sudo apt-get install build-essential cmake libsdl2-dev libsdl2-ttf-dev
+```
+
+openSUSE:
+
+```
+sudo zypper install cmake-full libSDL2-devel libSDL2_ttf-devel
+```
+
+
+### macOS
+
+Install xcode command line tools:
+
+```
+sudo xcode-select --install
+```
+
+Install the rest of the tools with [Homebrew](https://brew.sh/):
+
+```
+brew install cmake sdl2 sdl2_ttf
+```
 
 
 ## Build and run
@@ -29,7 +61,8 @@ $ cd build
 $ cmake ..
 $ cmake --build .
 $ ctest (optional step)
-$ ./src/8bit <program.asm>
+$ cd ..
+$ ./build/src/8bit programs/<program.asm>
 ```
 
 
