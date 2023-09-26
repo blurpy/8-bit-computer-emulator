@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <vector>
+#include <memory>
 
 #include "ClockListener.h"
 #include "ClockObserver.h"

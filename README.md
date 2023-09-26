@@ -1,6 +1,6 @@
 # 8-bit-computer-emulator
 
-This is a C++ based emulator of my [8-bit-computer](https://github.com/blurpy/8-bit-computer).
+This is a fork of a C++ based emulator of blurpy's [8-bit-computer](https://github.com/blurpy/8-bit-computer).
 
 The goal is to make the emulator as realistic as possible. It's based on emulating the communication between the different parts of the computer so the state is accurate on every cycle. This means the instruction decoder does not change state of memory or registers, but rather directs which part can communicate over the bus at different points in time, like the real hardware do with the microcode in the EEPROMs. Programs that run on the real hardware will run unmodified on the emulator with the same result.
 
